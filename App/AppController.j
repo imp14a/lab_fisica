@@ -1,39 +1,26 @@
 /*
  * AppController.j
- * NewApplication
+ * LabFisica
  *
  * Created by You on January 29, 2013.
  * Copyright 2013, Your Company All rights reserved.
  */
 
 @import <Foundation/CPObject.j>
+@import "View/MainWindow.j"
 
 
 @implementation AppController : CPObject
 {
+    CPWindow theWindow;
 }
 
 - (void)applicationDidFinishLaunching:(CPNotification)aNotification
 {
-    var theWindow = [[CPWindow alloc] initWithContentRect:CGRectMakeZero() styleMask:CPBorderlessBridgeWindowMask],
-        contentView = [theWindow contentView];
-
-    var label = [[CPTextField alloc] initWithFrame:CGRectMakeZero()];
-
-    [label setStringValue:@"Hello World!"];
-    [label setFont:[CPFont boldSystemFontOfSize:24.0]];
-
-    [label sizeToFit];
-
-    [label setAutoresizingMask:CPViewMinXMargin | CPViewMaxXMargin | CPViewMinYMargin | CPViewMaxYMargin];
-    [label setCenter:[contentView center]];
-
-    [contentView addSubview:label];
-
+    theWindow = [[MainWindow alloc] init];
     [theWindow orderFront:self];
 
-    // Uncomment the following line to turn on the standard menu bar.
-    //[CPMenu setMenuBarVisible:YES];
+    [CPMenu setMenuBarVisible:YES];
 }
 
 @end
