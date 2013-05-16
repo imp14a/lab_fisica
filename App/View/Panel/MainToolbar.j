@@ -1,9 +1,9 @@
 @import <AppKit/CPToolbar.j>
 @import "FontView.j"
 
-var FileToolbarItemIdentifier = "FileToolbarItem",
-    EditToolbarItemIdentifier = "EditToolbarItem",
-     FontToolbarItemIdentifier = "FontToolbarItem";
+var MainToolbarItemIdentifier = "MainToolbarItem",
+    MonitorToolbarItemIdentifier = "EditToolbarItem",
+     TimeToolbarItemIdentifier = "FontToolbarItem";
 
 @implementation MainToolbar : CPToolbar
 {
@@ -23,16 +23,16 @@ var FileToolbarItemIdentifier = "FileToolbarItem",
 // Return an array of toolbar item identifier (all the toolbar items that may be present in the toolbar)
 - (CPArray)toolbarAllowedItemIdentifiers:(CPToolbar)aToolbar
 {
-   return [FileToolbarItemIdentifier,EditToolbarItemIdentifier,
-            CPToolbarSeparatorItemIdentifier, FontToolbarItemIdentifier];
+   return [MainToolbarItemIdentifier, MonitorToolbarItemIdentifier,
+            CPToolbarSeparatorItemIdentifier, TimeToolbarItemIdentifier];
 }
 
 // Return an array of toolbar item identifier (the default toolbar items that are present in the toolbar) CPToolbarFlexibleSpaceItemIdentifier
 - (CPArray)toolbarDefaultItemIdentifiers:(CPToolbar)aToolbar
 {
-   return [CPToolbarSpaceItemIdentifier,FileToolbarItemIdentifier,CPToolbarSeparatorItemIdentifier,
-           EditToolbarItemIdentifier,CPToolbarSeparatorItemIdentifier,
-           FontToolbarItemIdentifier,CPToolbarSeparatorItemIdentifier];
+   return [CPToolbarSpaceItemIdentifier, MainToolbarItemIdentifier, CPToolbarSeparatorItemIdentifier,
+           TimeToolbarItemIdentifier, CPToolbarSeparatorItemIdentifier,
+           MonitorToolbarItemIdentifier, CPToolbarSeparatorItemIdentifier];
 }
 
 - (CPToolbarItem)toolbar:(CPToolbar)aToolbar itemForItemIdentifier:(CPString)anItemIdentifier willBeInsertedIntoToolbar:(BOOL)aFlag
@@ -48,47 +48,92 @@ var FileToolbarItemIdentifier = "FileToolbarItem",
         }
     /*}@catch (CPException e) {
     }*/
-    
-    switch(anItemIdentifier){
-        case FileToolbarItemIdentifier:
-            var fileView = [[CPView alloc] initWithFrame:CGRectMake(0,0,120,50)];
-            
-            var imgAdd = [[CPImage alloc] initWithContentsOfFile:"Resources/icon/AddToolbarItem.png" size:CPSizeMake(32, 32)];
-            var imgAddOver = [[CPImage alloc] initWithContentsOfFile:"Resources/icon/AddToolbarItem_over.png" size:CPSizeMake(32, 32)];
-            var botonAdd = [[CPButton alloc] initWithFrame:CGRectMake(0,0,50,48)];
-            var imgCopy = [[CPImage alloc] initWithContentsOfFile:"Resources/icon/CopyToolbarItem.png" size:CPSizeMake(32, 32)];
-            var botonCopy = [[CPButton alloc] initWithFrame:CGRectMake(55,0,50,48)];
-            var imgRemove = [[CPImage alloc] initWithContentsOfFile:"Resources/icon/RemoveToolbarItem.png" size:CPSizeMake(32, 32)];
-            var botonRemove = [[CPButton alloc] initWithFrame:CGRectMake(110,0,50,48)];
 
-            [botonAdd setImagePosition:CPImageAbove];
-            [botonAdd setTitle:"Agregar"];
-            [botonAdd setBordered:NO];
-            [botonAdd setImage:imgAdd];
-            [botonAdd setAlternateImage:imgAddOver];
-            [botonCopy setImagePosition:CPImageAbove];
-            [botonCopy setTitle:"Copiar"];
-            [botonCopy setBordered:NO];
-            [botonCopy setImage:imgCopy];
-            [botonRemove setImagePosition:CPImageAbove];
-            [botonRemove setTitle:"Remover"];
-            [botonRemove setBordered:NO];
-            [botonRemove setImage:imgRemove];
-            [fileView addSubview:botonAdd];
-            [fileView addSubview:botonCopy];
-            [fileView addSubview:botonRemove];
-            [toolbarItem setView:fileView];
-            [toolbarItem setLabel:"Diapositivas"];
-            [toolbarItem setMinSize:CGSizeMake(160, 54)];
-            [toolbarItem setMaxSize:CGSizeMake(160, 54)];
+    switch(anItemIdentifier){
+        case MainToolbarItemIdentifier:
+            var mainView = [[CPView alloc] initWithFrame:CGRectMake(0,0,120,50)];
+
+
+            var btnNew = [[CPButton alloc] initWithFrame:CGRectMake(0,0,50,48)];
+            var imgNew = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/open.png" size:CPSizeMake(32, 32)];
+            var btnStart = [[CPButton alloc] initWithFrame:CGRectMake(55,0,50,48)];
+            var imgStart = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/start.png" size:CPSizeMake(32, 32)];
+            var btnStop = [[CPButton alloc] initWithFrame:CGRectMake(110,0,50,48)];
+            var imgStop = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/stop.png" size:CPSizeMake(32, 32)];
+            var btnRestart = [[CPButton alloc] initWithFrame:CGRectMake(165,0,50,48)];
+            var imgRestart = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/restart.png" size:CPSizeMake(32, 32)];
+            var btnProperties = [[CPButton alloc] initWithFrame:CGRectMake(220,0,75,48)];
+            var imgProperties = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/properties.png" size:CPSizeMake(32, 32)];
+            var btnWorld = [[CPButton alloc] initWithFrame:CGRectMake(295,0,50,48)];
+            var imgWorld = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/world.png" size:CPSizeMake(32, 32)];
+            var btnGraph = [[CPButton alloc] initWithFrame:CGRectMake(350,0,50,48)];
+            var imgGraph = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/graph.png" size:CPSizeMake(32, 32)];
+            var btnZoom = [[CPButton alloc] initWithFrame:CGRectMake(405,0,50,48)];
+            var imgZoom = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/zoom.png" size:CPSizeMake(32, 32)];
+            var btnScript = [[CPButton alloc] initWithFrame:CGRectMake(460,0,50,48)];
+            var imgScript = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/script.png" size:CPSizeMake(32, 32)];
+
+            [btnNew setImagePosition:CPImageAbove];
+            [btnNew setTitle:"Abrir"];
+            [btnNew setBordered:NO];
+            [btnNew setImage:imgNew];
+            //[btnNew setAlternateImage:imgAddOver];
+            [btnStart setImagePosition:CPImageAbove];
+            [btnStart setTitle:"Iniciar"];
+            [btnStart setBordered:NO];
+            [btnStart setImage:imgStart];
+            [btnStop setImagePosition:CPImageAbove];
+            [btnStop setTitle:"Detener"];
+            [btnStop setBordered:NO];
+            [btnStop setImage:imgStop];
+            [btnRestart setImagePosition:CPImageAbove];
+            [btnRestart setTitle:"Reiniciar"];
+            [btnRestart setBordered:NO];
+            [btnRestart setImage:imgRestart];
+            [btnProperties setImagePosition:CPImageAbove];
+            [btnProperties setTitle:"Propiedades"];
+            [btnProperties setBordered:NO];
+            [btnProperties setImage:imgProperties];
+            [btnWorld setImagePosition:CPImageAbove];
+            [btnWorld setTitle:"Mundo"];
+            [btnWorld setBordered:NO];
+            [btnWorld setImage:imgWorld];
+            [btnGraph setImagePosition:CPImageAbove];
+            [btnGraph setTitle:"Gráfica"];
+            [btnGraph setBordered:NO];
+            [btnGraph setImage:imgGraph];
+            [btnScript setImagePosition:CPImageAbove];
+            [btnScript setTitle:"Script"];
+            [btnScript setBordered:NO];
+            [btnScript setImage:imgScript];
+            [btnZoom setImagePosition:CPImageAbove];
+            [btnZoom setTitle:"Zoom"];
+            [btnZoom setBordered:NO];
+            [btnZoom setImage:imgZoom];
+
+            [mainView addSubview:btnNew];
+            [mainView addSubview:btnStart];
+            [mainView addSubview:btnStop];
+            [mainView addSubview:btnRestart];
+            [mainView addSubview:btnProperties];
+            [mainView addSubview:btnWorld];
+            [mainView addSubview:btnGraph];
+            [mainView addSubview:btnScript];
+            [mainView addSubview:btnZoom];
+
+
+            [toolbarItem setView:mainView];
+            [toolbarItem setLabel:"Menú Principal"];
+            [toolbarItem setMinSize:CGSizeMake(515, 54)];
+            [toolbarItem setMaxSize:CGSizeMake(515, 54)];
         break;
-        case EditToolbarItemIdentifier:
-            var editView = [[CPView alloc] initWithFrame:CGRectMake(0,0,110,50)];
+        case MonitorToolbarItemIdentifier:
+            /*var timeView = [[CPView alloc] initWithFrame:CGRectMake(0,0,110,50)];
             var imgUndo = [[CPImage alloc] initWithContentsOfFile:"Resources/icon/UndoToolbarItem.png" size:CPSizeMake(32, 32)];
             var botonUndo = [[CPButton alloc] initWithFrame:CGRectMake(0,0,55,48)];
             var imgRedo = [[CPImage alloc] initWithContentsOfFile:"Resources/icon/RedoToolbarItem.png" size:CPSizeMake(32, 32)];
             var botonRedo = [[CPButton alloc] initWithFrame:CGRectMake(60,0,55,48)];
-            
+
             [botonUndo setImagePosition:CPImageAbove];
             [botonUndo setTitle:"Deshacer"];
             [botonUndo setBordered:NO];
@@ -98,23 +143,33 @@ var FileToolbarItemIdentifier = "FileToolbarItem",
             [botonRedo setTitle:"Rehacer"];
             [botonRedo setBordered:NO];
             [botonRedo setImage:imgRedo];
-            
+
             [editView addSubview:botonUndo];
             [editView addSubview:botonRedo];
             [toolbarItem setView:editView];
             [toolbarItem setLabel:"Edición"];
             [toolbarItem setMinSize:CGSizeMake(115, 50)];
-            [toolbarItem setMaxSize:CGSizeMake(115, 50)];
+            [toolbarItem setMaxSize:CGSizeMake(115, 50)];*/
         break;
-        case FontToolbarItemIdentifier:
-            fontView =[[FontView alloc] initWithFrame:CGRectMake( 0,0, 360,50) ];
-            [toolbarItem setView:fontView];
-            [toolbarItem setLabel:"Fuente"];
-            [toolbarItem setMinSize:CGSizeMake(360, 32)];
-            [toolbarItem setMaxSize:CGSizeMake(360, 32)];
+        case TimeToolbarItemIdentifier:
+            var timeView = [[CPView alloc] initWithFrame:CGRectMake( 0, 0, 110, 50) ];
+            var txtTime = [[CPTextField alloc] initWithFrame:CGRectMake( 0, 0, 50, 48) ];
+            var btnScript = [[CPButton alloc] initWithFrame:CGRectMake(55,0,50,48)];
+            [btnScript setTitle:"Script"];
+            [btnScript setBezelStyle:CPSmallSquareBezelStyle];
+            [txtTime setEditable:YES];
+            [txtTime setBackgroundColor:[CPColor whiteColor]];
+            [txtTime setStringValue:"PUTITO"];
+            [timeView addSubview:txtTime];
+            [timeView addSubview:btnScript];
+
+            [toolbarItem setView:timeView];
+            [toolbarItem setLabel:"Tiempo"];
+            [toolbarItem setMinSize:CGSizeMake(115, 54)];
+            [toolbarItem setMaxSize:CGSizeMake(115, 54)];
         break;
     }
-     
+
     return toolbarItem;
 }
 

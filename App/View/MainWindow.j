@@ -32,11 +32,6 @@
         var metaDataArea = [[MetaDataArea alloc] init];
         var contentArea = [[ContentArea alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth([contentView bounds]) - 150, CGRectGetHeight([contentView bounds])-150)];
 
-        //[navigationMetaSplit setVertical:NO];
-        //[navigationMetaSplit addSubview:navigationArea];
-        //[navigationMetaSplit addSubview:metaDataArea];
-
-        //[contentNavigationSplit addSubview:navigationMetaSplit];
         [contentNavigationSplit addSubview:contentArea];
 
         var toolbar = [[MainToolbar alloc] initWithIdentifier:"Herramientas"];
