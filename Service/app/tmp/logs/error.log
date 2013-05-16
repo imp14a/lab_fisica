@@ -1,0 +1,20 @@
+2013-05-16 16:38:57 Error: Fatal Error (1): Call to undefined method SimulatorController::setLayout() in [/opt/lampp/htdocs/VirtualHost/lab_fisica/Service/app/Controller/SimulatorController.php, line 7]
+2013-05-16 16:38:57 Error: [FatalErrorException] Call to undefined method SimulatorController::setLayout()
+Request URL: /Service/simulator/
+Stack Trace:
+#0 /opt/lampp/htdocs/VirtualHost/lab_fisica/Service/lib/Cake/Error/ErrorHandler.php(184): ErrorHandler::handleFatalError(1, 'Call to undefin...', '/opt/lampp/htdo...', 7)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to undefin...', '/opt/lampp/htdo...', 7, Array)
+#2 /opt/lampp/htdocs/VirtualHost/lab_fisica/Service/lib/Cake/Core/App.php(926): call_user_func('ErrorHandler::h...', 1, 'Call to undefin...', '/opt/lampp/htdo...', 7, Array)
+#3 /opt/lampp/htdocs/VirtualHost/lab_fisica/Service/lib/Cake/Core/App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2013-05-16 16:54:20 Error: Fatal Error (1): Call to a member function link() on a non-object in [/opt/lampp/htdocs/VirtualHost/lab_fisica/Service/app/View/Simulator/index.ctp, line 6]
+2013-05-16 16:54:20 Error: [FatalErrorException] Call to a member function link() on a non-object
+Request URL: /Service/simulator/
+Stack Trace:
+#0 /opt/lampp/htdocs/VirtualHost/lab_fisica/Service/lib/Cake/Error/ErrorHandler.php(184): ErrorHandler::handleFatalError(1, 'Call to a membe...', '/opt/lampp/htdo...', 6)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to a membe...', '/opt/lampp/htdo...', 6, Array)
+#2 /opt/lampp/htdocs/VirtualHost/lab_fisica/Service/lib/Cake/Core/App.php(926): call_user_func('ErrorHandler::h...', 1, 'Call to a membe...', '/opt/lampp/htdo...', 6, Array)
+#3 /opt/lampp/htdocs/VirtualHost/lab_fisica/Service/lib/Cake/Core/App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
