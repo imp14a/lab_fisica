@@ -5,7 +5,7 @@
 
 @implementation ContentArea : CPView
 {
-	CPView _slideArea;
+	CPWebView _physicsView;
 }
 
 - (id) initWithFrame(CGRect):aFrame
@@ -14,25 +14,13 @@
 	self = [super initWithFrame:aFrame];
     if(self){
 
-    	// This view will grow in both height an width.
-    	_slideArea = [[CPView alloc] initWithFrame:CGRectMake(30,30, CGRectGetWidth(aFrame) -60, CGRectGetHeight(aFrame) -150) ];
+    	_physicsView = [[CPWebView alloc] initWithFrame:CGRectMake(50, 50,  CGRectGetWidth([self bounds]) - 100, CGRectGetHeight([self bounds]) - 180)];
+        [_physicsView setMainFrameURL:"test.html"];
+        [_physicsView setAutoresizingMask:CPViewWidthSizable | CPViewHeightSizable];
 
-
-    	[_slideArea setAutoresizingMask:CPViewWidthSizable | CPViewHeightSizable ];
-
-        //TODO quitar esto de aqui
-
-        var backImg = [[CPImage alloc] initWithContentsOfFile:"Resources/default/default-background.jpg" size:CPSizeMake(1024, 840)];
-
-        var imgView = [[CPImageView alloc] initWithFrame:CGRectMake(0,0,1024,840)];
-
-        [imgView setCenter:[_slideArea center]];
-        [imgView setImage:backImg];
-
-        [_slideArea addSubview:imgView];
+        [self addSubview:_physicsView];
 
         [self setAutoresizingMask:CPViewWidthSizable | CPViewHeightSizable];
-    	[self addSubview:_slideArea];
     }
     return self;
 }

@@ -5,7 +5,6 @@
 
 @implementation NavigationArea : CPView
 {
-	CPCollectionView _slideContainer;
 }
 
 - (id)initWithFrame(CGRect):aFrame
@@ -14,58 +13,66 @@
 
     if(self){
 
-    	[self setBackgroundColor:[CPColor colorWithHexString:"a8c1d3"]];
-    	// This view will grow in height, but stay fixed width attached to the left side of the screen.
-    	_itemContainer =[[CPCollectionView alloc] initWithFrame:aFrame];
+    	[self setBackgroundColor:[CPColor whiteColor]];
 
+        var tabView = [[CPTabView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth([self bounds]), CGRectGetHeight([self bounds]))];
 
-        [_itemContainer setAutoresizingMask: CPViewWidthSizable |CPViewHeightSizable];
-        [_itemContainer setMinItemSize:CGSizeMake(180, 100)];
-        [_itemContainer setMaxItemSize:CGSizeMake(180, 100)];
+        var theoryTab = [[CPTabViewItem alloc] initWithIdentifier:"theoryTab"];
+        [theoryTab setLabel:"Marco Teórico"];
+        var theoryView = [[CPView alloc] initWithFrame:CGRectMakeZero()];
+        var theoryText = [[CPTextField alloc] initWithFrame:CGRectMake(14,18,CGRectGetWidth([theoryView bounds])-30, CGRectGetHeight([theoryView bounds])-100)];
+        [theoryText setStringValue:"MARCO TEÓRICO DE PRÁCTICA"];
+        [theoryText setLineBreakMode:CPLineBreakByWordWrapping];
+        [theoryText setAutoresizingMask:CPViewWidthSizable | CPViewHeightSizable];
+        [theoryText setEditable:NO];
+        [theoryText setBezeled:YES];
+        [theoryView addSubview:theoryText];
+        [theoryTab setView:theoryView];
 
-        var itemPrototype = [[CPCollectionViewItem alloc] init];
-        //var slidePrototype = [[SlidePrototype alloc] initWithFrame:CGRectMakeZero()];
+        var procedureTab = [[CPTabViewItem alloc] initWithIdentifier:"procedureTab"];
+        [procedureTab setLabel:"Procedimiento"];
+        var procedureView = [[CPView alloc] initWithFrame:CGRectMake(0,0,CGRectGetWidth([tabView bounds]), CGRectGetHeight([tabView bounds]))];
+        var procedureText = [[CPTextField alloc] initWithFrame:CGRectMake(14,18,CGRectGetWidth([procedureView bounds])-30, CGRectGetHeight([procedureView bounds])-100)];
+        [procedureText setStringValue:"PROCEDIMIENTO DE PRÁCTICA"];
+        [procedureText setLineBreakMode:CPLineBreakByWordWrapping];
+        [procedureText setAutoresizingMask:CPViewWidthSizable | CPViewHeightSizable];
+        [procedureText setEditable:NO];
+        [procedureText setBezeled:YES];
+        [procedureView addSubview:procedureText];
+        [procedureTab setView:procedureView];
 
-        //[itemPrototype setView:slidePrototype];
+        var resultTab = [[CPTabViewItem alloc] initWithIdentifier:"resultTab"];
+        [resultTab setLabel:"Resultados"];
+        var resultView = [[CPView alloc] initWithFrame:CGRectMakeZero()];
+        var resultText = [[CPTextField alloc] initWithFrame:CGRectMake(14,18,CGRectGetWidth([resultView bounds])-30, CGRectGetHeight([resultView bounds])-100)];
+        [resultText setStringValue:"RESULTADOS DE PRÁCTICA"];
+        [resultText setLineBreakMode:CPLineBreakByWordWrapping];
+        [resultText setAutoresizingMask:CPViewWidthSizable | CPViewHeightSizable];
+        [resultText setEditable:NO];
+        [resultText setBezeled:YES];
+        [resultView addSubview:resultText];
+        [resultTab setView:resultView];
 
-        //[_itemContainer setItemPrototype:itemPrototype];
+        var conclusionTab = [[CPTabViewItem alloc] initWithIdentifier:"conclusionTab"];
+        [conclusionTab setLabel:"Conclusiones"];
+        var conclusionView = [[CPView alloc] initWithFrame:CGRectMakeZero()];
+        var conclusionText = [[CPTextField alloc] initWithFrame:CGRectMake(14,18,CGRectGetWidth([conclusionView bounds])-30, CGRectGetHeight([conclusionView bounds])-100)];
+        [conclusionText setStringValue:"RESULTADOS DE PRÁCTICA"];
+        [conclusionText setLineBreakMode:CPLineBreakByWordWrapping];
+        [conclusionText setAutoresizingMask:CPViewWidthSizable | CPViewHeightSizable];
+        [conclusionText setEditable:NO];
+        [conclusionText setBezeled:YES];
+        [conclusionView addSubview:conclusionText];
+        [conclusionTab setView:conclusionView];
 
-        var scrollView = [[CPScrollView alloc] initWithFrame:aFrame];
+        [tabView addTabViewItem:theoryTab];
+        [tabView addTabViewItem:procedureTab];
+        [tabView addTabViewItem:resultTab];
+        [tabView addTabViewItem:conclusionTab];
 
-        [scrollView setDocumentView:_itemContainer];
-        [scrollView setAutoresizingMask: CPViewWidthSizable | CPViewHeightSizable];
-        [scrollView setAutohidesScrollers:YES];
+        [tabView setAutoresizingMask:CPViewWidthSizable | CPViewHeightSizable];
 
-        [[scrollView contentView] setBackgroundColor:[CPColor colorWithHexString:"E8EAEE"]];
-
-        [self addSubview:scrollView];
-
-        images = [  [[CPImage alloc]
-                        initWithContentsOfFile:"Resources/icon/AddToolbarItem.jpg"
-                                          size:CGSizeMake(600.0, 430.0)],
-        [[CPImage alloc]
-                        initWithContentsOfFile:"Resources/icon/AddToolbarItem.jpg"
-                                          size:CGSizeMake(500.0, 430.0)],
-        [[CPImage alloc]
-                        initWithContentsOfFile:"Resources/icon/AddToolbarItem.jpg"
-                                          size:CGSizeMake(500.0, 430.0)],
-        [[CPImage alloc]
-                        initWithContentsOfFile:"Resources/icon/AddToolbarItem.jpg"
-                                          size:CGSizeMake(500.0, 430.0)],
-        [[CPImage alloc]
-                        initWithContentsOfFile:"Resources/icon/AddToolbarItem.jpg"
-                                          size:CGSizeMake(500.0, 430.0)],
-        [[CPImage alloc]
-                        initWithContentsOfFile:"Resources/icon/AddToolbarItem.jpg"
-                                          size:CGSizeMake(500.0, 430.0)],
-        [[CPImage alloc]
-                        initWithContentsOfFile:"Resources/icon/AddToolbarItem.jpg"
-                                          size:CGSizeMake(500.0, 430.0)],
-                    [[CPImage alloc]
-                        initWithContentsOfFile:"Resources/icon/AddToolbarItem.jpg"
-                                          size:CGSizeMake(500.0, 389.0)]];
-
-        [_itemContainer setContent:images];
+        [self addSubview:tabView];
 
 		[self setAutoresizingMask:CPViewHeightSizable];
 

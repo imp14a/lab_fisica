@@ -25,13 +25,16 @@
 
         [contentNavigationSplit setAutoresizingMask:CPViewWidthSizable | CPViewHeightSizable];
 
-        var navegationMetaSplit = [[CPSplitView alloc]
-            initWithFrame:CGRectMake(0,0,200.0,CGRectGetHeight([contentView bounds]))];
+        var navigationMetaSplit = [[CPSplitView alloc]
+            initWithFrame:CGRectMake(0,0,400.0,CGRectGetHeight([contentView bounds]))];
 
-        var navigationArea = [[NavigationArea alloc] initWithFrame:CGRectMake(0, 0, 150, CGRectGetHeight([contentView bounds]) - 200.0)];
-        var metaDataArea = [[MetaDataArea alloc] init];
+        var navigationArea = [[NavigationArea alloc] initWithFrame:CGRectMake(0, 0, 400, CGRectGetHeight([contentView bounds]))];
         var contentArea = [[ContentArea alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth([contentView bounds]) - 150, CGRectGetHeight([contentView bounds])-150)];
 
+        [navigationMetaSplit setVertical:NO];
+        [navigationMetaSplit addSubview:navigationArea];
+
+        [contentNavigationSplit addSubview:navigationMetaSplit];
         [contentNavigationSplit addSubview:contentArea];
 
         var toolbar = [[MainToolbar alloc] initWithIdentifier:"Herramientas"];
