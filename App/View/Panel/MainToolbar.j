@@ -128,45 +128,32 @@ var MainToolbarItemIdentifier = "MainToolbarItem",
             [toolbarItem setMaxSize:CGSizeMake(515, 54)];
         break;
         case MonitorToolbarItemIdentifier:
-            /*var timeView = [[CPView alloc] initWithFrame:CGRectMake(0,0,110,50)];
-            var imgUndo = [[CPImage alloc] initWithContentsOfFile:"Resources/icon/UndoToolbarItem.png" size:CPSizeMake(32, 32)];
-            var botonUndo = [[CPButton alloc] initWithFrame:CGRectMake(0,0,55,48)];
-            var imgRedo = [[CPImage alloc] initWithContentsOfFile:"Resources/icon/RedoToolbarItem.png" size:CPSizeMake(32, 32)];
-            var botonRedo = [[CPButton alloc] initWithFrame:CGRectMake(60,0,55,48)];
+            var monitorView = [[CPView alloc] initWithFrame:CGRectMake(0,0,110,50)];
+             var txtMonitor = [[CPTextField alloc] initWithFrame:CGRectMake( 0, 9, 100, 30) ];
+            [txtMonitor setEditable:NO];
+            [txtMonitor setBezeled:YES];
+            [txtMonitor setAlignment:CPRightTextAlignment];
+            [txtMonitor setStringValue:"Monitor"];
+            [monitorView addSubview:txtMonitor];
 
-            [botonUndo setImagePosition:CPImageAbove];
-            [botonUndo setTitle:"Deshacer"];
-            [botonUndo setBordered:NO];
-            [botonUndo setImage:imgUndo];
-
-            [botonRedo setImagePosition:CPImageAbove];
-            [botonRedo setTitle:"Rehacer"];
-            [botonRedo setBordered:NO];
-            [botonRedo setImage:imgRedo];
-
-            [editView addSubview:botonUndo];
-            [editView addSubview:botonRedo];
-            [toolbarItem setView:editView];
-            [toolbarItem setLabel:"Edición"];
-            [toolbarItem setMinSize:CGSizeMake(115, 50)];
-            [toolbarItem setMaxSize:CGSizeMake(115, 50)];*/
+            [toolbarItem setView:monitorView];
+            [toolbarItem setLabel:"Monitor"];
+            [toolbarItem setMinSize:CGSizeMake(100, 54)];
+            [toolbarItem setMaxSize:CGSizeMake(100, 54)];
         break;
         case TimeToolbarItemIdentifier:
             var timeView = [[CPView alloc] initWithFrame:CGRectMake( 0, 0, 110, 50) ];
-            var txtTime = [[CPTextField alloc] initWithFrame:CGRectMake( 0, 0, 50, 48) ];
-            var btnScript = [[CPButton alloc] initWithFrame:CGRectMake(55,0,50,48)];
-            [btnScript setTitle:"Script"];
-            [btnScript setBezelStyle:CPSmallSquareBezelStyle];
-            [txtTime setEditable:YES];
-            [txtTime setBackgroundColor:[CPColor whiteColor]];
-            [txtTime setStringValue:"PUTITO"];
+            var txtTime = [[CPTextField alloc] initWithFrame:CGRectMake( 0, 9, 100, 30) ];
+            [txtTime setEditable:NO];
+            [txtTime setBezeled:YES];
+            [txtTime setAlignment:CPRightTextAlignment];
+            [txtTime setStringValue:"Tiempo"];
             [timeView addSubview:txtTime];
-            [timeView addSubview:btnScript];
 
             [toolbarItem setView:timeView];
             [toolbarItem setLabel:"Tiempo"];
-            [toolbarItem setMinSize:CGSizeMake(115, 54)];
-            [toolbarItem setMaxSize:CGSizeMake(115, 54)];
+            [toolbarItem setMinSize:CGSizeMake(100, 54)];
+            [toolbarItem setMaxSize:CGSizeMake(100, 54)];
         break;
     }
 
