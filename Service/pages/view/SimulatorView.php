@@ -90,10 +90,10 @@
 		<script src='demos/demos.js'></script>
 
 	</head>
-	<body>
+	<body style="margin:0; padding:0;">
 		<script>
 
 		</script>
-		<canvas id="canvas" style="width:99%; height:99%; margin:auto;"></canvas>
+		<canvas id="canvas" style="width:100%; height:100%; padding:0; border:none; margin:0;"></canvas>
 	</body>
 </html>

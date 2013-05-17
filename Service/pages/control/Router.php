@@ -34,7 +34,6 @@ class Router {
            } else {
                    throw new Exception( "Action not callable $action" ); 
            }
-
-     } 
+     }
 }
 ?>
