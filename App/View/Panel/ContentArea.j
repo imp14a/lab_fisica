@@ -15,7 +15,7 @@
     if(self){
 
     	_physicsView = [[CPWebView alloc] initWithFrame:CGRectMake(50, 50,  CGRectGetWidth([self bounds]) - 100, CGRectGetHeight([self bounds]) - 180)];
-        [_physicsView setMainFrameURL:"test.html"];
+        [_physicsView setMainFrameURL:"http://labfisica/Service/pages/control/main.php?controller=SimulatorController&action=simulator"];
         [_physicsView setAutoresizingMask:CPViewWidthSizable | CPViewHeightSizable];
 
         [self addSubview:_physicsView];
