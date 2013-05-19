@@ -26,6 +26,7 @@
         [theoryText setAutoresizingMask:CPViewWidthSizable | CPViewHeightSizable];
         [theoryText setEditable:NO];
         [theoryText setBezeled:YES];
+        [theoryText setSelectable:YES];
         [theoryView addSubview:theoryText];
         [theoryTab setView:theoryView];
 
