@@ -44,11 +44,12 @@
         var testView = [[CPWindow alloc] init];
         [testView setFrame:CGRectMake(70, 70, 300, 300)];
         [testView setTitle:"Propiedades Iniciales"];
+
         var toolbar2 = [[ParametersToolbar alloc] initWithIdentifier:"Popup"];
         [testView setToolbar:toolbar2];
         [testView orderFront:self];
 
-        //[CPApp runModalForWindow:testView];
+        [CPApp runModalForWindow:testView];
 
         [contentView addSubview:contentNavigationSplit];
 

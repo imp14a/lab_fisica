@@ -1,7 +1,8 @@
 @import <AppKit/CPToolbar.j>
 @import "FontView.j"
 
-var MainToolbarItemIdentifier = "MainToolbarItem"
+var ApplyToolbarItemIdentifier = "ApplyToolbarItem",
+    CancelToolbarItemIdentifier = "CancelToolbarItem";
 
 @implementation ParametersToolbar : CPToolbar
 {
@@ -24,59 +25,34 @@ var MainToolbarItemIdentifier = "MainToolbarItem"
 // Return an array of toolbar item identifier (all the toolbar items that may be present in the toolbar)
 - (CPArray)toolbarAllowedItemIdentifiers:(CPToolbar)aToolbar
 {
-   return [MainToolbarItemIdentifier, CPToolbarSeparatorItemIdentifier];
+   return [ApplyToolbarItemIdentifier,CancelToolbarItemIdentifier, CPToolbarSeparatorItemIdentifier];
 }
 
 // Return an array of toolbar item identifier (the default toolbar items that are present in the toolbar) CPToolbarFlexibleSpaceItemIdentifier
 - (CPArray)toolbarDefaultItemIdentifiers:(CPToolbar)aToolbar
 {
-   return [CPToolbarSpaceItemIdentifier, MainToolbarItemIdentifier];
+   return [ApplyToolbarItemIdentifier,CancelToolbarItemIdentifier];
 }
 
 - (CPToolbarItem)toolbar:(CPToolbar)aToolbar itemForItemIdentifier:(CPString)anItemIdentifier willBeInsertedIntoToolbar:(BOOL)aFlag
 {
     var toolbarItem = [[CPToolbarItem alloc] initWithItemIdentifier:anItemIdentifier];
-
-    //@try{
-        var image = [[CPImage alloc] initWithContentsOfFile:"Resources/icon/"+anItemIdentifier+".png" size:CPSizeMake(24, 24)];
-        if(image){
-            [toolbarItem setImage:image];
-            [toolbarItem setMinSize:CGSizeMake(45, 32)];
-            [toolbarItem setMaxSize:CGSizeMake(45, 32)];
-        }
-    /*}@catch (CPException e) {
-    }*/
+    [toolbarItem setMinSize:CGSizeMake(45, 54)];
+    [toolbarItem setMaxSize:CGSizeMake(45, 54)];
+    [toolbarItem setTarget:self];
 
     switch(anItemIdentifier){
-        case MainToolbarItemIdentifier:
-            var mainView = [[CPView alloc] initWithFrame:CGRectMake(0,0,120,50)];
-
-
-            var btnApply = [[CPButton alloc] initWithFrame:CGRectMake(41,0,50,48)];
-            var imgApply = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/apply.png" size:CPSizeMake(32, 32)];
-            var btnCancel = [[CPButton alloc] initWithFrame:CGRectMake(96,0,50,48)];
-            var imgCancel = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/cancel.png" size:CPSizeMake(32, 32)];
-
-
-            [btnApply setImagePosition:CPImageAbove];
-            [btnApply setTitle:"Aplicar"];
-            [btnApply setBordered:NO];
-            [btnApply setImage:imgApply];
-            [btnApply setTarget:self];
-            [btnApply setAction:@selector(testAction:)];
-            //[btnApply setAlternateImage:imgAddOver];
-            [btnCancel setImagePosition:CPImageAbove];
-            [btnCancel setTitle:"Cancelar"];
-            [btnCancel setBordered:NO];
-            [btnCancel setImage:imgCancel];
-
-            [mainView addSubview:btnApply];
-            [mainView addSubview:btnCancel];
-
-            [toolbarItem setView:mainView];
-            [toolbarItem setLabel:"Opciones"];
-            [toolbarItem setMinSize:CGSizeMake(190, 54)];
-            [toolbarItem setMaxSize:CGSizeMake(190, 54)];
+        case ApplyToolbarItemIdentifier:
+            var img = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/apply.png" size:CPSizeMake(32, 32)];
+            [toolbarItem setLabel:"Aplicar"];
+            [toolbarItem setImage:img]
+            [toolbarItem setAction:@selector(testAction:)];
+        break;
+        case CancelToolbarItemIdentifier:
+            var img = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/cancel.png" size:CPSizeMake(32, 32)];
+            [toolbarItem setLabel:"Cancelar"];
+            [toolbarItem setImage:img]
+            [toolbarItem setAction:@selector(testAction:)];
         break;
     }
 
@@ -88,7 +64,7 @@ var MainToolbarItemIdentifier = "MainToolbarItem"
 
 - (void)testAction:(id)notification
 {
-    CPLog.info("Test");
+    CPLog.info("asdgsdk");
     //[CPApp stopModal];
 }
 
