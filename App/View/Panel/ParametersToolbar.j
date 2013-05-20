@@ -14,6 +14,9 @@ var MainToolbarItemIdentifier = "MainToolbarItem"
     if(self){
             [self setDelegate:self];
             [self setVisible:YES];
+            //Prepara notificaciones
+            [[CPNotificationCenter defaultCenter] addObserver:self
+                selector:@selector(testActionNC) name:"btnCancelar" object:nil];
     }
     return self;
 }
@@ -80,10 +83,13 @@ var MainToolbarItemIdentifier = "MainToolbarItem"
     return toolbarItem;
 }
 
-- (IBAction)testAction:(id)sender
+
+
+
+- (void)testAction:(id)notification
 {
-    alert("Test");
-    [CPApp stopModal];
+    CPLog.info("Test");
+    //[CPApp stopModal];
 }
 
 @end

@@ -46,7 +46,9 @@
         [testView setTitle:"Propiedades Iniciales"];
         var toolbar2 = [[ParametersToolbar alloc] initWithIdentifier:"Popup"];
         [testView setToolbar:toolbar2];
-        [CPApp runModalForWindow:testView];
+        [testView orderFront:self];
+
+        //[CPApp runModalForWindow:testView];
 
         [contentView addSubview:contentNavigationSplit];
 
