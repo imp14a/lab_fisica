@@ -59,6 +59,7 @@ var MainToolbarItemIdentifier = "MainToolbarItem"
             [btnApply setTitle:"Aplicar"];
             [btnApply setBordered:NO];
             [btnApply setImage:imgApply];
+            [btnApply setAction:@selector(testAction:)];
             //[btnApply setAlternateImage:imgAddOver];
             [btnCancel setImagePosition:CPImageAbove];
             [btnCancel setTitle:"Cancelar"];
@@ -76,6 +77,11 @@ var MainToolbarItemIdentifier = "MainToolbarItem"
     }
 
     return toolbarItem;
+}
+
+- (void)testAction(id)sender
+{
+    alert("Test");
 }
 
 @end
