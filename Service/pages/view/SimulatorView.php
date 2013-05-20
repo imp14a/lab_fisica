@@ -7,115 +7,131 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<title>Simulador</title>
 		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
-		<link rel="stylesheet" type="text/css" href="../../css/box2d.css" />
 		<link href="../../css/flick/jquery-ui-1.10.3.custom.css" rel="stylesheet">
-
-		<script src="../../js/jquery-1.9.1.js" ></script>
-		<script src="../../js/jquery-ui-1.10.3.custom.min.js" ></script>
 		<!-- libs -->
 		<!--[if IE]><script type="text/javascript" src="lib/excanvas.js"></script><![endif]-->
-		<script src="../../js/lib/prototype-1.6.0.2.js"></script>
-		<!-- box2djs -->
-		<script src='../../js/box2d/common/b2Settings.js'></script>
-		<script src='../../js/box2d/common/math/b2Vec2.js'></script>
-		<script src='../../js/box2d/common/math/b2Mat22.js'></script>
-		<script src='../../js/box2d/common/math/b2Math.js'></script>
-		<script src='../../js/box2d/collision/b2AABB.js'></script>
-		<script src='../../js/box2d/collision/b2Bound.js'></script>
-		<script src='../../js/box2d/collision/b2BoundValues.js'></script>
-		<script src='../../js/box2d/collision/b2Pair.js'></script>
-		<script src='../../js/box2d/collision/b2PairCallback.js'></script>
-		<script src='../../js/box2d/collision/b2BufferedPair.js'></script>
-		<script src='../../js/box2d/collision/b2PairManager.js'></script>
-		<script src='../../js/box2d/collision/b2BroadPhase.js'></script>
-		<script src='../../js/box2d/collision/b2Collision.js'></script>
-		<script src='../../js/box2d/collision/Features.js'></script>
-		<script src='../../js/box2d/collision/b2ContactID.js'></script>
-		<script src='../../js/box2d/collision/b2ContactPoint.js'></script>
-		<script src='../../js/box2d/collision/b2Distance.js'></script>
-		<script src='../../js/box2d/collision/b2Manifold.js'></script>
-		<script src='../../js/box2d/collision/b2OBB.js'></script>
-		<script src='../../js/box2d/collision/b2Proxy.js'></script>
-		<script src='../../js/box2d/collision/ClipVertex.js'></script>
-		<script src='../../js/box2d/collision/shapes/b2Shape.js'></script>
-		<script src='../../js/box2d/collision/shapes/b2ShapeDef.js'></script>
-		<script src='../../js/box2d/collision/shapes/b2BoxDef.js'></script>
-		<script src='../../js/box2d/collision/shapes/b2CircleDef.js'></script>
-		<script src='../../js/box2d/collision/shapes/b2CircleShape.js'></script>
-		<script src='../../js/box2d/collision/shapes/b2MassData.js'></script>
-		<script src='../../js/box2d/collision/shapes/b2PolyDef.js'></script>
-		<script src='../../js/box2d/collision/shapes/b2PolyShape.js'></script>
-		<script src='../../js/box2d/dynamics/b2Body.js'></script>
-		<script src='../../js/box2d/dynamics/b2BodyDef.js'></script>
-		<script src='../../js/box2d/dynamics/b2CollisionFilter.js'></script>
-		<script src='../../js/box2d/dynamics/b2Island.js'></script>
-		<script src='../../js/box2d/dynamics/b2TimeStep.js'></script>
-		<script src='../../js/box2d/dynamics/contacts/b2ContactNode.js'></script>
-		<script src='../../js/box2d/dynamics/contacts/b2Contact.js'></script>
-		<script src='../../js/box2d/dynamics/contacts/b2ContactConstraint.js'></script>
-		<script src='../../js/box2d/dynamics/contacts/b2ContactConstraintPoint.js'></script>
-		<script src='../../js/box2d/dynamics/contacts/b2ContactRegister.js'></script>
-		<script src='../../js/box2d/dynamics/contacts/b2ContactSolver.js'></script>
-		<script src='../../js/box2d/dynamics/contacts/b2CircleContact.js'></script>
-		<script src='../../js/box2d/dynamics/contacts/b2Conservative.js'></script>
-		<script src='../../js/box2d/dynamics/contacts/b2NullContact.js'></script>
-		<script src='../../js/box2d/dynamics/contacts/b2PolyAndCircleContact.js'></script>
-		<script src='../../js/box2d/dynamics/contacts/b2PolyContact.js'></script>
-		<script src='../../js/box2d/dynamics/b2ContactManager.js'></script>
-		<script src='../../js/box2d/dynamics/b2World.js'></script>
-		<script src='../../js/box2d/dynamics/b2WorldListener.js'></script>
-		<script src='../../js/box2d/dynamics/joints/b2JointNode.js'></script>
-		<script src='../../js/box2d/dynamics/joints/b2Joint.js'></script>
-		<script src='../../js/box2d/dynamics/joints/b2JointDef.js'></script>
-		<script src='../../js/box2d/dynamics/joints/b2DistanceJoint.js'></script>
-		<script src='../../js/box2d/dynamics/joints/b2DistanceJointDef.js'></script>
-		<script src='../../js/box2d/dynamics/joints/b2Jacobian.js'></script>
-		<script src='../../js/box2d/dynamics/joints/b2GearJoint.js'></script>
-		<script src='../../js/box2d/dynamics/joints/b2GearJointDef.js'></script>
-		<script src='../../js/box2d/dynamics/joints/b2MouseJoint.js'></script>
-		<script src='../../js/box2d/dynamics/joints/b2MouseJointDef.js'></script>
-		<script src='../../js/box2d/dynamics/joints/b2PrismaticJoint.js'></script>
-		<script src='../../js/box2d/dynamics/joints/b2PrismaticJointDef.js'></script>
-		<script src='../../js/box2d/dynamics/joints/b2PulleyJoint.js'></script>
-		<script src='../../js/box2d/dynamics/joints/b2PulleyJointDef.js'></script>
-		<script src='../../js/box2d/dynamics/joints/b2RevoluteJoint.js'></script>
-		<script src='../../js/box2d/dynamics/joints/b2RevoluteJointDef.js'></script>
+
 
 		<!-- demos -->
-		<script src='demos/draw_world.js'></script>
-		<script src='demos/demo_base.js'></script>
-		<script src='demos/top.js'></script>
-		<script src='demos/stack.js'></script>
-		<script src='demos/compound.js'></script>
-		<script src='demos/pendulum.js'></script>
-		<script src='demos/crank.js'></script>
-		<script src='demos/demos.js'></script>
-
-		<script>
-		$(function() {
-			$( "#zoom_slider" ).slider({
-				orientation: "vertical",
-				range: "min",
-				min: 0,
-				max: 100,
-				value: 60,
-				slide: function( event, ui ) {
-					$( "#zoom_input" ).val( ui.value );
-				}
-			});
-			$( "#zoom_input" ).val( $( "#zoom_slider" ).slider( "value" ) );
-		});
-  		</script>
+		<!--<script src='../../js/lib/prototype-1.6.0.2.js'></script>-->
+		<script src='../../js/jquery-1.9.1.js'></script>
+		<script src='../../js/jquery-ui-1.10.3.custom.min.js'></script>
+		<script src='../../js/Box2dWeb-2.1.a.3.min.js'></script>
 	</head>
-	<body style="margin:0; padding:0;">
+	<!--<body style="margin:0; padding:0;">
 	
-		<canvas id="canvas" style="position:absolute; z-index:1; width:100%; height:100%; padding:0; border:none; margin:0;"></canvas>
+		<canvas id="canvas"  style="position:absolute; z-index:1;  padding:0; border:none; margin:0; width:100%; height:100%;"></canvas>
+		-->
+	<body onload="init();">
+		<canvas id="canvas" width="1000" height="800" style="position:absolute; z-index:1;"></canvas>
 		<div style="z-index:2; position:fixed;">
 			<p>
-				<label for="zoom_input" style="font-weight: bold; color: lightgray;">Zoom:</label>
+				<label for="zoom_input" style="font-weight: bold; ">Zoom:</label>
 				<input type="text" id="zoom_input" style="border:0; border-radius:5px; width:30px; color: #f6931f; font-weight: bold;" />
 			</p>
 			<div id="zoom_slider" style="height: 200px;"></div>
 		</div>
+
+   </body>
+	<script type="text/javascript">
+      var world;
+      var zoom=40;
+      var debugDraw;
+      
+      function init() {
+         var   b2Vec2 = Box2D.Common.Math.b2Vec2
+         	,	b2BodyDef = Box2D.Dynamics.b2BodyDef
+         	,	b2Body = Box2D.Dynamics.b2Body
+         	,	b2FixtureDef = Box2D.Dynamics.b2FixtureDef
+         	,	b2Fixture = Box2D.Dynamics.b2Fixture
+         	,	b2World = Box2D.Dynamics.b2World
+         	,	b2MassData = Box2D.Collision.Shapes.b2MassData
+         	,	b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape
+         	,	b2CircleShape = Box2D.Collision.Shapes.b2CircleShape
+         	,	b2DebugDraw = Box2D.Dynamics.b2DebugDraw
+            ;
+         
+         world = new b2World(
+               new b2Vec2(0, 1)    //gravity
+            ,  true                 //allow sleep
+         );
+         
+         var fixDef = new b2FixtureDef;
+         fixDef.density = 1.0;
+         fixDef.friction = 0.5;
+         fixDef.restitution = 0.2;
+         
+         var bodyDef = new b2BodyDef;
+         
+         //create ground
+         bodyDef.type = b2Body.b2_staticBody;
+         bodyDef.position.x = 9;
+         bodyDef.position.y = 13;
+         fixDef.shape = new b2PolygonShape;
+         fixDef.shape.SetAsBox(10, 0.5);
+         world.CreateBody(bodyDef).CreateFixture(fixDef);
+         
+         //create some objects
+         bodyDef.type = b2Body.b2_dynamicBody;
+         for(var i = 0; i < 10; ++i) {
+            if(Math.random() > 0.5) {
+               fixDef.shape = new b2PolygonShape;
+               fixDef.shape.SetAsBox(
+                     Math.random() + 0.1 //half width
+                  ,  Math.random() + 0.1 //half height
+               );
+            } else {
+               fixDef.shape = new b2CircleShape(
+                  Math.random() + 0.1 //radius
+               );
+            }
+            bodyDef.position.x = Math.random() * 10;
+            bodyDef.position.y = Math.random() * 10;
+            world.CreateBody(bodyDef).CreateFixture(fixDef);
+         }
+         
+         //setup debug draw
+         	debugDraw = new b2DebugDraw();
+			debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
+			debugDraw.SetDrawScale(zoom);
+			debugDraw.SetFillAlpha(0.4);
+			debugDraw.SetLineThickness(1.0);
+			debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
+			world.SetDebugDraw(debugDraw);
+         
+         window.setInterval(update, 1000 / 60);
+      };
+      
+      function update() {
+         world.Step(
+               1 / 60   //frame-rate
+            ,  10       //velocity iterations
+            ,  10       //position iterations
+         );
+         debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
+         debugDraw.SetDrawScale(zoom);
+         world.DrawDebugData();
+         world.ClearForces();
+      };
+
+      $(function(){
+      	 $( "#zoom_slider" ).slider({
+      	 	orientation: "vertical",
+      	 	range: "min",
+      	 	min: 0,
+      	 	max: 100,
+      	 	value: 40,
+      	 	slide: function( event, ui ) {
+      	 		$( "#zoom_input" ).val( ui.value );
+      	 		zoom=ui.value;
+      	 		
+      	 		
+      	 	}
+      	 });
+      	 $( "#zoom_input" ).val( $( "#zoom_slider" ).slider( "value" ) );
+      });
+   
+	</script>
 	</body>
+
 </html>

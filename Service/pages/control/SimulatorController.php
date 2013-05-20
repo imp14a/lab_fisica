@@ -6,9 +6,7 @@ class SimulatorController {
 	function __construct() {
 
 	}
-	/**
-	 * Crea un articulo en la base de datos
-	 */
+
 	function simulator($params = null) {
 		
 		
