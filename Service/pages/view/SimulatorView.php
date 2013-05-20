@@ -8,11 +8,13 @@
 		<title>Simulador</title>
 		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
 		<link rel="stylesheet" type="text/css" href="../../css/box2d.css" />
+		<link href="../../css/flick/jquery-ui-1.10.3.custom.css" rel="stylesheet">
 
-		<script src="../../js/jquery-1.8.3.min.js" ></script>
+		<script src="../../js/jquery-1.9.1.js" ></script>
+		<script src="../../js/jquery-ui-1.10.3.custom.min.js" ></script>
 		<!-- libs -->
 		<!--[if IE]><script type="text/javascript" src="lib/excanvas.js"></script><![endif]-->
-		<script src="lib/prototype-1.6.0.2.js"></script>
+		<script src="../../js/lib/prototype-1.6.0.2.js"></script>
 		<!-- box2djs -->
 		<script src='../../js/box2d/common/b2Settings.js'></script>
 		<script src='../../js/box2d/common/math/b2Vec2.js'></script>
@@ -89,11 +91,31 @@
 		<script src='demos/crank.js'></script>
 		<script src='demos/demos.js'></script>
 
+		<script>
+		$(function() {
+			$( "#zoom_slider" ).slider({
+				orientation: "vertical",
+				range: "min",
+				min: 0,
+				max: 100,
+				value: 60,
+				slide: function( event, ui ) {
+					$( "#zoom_input" ).val( ui.value );
+				}
+			});
+			$( "#zoom_input" ).val( $( "#zoom_slider" ).slider( "value" ) );
+		});
+  		</script>
 	</head>
 	<body style="margin:0; padding:0;">
-		<script>
-
-		</script>
-		<canvas id="canvas" style="width:100%; height:100%; padding:0; border:none; margin:0;"></canvas>
+	
+		<canvas id="canvas" style="position:absolute; z-index:1; width:100%; height:100%; padding:0; border:none; margin:0;"></canvas>
+		<div style="z-index:2; position:fixed;">
+			<p>
+				<label for="zoom_input" style="font-weight: bold; color: lightgray;">Zoom:</label>
+				<input type="text" id="zoom_input" style="border:0; border-radius:5px; width:30px; color: #f6931f; font-weight: bold;" />
+			</p>
+			<div id="zoom_slider" style="height: 200px;"></div>
+		</div>
 	</body>
 </html>
