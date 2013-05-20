@@ -1,5 +1,4 @@
 @import <AppKit/CPToolbar.j>
-@import "FontView.j"
 
 var ApplyToolbarItemIdentifier = "ApplyToolbarItem",
     CancelToolbarItemIdentifier = "CancelToolbarItem";
@@ -12,12 +11,10 @@ var ApplyToolbarItemIdentifier = "ApplyToolbarItem",
 - (id) initWithIdentifier(CPString):anIdentifier
 {
     self = [super initWithIdentifier:anIdentifier];
-    if(self){
+    if(self)
+    {
             [self setDelegate:self];
             [self setVisible:YES];
-            //Prepara notificaciones
-            [[CPNotificationCenter defaultCenter] addObserver:self
-                selector:@selector(testActionNC) name:"btnCancelar" object:nil];
     }
     return self;
 }
@@ -46,13 +43,13 @@ var ApplyToolbarItemIdentifier = "ApplyToolbarItem",
             var img = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/apply.png" size:CPSizeMake(32, 32)];
             [toolbarItem setLabel:"Aplicar"];
             [toolbarItem setImage:img]
-            [toolbarItem setAction:@selector(testAction:)];
+            [toolbarItem setAction:@selector(btnAplicarAction:)];
         break;
         case CancelToolbarItemIdentifier:
             var img = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/cancel.png" size:CPSizeMake(32, 32)];
             [toolbarItem setLabel:"Cancelar"];
             [toolbarItem setImage:img]
-            [toolbarItem setAction:@selector(testAction:)];
+            [toolbarItem setAction:@selector(btnCancelarAction:)];
         break;
     }
 
@@ -60,12 +57,16 @@ var ApplyToolbarItemIdentifier = "ApplyToolbarItem",
 }
 
 
+//Acciones de botones
 
-
-- (void)testAction:(id)notification
+- (void)btnCancelarAction:(id)notification
 {
-    CPLog.info("asdgsdk");
-    //[CPApp stopModal];
+    [[CPNotificationCenter defaultCenter] postNotificationName:"btnModalToolbar" object:"Cancelar"];
+}
+
+- (void)btnAplicarAction:(id)notification
+{
+    [[CPNotificationCenter defaultCenter] postNotificationName:"btnModalToolbar" object:"Aplicar"];
 }
 
 @end

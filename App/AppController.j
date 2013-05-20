@@ -8,15 +8,17 @@
 
 @import <Foundation/CPObject.j>
 @import "View/MainWindow.j"
-
+@import "Controller/MainController.j"
 
 @implementation AppController : CPObject
 {
     CPWindow theWindow;
+    MainController theController;
 }
 
 - (void)applicationDidFinishLaunching:(CPNotification)aNotification
 {
+	theController = [[MainController alloc] init];
     theWindow = [[MainWindow alloc] init];
     [theWindow orderFront:self];
 
