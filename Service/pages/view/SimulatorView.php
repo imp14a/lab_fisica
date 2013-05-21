@@ -23,17 +23,38 @@
 		<canvas id="canvas"  style="position:absolute; z-index:1;  padding:0; border:none; margin:0; width:100%; height:100%;"></canvas>
 		-->
 	<body onload="init();">
-		<canvas id="canvas" width="1000" height="800" style="position:absolute; z-index:1;"></canvas>
-		<div style="z-index:2; position:fixed;">
+		<canvas id="canvas" style="position:absolute; z-index:1;"></canvas>
+
+      <div style="z-index:2; position:fixed;">
 			<p>
 				<label for="zoom_input" style="font-weight: bold; ">Zoom:</label>
 				<input type="text" id="zoom_input" style="border:0; border-radius:5px; width:30px; color: #f6931f; font-weight: bold;" />
 			</p>
-			<div id="zoom_slider" style="height: 200px;"></div>
+			<div id="zoom_slider" style="height: 150px;"></div>
 		</div>
+      <div>
+         <?php echo $this->data['variables']; ?>
+      </div>
 
    </body>
 	<script type="text/javascript">
+
+       $(function(){
+          $( "#zoom_slider" ).slider({
+            orientation: "vertical",
+            range: "min",
+            min: 0,
+            max: 100,
+            value: 40,
+            slide: function( event, ui ) {
+               $( "#zoom_input" ).val( ui.value );
+               zoom=ui.value;
+            }
+          });
+          $( "#zoom_input" ).val( $( "#zoom_slider" ).slider( "value" ) );
+          //ubicamos el slider
+      });
+
       var world;
       var zoom=40;
       var debugDraw;
@@ -52,7 +73,7 @@
             ;
          
          world = new b2World(
-               new b2Vec2(0, 1)    //gravity
+               new b2Vec2(0, 10)    //gravity
             ,  true                 //allow sleep
          );
          
@@ -114,23 +135,6 @@
          world.ClearForces();
       };
 
-      $(function(){
-      	 $( "#zoom_slider" ).slider({
-      	 	orientation: "vertical",
-      	 	range: "min",
-      	 	min: 0,
-      	 	max: 100,
-      	 	value: 40,
-      	 	slide: function( event, ui ) {
-      	 		$( "#zoom_input" ).val( ui.value );
-      	 		zoom=ui.value;
-      	 		
-      	 		
-      	 	}
-      	 });
-      	 $( "#zoom_input" ).val( $( "#zoom_slider" ).slider( "value" ) );
-      });
-   
 	</script>
 	</body>
 

@@ -1,11 +1,11 @@
 <?php 
 	
-	class Conexion{
+	class Database{
 		
 		private $host="localhost";
 		private $user="root";
-		private $password="imperio14";
-		private $base="prueba_teckio";
+		private $password="";
+		private $base="lab_fisica";
 		
 		private $status;
 		private $conexion;
