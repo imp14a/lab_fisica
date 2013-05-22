@@ -23,24 +23,29 @@
 		<canvas id="canvas"  style="position:absolute; z-index:1;  padding:0; border:none; margin:0; width:100%; height:100%;"></canvas>
 		-->
 	<body onload="init();">
-		<canvas id="canvas" style="position:absolute; z-index:1;"></canvas>
+		<canvas id="canvas"  style=" width:100%; height:100%; position:absolute; top:0;left:0; z-index:1;"></canvas>
 
-      <div style="z-index:2; position:fixed;">
+      <div style="z-index:2; position:fixed; margin 0; font-family:Arial">
 			<p>
 				<label for="zoom_input" style="font-weight: bold; ">Zoom:</label>
-				<input type="text" id="zoom_input" style="border:0; border-radius:5px; width:30px; color: #f6931f; font-weight: bold;" />
+				<input type="text" id="zoom_input" style="text-align:center; border-radius:5px; width:30px; color: #f6931f; font-weight: bold;" />
 			</p>
-			<div id="zoom_slider" style="height: 150px;"></div>
+			<center><div id="zoom_slider" style="height: 150px;"></div></center>
 		</div>
-      <div>
-         <?php echo $this->data['variables']; ?>
-      </div>
+     
 
    </body>
 	<script type="text/javascript">
 
        $(function(){
-          $( "#zoom_slider" ).slider({
+
+       	var w = $('#canvas').width();
+       	var h = $('#canvas').height();
+
+       	$('#canvas').attr('width',w);
+       	$('#canvas').attr('height',h);
+
+       	$( "#zoom_slider" ).slider({
             orientation: "vertical",
             range: "min",
             min: 0,
@@ -86,10 +91,10 @@
          
          //create ground
          bodyDef.type = b2Body.b2_staticBody;
-         bodyDef.position.x = 9;
+         bodyDef.position.x = 14;
          bodyDef.position.y = 13;
          fixDef.shape = new b2PolygonShape;
-         fixDef.shape.SetAsBox(10, 0.5);
+         fixDef.shape.SetAsBox(11, 1.5);
          world.CreateBody(bodyDef).CreateFixture(fixDef);
          
          //create some objects
@@ -130,6 +135,7 @@
             ,  10       //position iterations
          );
          debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
+         // TODO rehubicamos las cosas desde el centro
          debugDraw.SetDrawScale(zoom);
          world.DrawDebugData();
          world.ClearForces();

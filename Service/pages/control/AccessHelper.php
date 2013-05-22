@@ -19,7 +19,6 @@ class AccessHelper {
 		$params = $this->getParameters($data);
 		if($params['host']!='localhost') return false;
 		if($params['date']!=date('Y-m-d')) return false;
-
 		return $params['activity'];
 	}
 
@@ -28,7 +27,11 @@ class AccessHelper {
 		if(!$data) return false;
 
 		$key = pack('H*', "bcb04b7e103a0cd8b54763051cef08bc55abe029fdebae5e1d417e2ffb2a00a3");
-		$ciphertext_dec = hex2bin($data);
+
+		$data = urldecode($data);
+		echo $data."\n";
+		$ciphertext_dec = base64_decode($data);
+
 		# retrieves the IV, iv_size should be created using mcrypt_get_iv_size()
 		$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
 		$iv_dec = substr($ciphertext_dec, 0, $iv_size);
@@ -43,6 +46,8 @@ class AccessHelper {
 		$result['host']=$res[0];
 		$result['date']=$res[1];
 		$result['activity']=$res[2];
+
+		print_r($result);
 
 		return $result;
 	}
@@ -82,9 +87,10 @@ class AccessHelper {
 		$ciphertext = $iv . $ciphertext;
 
 		# encode the resulting cipher text so it can be represented by a string
-		$ciphertext_base64 = bin2hex($ciphertext);
-
-		echo  $ciphertext_base64 . "\n";
+		$ciphertext_base64 = base64_encode($ciphertext);
+		echo $ciphertext_base64."\n";
+		$data = urlencode($ciphertext_base64);
+		echo  $data . "\n";
 	}
 	
 }

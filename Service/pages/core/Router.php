@@ -19,11 +19,12 @@ class Router {
             $ac = new AccessHelper();
             if($activity = $ac->validateAcces($data)){
                 $_SESSION['activity']=$activity;
+                 header( 'Location: simulator.php' ) ;
             }else{
-
+                //TODO Esto sera redirigir a una pantalla de error
+                $ac->generateData();
             }
         }else{
-            print_r($_SESSION['activity']);
             $controller = isset($_GET['controller'])?$_GET['controller']:'SimulatorController'; 
             $action = isset($_GET['action'])?$_GET['action']:'simulator';
             $controllerLocation = '../control/' . $controller . '.php'; 
