@@ -1,25 +1,23 @@
-@import <AppKit/CPTabViewItem>
 
-@implementation ImageTabViewitem : CPTabViewItem
+@import <AppKit/CPTabViewItem.j>
+
+@implementation ImageTabViewItem : CPTabViewItem
 {
-
+    CPImage _image;
 }
 
-- (id)initWithIdentifier:(CPString)anIdentifier
+- (id)initWithIdentifier:(CPString)anIdentifier andImage:(CPImage)anImage
 {
 	self = [super initWithIdentifier:anIdentifier];
 	if(self)
 	{
-
+        _image=anImage;
 	}
 	return self;
 }
 
-- (void)drawLabel:(BOOL)shouldTruncateLabel inRect:(CPRect)tabRect{
-
-
-    CPImage pImage = [pDelegate imageForCell];
-
+- (void)drawLabel:(BOOL)shouldTruncateLabel inRect:(CPRect)tabRect
+{
     [[CPGraphicsContext currentContext] saveGraphicsState];
     var xform = [CPAffineTransform transform];
     [xform translateXBy:0.0 yBy: CGRectGetHeight([tabRect bounds])];
@@ -28,14 +26,15 @@
 
 
     var x_Offset = 0 ;
-    if(pImage){
-        [pImage drawInRect:CGRectMake(CGRectGetWidth([tabRect bounds])-8,-6,16, 16)fromRect:CGRectMakeZero
+    if(_image){
+        [_image drawInRect:CGRectMake(CGRectGetWidth([tabRect bounds])-8,-6,16, 16)
+                fromRect:CGRectMakeZero
                 operation:CPCompositeSourceOver
                 fraction:1.0];
         x_Offset =  16;
     }
      [[CPGraphicsContext currentContext] restoreGraphicsState];
-
+     CPLog.info("llego hasta aka");
     [super drawLabel:shouldTruncateLabel inRect:tabRect];
 }
 
