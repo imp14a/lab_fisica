@@ -14,7 +14,7 @@ class Router {
      public function route() {
         session_start();
         if(!isset($_GET['controller'])){
-            if(!isset($_GET['data'])){ echo json_encode(array('access'=>'deny')); return;};
+            if(!isset($_GET['data'])){ echo json_encode(array('access'=>false)); return;};
 
             $data = $_GET['data'];
             // verificamos el acceso y decidimos si iniciamos la sesion si no lo redireccionamos a una pagina de error
