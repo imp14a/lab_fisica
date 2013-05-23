@@ -1,12 +1,11 @@
 <?php
 
 /**
- * Clase que nos permite redireccionar las peticiones directas al controlador del blog,
+ * Clase que nos permite redireccionar las peticiones directas al controlador 
  * esto con la facilidad de poder llamarlos mediante Ajax
  */
 
 include('../control/AccessHelper.php');
-include('Database.php');
 
 class Router {
 
@@ -15,19 +14,19 @@ class Router {
      public function route() {
         session_start();
         if(!isset($_GET['controller'])){
+            if(!isset($_GET['data'])){ echo json_encode(array('access'=>'deny')); return;};
+
             $data = $_GET['data'];
             // verificamos el acceso y decidimos si iniciamos la sesion si no lo redireccionamos a una pagina de error
             $ac = new AccessHelper();
             if($activity = $ac->validateAcces($data)){
                 $_SESSION['activity']=$activity;
-                $res=array('access'=>'proceed');
-                echo json_encode($res);
+                echo json_encode(array('access'=>'proceed'));
             }else {
-                $res=array('access'=>'deny');
-                echo json_encode($res);
+                echo json_encode(array('access'=>'deny'));
                 //$ac->generateData();
             }
-        }else{
+        }elseif(isset($_SESSION['activity'])){
             $controller = isset($_GET['controller'])?$_GET['controller']:'SimulatorController'; 
             $action = isset($_GET['action'])?$_GET['action']:'simulator';
             $controllerLocation = '../control/' . $controller . '.php'; 
