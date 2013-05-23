@@ -32,7 +32,7 @@ class Activity {
 
 
 
-	function __construct($id==null) {
+	function __construct($id=null) {
 
 		if($id!=null)
 			$this->loadFromDatabase($id);

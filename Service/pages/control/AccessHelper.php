@@ -35,8 +35,6 @@ class AccessHelper {
 
 		# retrieves the IV, iv_size should be created using mcrypt_get_iv_size()
 		$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
-		echo $iv_size.':::';
-		echo $data."\n";
 		$iv_dec = substr($ciphertext_dec, 0, $iv_size);
 		# retrieves the cipher text (everything except the $iv_size in the front)
 		$ciphertext_dec = substr($ciphertext_dec, $iv_size);
@@ -46,11 +44,11 @@ class AccessHelper {
 
 		$res=explode('|',$plaintext_utf8_dec);
 
+		if(count($res) < 3) return false;
+
 		$result['host']=$res[0];
 		$result['date']=$res[1];
 		$result['activity']=$res[2];
-
-		print_r($result);
 
 		return $result;
 	}

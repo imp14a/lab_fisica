@@ -14,7 +14,7 @@ class Router {
 
      public function route() {
         session_start();
-        if(!isset($_SESSION['activity'])){
+        if(!isset($_GET['controller'])){
             $data = $_GET['data'];
             // verificamos el acceso y decidimos si iniciamos la sesion si no lo redireccionamos a una pagina de error
             $ac = new AccessHelper();
@@ -25,7 +25,7 @@ class Router {
             }else {
                 $res=array('access'=>'deny');
                 echo json_encode($res);
-                $ac->generateData();
+                //$ac->generateData();
             }
         }else{
             $controller = isset($_GET['controller'])?$_GET['controller']:'SimulatorController'; 
