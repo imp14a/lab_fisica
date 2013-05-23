@@ -21,13 +21,13 @@
 {
 	//theController = [[MainController alloc] init];
     //theWindow = [[MainWindow alloc] init];
-    //hrom[theWindow orderFront:self];
+    //[theWindow orderFront:self];
 
     var DATA = [[CPString alloc] initWithString:window.location];
     DATA = [DATA substringFromIndex:44];
-    CPLog.info(DATA);
+    //CPLog.info(DATA);
 
-	var request = [CPURLRequest requestWithURL: "http://lab_fisica/Service/pages/core/simulator.php?data="+DATA];
+	var request = [CPURLRequest requestWithURL: "http://lab_fisica/Service/pages/core/simulator.php"];//?data="+DATA];
 
 	//create the CPURLConnection and store it. the connection fires immediately
 	_validateConnection = [CPURLConnection connectionWithRequest: request delegate: self];
@@ -41,14 +41,22 @@
 
  - (void)connection:(CPURLConnection)aConnection didReceiveData:(CPString)data
 {
-	CPLog.info("y que fuera jalando");
 	//get a javascript object from the json response
-	var result = [CPString JSONFromObject:data];
-	CPLog.info(result);
+	var result = JSON.parse(data);
+
 	//check if we're talking about the delete connection
 	if (aConnection == _validateConnection)
 	{
-
+		if(result.access)
+		{
+			theController = [[MainController alloc] init];
+    		theWindow = [[MainWindow alloc] init];
+    		[theWindow orderFront:self];
+		}
+		else
+		{
+			window.location = "http://lab_fisica/App/access_denied.html";
+		}
 	}
 	//clear out this connection's reference
 	[self clearConnection:aConnection];
