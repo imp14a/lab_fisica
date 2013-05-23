@@ -17,7 +17,7 @@ class Activity {
 		formato JSON
 		EJ: (gravity:{type:'float',defaultValue=>10.0}, ... );
 	*/
-	private $wordlParameters;
+	private $wordlProperties;
 
 	/*
 		Array de elementos que seran editadbles en la practica 
@@ -39,9 +39,12 @@ class Activity {
 		
 	}
 
-	function loadFromDatabase($id){
-
+	function loadFromDatabase($prefix){
 		$base = new Database();
+		$query = "SELECT * FROM Activity WHERE activity_prefix='".$prefix."'";
+
+		$result = mysqli_query($base->getConexion(),$query); 
+
 
 	}
 

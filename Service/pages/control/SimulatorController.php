@@ -1,17 +1,17 @@
 <?php
 
-
+include('../model/Activity.php');
 class SimulatorController {
 
-	private $data;
+	private $activity;
 
 	function __construct() {
-		$this->data = array();
+		$this->activity = new Activity();
 	}
 
-	function simulator($params = null) {
+	function simulator() {
 
-		$this->data['variables']="Aqui deben de ir las variables";
+		$this->activity->loadFromDatabase($_SESSION['activity']);
 
 		if( file_exists( '../view/SimulatorView.php' ) ) {
 			include_once( '../view/SimulatorView.php' );
