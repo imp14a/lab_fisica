@@ -2,7 +2,6 @@
 
 @import <AppKit/CPCollectionView.j>
 
-
 @implementation NavigationArea : CPView
 {
 }
@@ -13,73 +12,59 @@
 
     if(self){
 
-    	[self setBackgroundColor:[CPColor whiteColor]];
+        var boxView = [[CPBox alloc] initWithFrame:CGRectMake(10, 10, CGRectGetWidth([self bounds]) - 20, CGRectGetHeight([self bounds]) - 100)];
+        [boxView setBackgroundColor:[CPColor lightGrayColor]];
+        [boxView setAutoresizingMask:CPViewHeightSizable | CPViewWidthSizable];
+        [boxView setBorderType:CPLineBorder];
+        [boxView setBorderColor:[CPColor darkGrayColor]];
+        [boxView setBoxType:CPBoxCustom];
+        [boxView setCornerRadius:5.0];
 
-        var tabView = [[CPTabView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth([self bounds]), CGRectGetHeight([self bounds]))];
+        var txtTheoryView = [[CPTextField alloc] initWithFrame:CGRectMake(20, 20, CGRectGetWidth([boxView bounds]) - 20,  CGRectGetHeight([boxView bounds]) - 20 )];
+        [txtTheoryView setAutoresizingMask:CPViewHeightSizable | CPViewWidthSizable];
+        [txtTheoryView setBezeled:YES];
+        [txtTheoryView setEditable:NO];
 
-        var theoryTab = [[CPTabViewItem alloc] initWithIdentifier:"theoryTab"];
-        [theoryTab setLabel:"Marco Teórico"];
-        var theoryView = [[CPView alloc] initWithFrame:CGRectMakeZero()];
-        var theoryText = [[CPTextField alloc] initWithFrame:CGRectMake(14,18,CGRectGetWidth([theoryView bounds])-30, CGRectGetHeight([theoryView bounds])-100)];
-        [theoryText setStringValue:"MARCO TEÓRICO DE PRÁCTICA"];
-        [theoryText setLineBreakMode:CPLineBreakByWordWrapping];
-        [theoryText setAutoresizingMask:CPViewWidthSizable | CPViewHeightSizable];
-        [theoryText setEditable:NO];
-        [theoryText setBezeled:YES];
-        [theoryText setSelectable:YES];
-        [theoryView addSubview:theoryText];
-        [theoryTab setView:theoryView];
 
-        var procedureTab = [[CPTabViewItem alloc] initWithIdentifier:"procedureTab"];
-        [procedureTab setLabel:"Procedimiento"];
-        var procedureView = [[CPView alloc] initWithFrame:CGRectMake(0,0,CGRectGetWidth([tabView bounds]), CGRectGetHeight([tabView bounds]))];
-        var procedureText = [[CPTextField alloc] initWithFrame:CGRectMake(14,18,CGRectGetWidth([procedureView bounds])-30, CGRectGetHeight([procedureView bounds])-100)];
-        [procedureText setStringValue:"PROCEDIMIENTO DE PRÁCTICA"];
-        [procedureText setLineBreakMode:CPLineBreakByWordWrapping];
-        [procedureText setAutoresizingMask:CPViewWidthSizable | CPViewHeightSizable];
-        [procedureText setEditable:NO];
-        [procedureText setBezeled:YES];
-        [procedureView addSubview:procedureText];
-        [procedureTab setView:procedureView];
+        var tabStyle = [[CPSegmentedControl alloc] initWithFrame:CGRectMake(100,0, CGRectGetWidth([self bounds]), 48)];
+        //[tabStyle setAutoresizingMask:CPViewWidthSizable];
+        //[tabStyle setMinSize:CGSizeMake(CGRectGetWidth([self bounds]), 48)];
+        //[tabStyle setMinSize:CGSizeMake(360, 54)];
 
-        var resultTab = [[CPTabViewItem alloc] initWithIdentifier:"resultTab"];
-        [resultTab setLabel:"Resultados"];
-        var resultView = [[CPView alloc] initWithFrame:CGRectMakeZero()];
-        var resultText = [[CPTextField alloc] initWithFrame:CGRectMake(14,18,CGRectGetWidth([resultView bounds])-30, CGRectGetHeight([resultView bounds])-100)];
-        [resultText setStringValue:"RESULTADOS DE PRÁCTICA"];
-        [resultText setLineBreakMode:CPLineBreakByWordWrapping];
-        [resultText setAutoresizingMask:CPViewWidthSizable | CPViewHeightSizable];
-        [resultText setEditable:NO];
-        [resultText setBezeled:YES];
-        [resultView addSubview:resultText];
-        [resultTab setView:resultView];
+        var imageProc = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/proc.png" size:CPSizeMake(20, 20)];
+        var imageMarco = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/theory.png" size:CPSizeMake(20, 20)];
+        var imagePrint = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/print.png" size:CPSizeMake(20, 20)];
+        var imageConclusion = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/conclusion.png" size:CPSizeMake(20, 20)];
 
-        var conclusionTab = [[CPTabViewItem alloc] initWithIdentifier:"conclusionTab"];
-        [conclusionTab setLabel:"Conclusiones"];
-        var conclusionView = [[CPView alloc] initWithFrame:CGRectMakeZero()];
-        var conclusionText = [[CPTextField alloc] initWithFrame:CGRectMake(14,18,CGRectGetWidth([conclusionView bounds])-30, CGRectGetHeight([conclusionView bounds])-100)];
-        [conclusionText setStringValue:"RESULTADOS DE PRÁCTICA"];
-        [conclusionText setLineBreakMode:CPLineBreakByWordWrapping];
-        [conclusionText setAutoresizingMask:CPViewWidthSizable | CPViewHeightSizable];
-        [conclusionText setEditable:NO];
-        [conclusionText setBezeled:YES];
-        [conclusionView addSubview:conclusionText];
-        [conclusionTab setView:conclusionView];
+        [tabStyle setSegmentCount: 4];
+        [tabStyle setSelected:imageMarco forSegment: 0];
+        [tabStyle setTarget:self];
+        [tabStyle setAction:@selector(tabEvent:)];
 
-        [tabView addTabViewItem:theoryTab];
-        [tabView addTabViewItem:procedureTab];
-        [tabView addTabViewItem:resultTab];
-        [tabView addTabViewItem:conclusionTab];
+        [tabStyle setImage:imageMarco forSegment: 0];
+        [tabStyle setImage:imageProc forSegment: 1];
+        [tabStyle setImage:imageConclusion forSegment: 2];
+        [tabStyle setImage:imagePrint forSegment: 3];
+        [tabStyle setWidth:50 forSegment:0];
+        [tabStyle setWidth:50 forSegment:1];
+        [tabStyle setWidth:50 forSegment:2];
+        [tabStyle setWidth:50 forSegment:3];
 
-        [tabView setAutoresizingMask:CPViewWidthSizable | CPViewHeightSizable];
 
-        [self addSubview:tabView];
-
+        [self setBackgroundColor:[CPColor lightGrayColor]];
+        [self addSubview:boxView];
+        [self addSubview:tabStyle];
+        [self addSubview:txtTheoryView];
 		[self setAutoresizingMask:CPViewHeightSizable];
 
     }
 
     return self;
+
+}
+
+- (void)tabEvent:(id)sender
+{
 
 }
 
