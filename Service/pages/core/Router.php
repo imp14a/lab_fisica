@@ -20,11 +20,10 @@ class Router {
             $ac = new AccessHelper();
             if($activity = $ac->validateAcces($data)){
                 $_SESSION['activity']=$activity;
-                header( 'Location: simulator.php' ) ;
+                $res=array('access'=>'proceed');
+                echo json_encode($res);
             }else {
-                // respondemos con ajax a acceso denegado
                 $res=array('access'=>'deny');
-                //TODO Esto sera redirigir a una pantalla de error
                 echo json_encode($res);
                 $ac->generateData();
             }
