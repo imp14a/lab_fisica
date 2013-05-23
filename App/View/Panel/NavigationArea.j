@@ -16,7 +16,7 @@
         [boxView setBackgroundColor:[CPColor lightGrayColor]];
         [boxView setAutoresizingMask:CPViewHeightSizable | CPViewWidthSizable];
         [boxView setBorderType:CPLineBorder];
-        [boxView setBorderColor:[CPColor darkGrayColor]];
+        //[boxView setBorderColor:[CPColor darkGrayColor]];
         [boxView setBoxType:CPBoxCustom];
         [boxView setCornerRadius:5.0];
 
@@ -26,15 +26,16 @@
         [txtTheoryView setEditable:NO];
 
 
-        var tabStyle = [[CPSegmentedControl alloc] initWithFrame:CGRectMake(100,0, CGRectGetWidth([self bounds]), 48)];
-        //[tabStyle setAutoresizingMask:CPViewWidthSizable];
+        var tabStyle = [[CPSegmentedControl alloc] initWithFrame:CGRectMake(CGRectGetWidth(aFrame)/2 - 100 ,0, CGRectGetWidth(aFrame), 48)];
+        CPLog.info(CGRectGetWidth(aFrame));
+        [tabStyle setAutoresizingMask:CPViewMaxXMargin | CPViewMinXMargin  ];
         //[tabStyle setMinSize:CGSizeMake(CGRectGetWidth([self bounds]), 48)];
         //[tabStyle setMinSize:CGSizeMake(360, 54)];
 
-        var imageProc = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/proc.png" size:CPSizeMake(20, 20)];
-        var imageMarco = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/theory.png" size:CPSizeMake(20, 20)];
-        var imagePrint = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/print.png" size:CPSizeMake(20, 20)];
-        var imageConclusion = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/conclusion.png" size:CPSizeMake(20, 20)];
+        var imageProc = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/proc.png" size:CPSizeMake(32, 32)];
+        var imageMarco = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/theory.png" size:CPSizeMake(32, 32)];
+        var imagePrint = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/print.png" size:CPSizeMake(32, 32)];
+        var imageConclusion = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/conclusion.png" size:CPSizeMake(32, 32)];
 
         [tabStyle setSegmentCount: 4];
         [tabStyle setSelected:imageMarco forSegment: 0];

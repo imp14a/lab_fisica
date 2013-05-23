@@ -32,9 +32,9 @@ var MainToolbarItemIdentifier = "MainToolbarItem",
 // Return an array of toolbar item identifier (the default toolbar items that are present in the toolbar) CPToolbarFlexibleSpaceItemIdentifier
 - (CPArray)toolbarDefaultItemIdentifiers:(CPToolbar)aToolbar
 {
-   return [CPToolbarSpaceItemIdentifier, MainToolbarItemIdentifier, CPToolbarSeparatorItemIdentifier, CPToolbarSpaceItemIdentifier, InspectorToolbarItemIdentifier,
+   return [CPToolbarSpaceItemIdentifier, MainToolbarItemIdentifier, CPToolbarSpaceItemIdentifier,
            CPToolbarSeparatorItemIdentifier, TimeToolbarItemIdentifier, CPToolbarSeparatorItemIdentifier,
-           MonitorToolbarItemIdentifier, CPToolbarSeparatorItemIdentifier];
+           MonitorToolbarItemIdentifier, CPToolbarSeparatorItemIdentifier,InspectorToolbarItemIdentifier];
 }
 
 - (CPToolbarItem)toolbar:(CPToolbar)aToolbar itemForItemIdentifier:(CPString)anItemIdentifier willBeInsertedIntoToolbar:(BOOL)aFlag
@@ -70,14 +70,13 @@ var MainToolbarItemIdentifier = "MainToolbarItem",
             [toolbarItem setMaxSize:CGSizeMake(220, 54)];
         break;
         case MonitorToolbarItemIdentifier:
-            var monitorView = [[CPView alloc] initWithFrame:CGRectMake(0,0,220,50)];
+            var monitorView = [[CPView alloc] initWithFrame:CGRectMake(0,0,180,50)];
              var txtMonitor = [[CPTextField alloc] initWithFrame:CGRectMake( 0, 9, 210, 30) ];
             [txtMonitor setEditable:NO];
             [txtMonitor setBezeled:YES];
             [txtMonitor setAlignment:CPRightTextAlignment];
             [txtMonitor setStringValue:"Monitor"];
             [monitorView addSubview:txtMonitor];
-
             [toolbarItem setView:monitorView];
             [toolbarItem setLabel:"Monitor"];
             [toolbarItem setMinSize:CGSizeMake(210, 54)];

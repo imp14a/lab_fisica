@@ -24,10 +24,7 @@
         var btnGraph = [[CPButton alloc] initWithFrame:CGRectMake(185,0,50,48)];
         var imgGraph = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/graph.png" size:CPSizeMake(32, 32)];
 
-        var btnZoom = [[CPButton alloc] initWithFrame:CGRectMake(240,0,50,48)];
-        var imgZoom = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/zoom.png" size:CPSizeMake(32, 32)];
-
-        var btnScript = [[CPButton alloc] initWithFrame:CGRectMake(295,0,50,48)];
+        var btnScript = [[CPButton alloc] initWithFrame:CGRectMake(240,0,50,48)];
         var imgScript = [[CPImage alloc] initWithContentsOfFile:"Resources/Icons/script.png" size:CPSizeMake(32, 32)];
 
         [btnProperties setImagePosition:CPImageAbove];
@@ -54,10 +51,6 @@
         [btnScript setTitle:"Script"];
         [btnScript setBordered:NO];
         [btnScript setImage:imgScript];
-        [btnZoom setImagePosition:CPImageAbove];
-        [btnZoom setTitle:"Zoom"];
-        [btnZoom setBordered:NO];
-        [btnZoom setImage:imgZoom];
 
 
         [self addSubview:btnProperties];
@@ -65,7 +58,6 @@
         [self addSubview:btnMonitor];
         [self addSubview:btnGraph];
         [self addSubview:btnScript];
-        [self addSubview:btnZoom];
     }
     return self;
 }

@@ -42,8 +42,7 @@ class Activity {
 	function loadFromDatabase($prefix){
 		$base = new Database();
 		$query = "SELECT * FROM Activity WHERE activity_prefix='".$prefix."'";
-
-		$result = mysqli_query($base->getConexion(),$query); 
+		$result = mysqli_query($base->getConexion(),$query);
 
 
 	}
