@@ -53,9 +53,8 @@ DROP TABLE IF EXISTS `World`;
 CREATE TABLE `World` (
   `world_id` int(11) NOT NULL AUTO_INCREMENT,
   `activity_id` int(11) DEFAULT NULL,
-  `gravety` float DEFAULT NULL,
+  `gravity` float DEFAULT NULL,
   `density` float DEFAULT NULL,
-  `color` varchar(60) DEFAULT NULL,
   `creation_script` text,
   PRIMARY KEY (`world_id`),
   KEY `activity_id` (`activity_id`)
@@ -70,6 +69,45 @@ LOCK TABLES `World` WRITE;
 /*!40000 ALTER TABLE `World` DISABLE KEYS */;
 /*!40000 ALTER TABLE `World` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `WorldElement`
+--
+
+DROP TABLE IF EXISTS `WorldElement`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `WorldElement` (
+  `world_element_id` int(11) NOT NULL AUTO_INCREMENT,
+  `world_id` int(11) DEFAULT NULL,
+  `elastisty` float DEFAULT NULL,
+  `friction` float DEFAULT NULL,
+  `mass` float DEFAULT NULL,
+  `color` varchar(30) DEFAULT NULL,
+  `velocity_x` float DEFAULT NULL,
+  `velocity_y` float DEFAULT NULL,
+  `postion_x` float DEFAULT NULL,
+  `position_y` float DEFAULT NULL,
+  `rotation_x` float DEFAULT NULL,
+  `rotation_y` float DEFAULT NULL,
+  `momentum_x` float DEFAULT NULL,
+  `momentum_y` float DEFAULT NULL,
+  `force_x` float DEFAULT NULL,
+  `force_y` float DEFAULT NULL,
+  `creation_script` text,
+  PRIMARY KEY (`world_element_id`),
+  KEY `world_id` (`world_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `WorldElement`
+--
+
+LOCK TABLES `WorldElement` WRITE;
+/*!40000 ALTER TABLE `WorldElement` DISABLE KEYS */;
+/*!40000 ALTER TABLE `WorldElement` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -80,4 +118,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-05-22 18:45:05
+-- Dump completed on 2013-05-22 23:39:08
