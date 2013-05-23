@@ -27,7 +27,7 @@
     DATA = [DATA substringFromIndex:44];
     //CPLog.info(DATA);
 
-	var request = [CPURLRequest requestWithURL: "http://lab_fisica/Service/pages/core/simulator.php"];//?data="+DATA];
+	var request = [CPURLRequest requestWithURL: "http://lab_fisica/Service/pages/core/simulator.php?data="+DATA];
 
 	//create the CPURLConnection and store it. the connection fires immediately
 	_validateConnection = [CPURLConnection connectionWithRequest: request delegate: self];
@@ -42,11 +42,13 @@
  - (void)connection:(CPURLConnection)aConnection didReceiveData:(CPString)data
 {
 	//get a javascript object from the json response
+	CPLog.info(data);
 	var result = JSON.parse(data);
 
 	//check if we're talking about the delete connection
 	if (aConnection == _validateConnection)
 	{
+		CPLog.info(result.access);
 		if(result.access)
 		{
 			theController = [[MainController alloc] init];
