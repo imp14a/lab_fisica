@@ -21,9 +21,9 @@ class Router {
             $ac = new AccessHelper();
             if($activity = $ac->validateAcces($data)){
                 $_SESSION['activity']=$activity;
-                echo json_encode(array('access'=>'proceed'));
+                echo json_encode(array('access'=>true));
             }else {
-                echo json_encode(array('access'=>'deny'));
+                echo json_encode(array('access'=>false));
                 //$ac->generateData();
             }
         }elseif(isset($_SESSION['activity'])){
