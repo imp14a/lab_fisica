@@ -23,7 +23,7 @@ class Router {
                 $_SESSION['activity']=$activity;
                 echo json_encode(array('access'=>true));
             }else {
-                $ac->generateData();
+                //$ac->generateData();
                 echo json_encode(array('access'=>false));
             }
         }elseif(isset($_SESSION['activity'])){

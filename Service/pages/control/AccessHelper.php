@@ -31,7 +31,6 @@ class AccessHelper {
 		// Los + son decodificados como espacio por lo tanto debemos regresarlos
 			$data=str_replace(' ', '+', $data);
 			$ciphertext_dec = base64_decode($data);
-			# retrieves the IV, iv_size should be created using mcrypt_get_iv_size()
 			$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
 			$iv_dec = substr($ciphertext_dec, 0, $iv_size);
 			# retrieves the cipher text (everything except the $iv_size in the front)
