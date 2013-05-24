@@ -23,8 +23,8 @@ class Router {
                 $_SESSION['activity']=$activity;
                 echo json_encode(array('access'=>true));
             }else {
+                $ac->generateData();
                 echo json_encode(array('access'=>false));
-                //$ac->generateData();
             }
         }elseif(isset($_SESSION['activity'])){
             $controller = isset($_GET['controller'])?$_GET['controller']:'SimulatorController'; 

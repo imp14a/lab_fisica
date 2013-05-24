@@ -3,7 +3,6 @@
 class AccessHelper {
 
 	function __construct(){
-
 	}
 
 	/*
@@ -17,8 +16,9 @@ class AccessHelper {
 		if(!$data) return false;
 		//TODO hacer el registro con todos los hosts disponibles
 		$params = $this->getParameters($data);
+
 		if($params['host']!='localhost') return false;
-		if($params['date']!=date('Y-m-d')) return false;
+		if($params['time']!=date('Y-m-d')) return false;
 		return $params['activity'];
 	}
 
@@ -31,7 +31,7 @@ class AccessHelper {
 		// Los + son decodificados como espacio por lo tanto debemos regresarlos
 			$data=str_replace(' ', '+', $data);
 			$ciphertext_dec = base64_decode($data);
-		# retrieves the IV, iv_size should be created using mcrypt_get_iv_size()
+			# retrieves the IV, iv_size should be created using mcrypt_get_iv_size()
 			$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
 			$iv_dec = substr($ciphertext_dec, 0, $iv_size);
 			# retrieves the cipher text (everything except the $iv_size in the front)
@@ -42,17 +42,17 @@ class AccessHelper {
 
 			if(count($res) < 3) return false;
 			$result['host']=$res[0];
-			$result['date']=$res[1];
+			$result['time']=$res[1];
 			$result['activity']=$res[2];
-			return $result;
+			return $result; 
 
 		}catch(Exception $e){
-			//print_r($e);
 			return false;
 		}
 	}
 
 	function generateData($host='localhost',$activity='Actividad primera'){
+
 		// Formacion del Data:
 		// es la concatenacion de los parametro obtenidos + un id que sera guardado en la base de datos, 
 		// que indicara que el url fue generado desde un url y no copiado y pegado 
@@ -66,8 +66,10 @@ class AccessHelper {
 		# show key size use either 16, 24 or 32 byte keys for AES-128, 192
 		# and 256 respectively
 
-
-		$plaintext = $host.'|'.date('Y-m-d').'|'.$activity;
+		
+		$d = date('Y-m-d');
+		
+		$plaintext = $host."|".$d."|".$activity;
 
 
 		# create a random IV to use with CBC encoding
@@ -88,8 +90,6 @@ class AccessHelper {
 
 		# encode the resulting cipher text so it can be represented by a string
 		$ciphertext_base64 = base64_encode($ciphertext);
-		echo $iv_size.":::";
-		echo $ciphertext_base64."\n";
 		$data = urlencode($ciphertext_base64);
 		echo  $data . "\n";
 	}
