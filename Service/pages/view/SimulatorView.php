@@ -38,7 +38,10 @@
 	<script type="text/javascript">
 
        $(function(){
-
+        proportions = {VGA:{w:640, h:480,maxX=0,maxY=0},
+                       SVGA:{w:800,h:600},
+                       XGA:{w:1024,h:768},
+                       XVGA:{w:1280,h:1024}};
        	var w = $('#canvas').width();
        	var h = $('#canvas').height();
 
@@ -53,6 +56,7 @@
             value: 40,
             slide: function( event, ui ) {
                $( "#zoom_input" ).val( ui.value );
+               prevZoom = zoom; 
                zoom=ui.value;
             }
           });
@@ -62,7 +66,9 @@
 
       var world;
       var zoom=40;
+      var prevZoom = 40;
       var debugDraw;
+      var ground;
       
       function init() {
          var   b2Vec2 = Box2D.Common.Math.b2Vec2
@@ -81,6 +87,9 @@
                new b2Vec2(0, 10)    //gravity
             ,  true                 //allow sleep
          );
+
+         //world.position.x = 2;
+         //world.position.y = 2;
          
          var fixDef = new b2FixtureDef;
          fixDef.density = 1.0;
@@ -91,39 +100,39 @@
          
          //create ground
          bodyDef.type = b2Body.b2_staticBody;
-         bodyDef.position.x = 14;
-         bodyDef.position.y = 13;
+         bodyDef.position.x = 15;
+         bodyDef.position.y = 10;
          fixDef.shape = new b2PolygonShape;
          fixDef.shape.SetAsBox(11, 1.5);
-         world.CreateBody(bodyDef).CreateFixture(fixDef);
+         ground = world.CreateBody(bodyDef);
+         ground.CreateFixture(fixDef)
          
          //create some objects
          bodyDef.type = b2Body.b2_dynamicBody;
-         for(var i = 0; i < 10; ++i) {
-            if(Math.random() > 0.5) {
+         if(Math.random() > 2.5) {
                fixDef.shape = new b2PolygonShape;
                fixDef.shape.SetAsBox(
                      Math.random() + 0.1 //half width
                   ,  Math.random() + 0.1 //half height
                );
-            } else {
+          } else {
                fixDef.shape = new b2CircleShape(
                   Math.random() + 0.1 //radius
                );
-            }
-            bodyDef.position.x = Math.random() * 10;
-            bodyDef.position.y = Math.random() * 10;
-            world.CreateBody(bodyDef).CreateFixture(fixDef);
-         }
+          }
+          bodyDef.position.x = 15;
+          bodyDef.position.y = 1;
+          world.CreateBody(bodyDef).CreateFixture(fixDef);
          
          //setup debug draw
          	debugDraw = new b2DebugDraw();
-			debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
-			debugDraw.SetDrawScale(zoom);
-			debugDraw.SetFillAlpha(0.4);
-			debugDraw.SetLineThickness(1.0);
-			debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
-			world.SetDebugDraw(debugDraw);
+          console.log(document.getElementById("canvas").getContext("2d"));
+          debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
+          debugDraw.SetDrawScale(zoom);
+          debugDraw.SetFillAlpha(0.4);
+          debugDraw.SetLineThickness(1.0);
+          debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit |  b2DebugDraw.e_centerOfMassBit | b2DebugDraw.e_aabbBit  );
+          world.SetDebugDraw(debugDraw);
          
          window.setInterval(update, 1000 / 60);
       };
@@ -135,6 +144,16 @@
             ,  10       //position iterations
          );
          debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
+
+         if(prevZoom != zoom){
+            prevZoom = zoom;
+            // volvemos a dibujar el mundin
+            console.log("reorganizando suelin jo jo jo");
+            console.log(ground.GetWorldCenter());
+            //console.log(ground.GetFixtureList().GetShape().SetAsBox(10,2));
+            // obtenemos las posiciones actuales de las
+            //world.DestroyBody(ground);
+         }
          // TODO rehubicamos las cosas desde el centro
          debugDraw.SetDrawScale(zoom);
          world.DrawDebugData();

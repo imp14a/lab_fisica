@@ -23,13 +23,14 @@ class Router {
                 $_SESSION['activity']=$activity;
                 echo json_encode(array('access'=>true));
             }else {
-                //$ac->generateData();
+                $ac->generateData();
                 echo json_encode(array('access'=>false));
             }
         }elseif(isset($_SESSION['activity'])){
-            $controller = isset($_GET['controller'])?$_GET['controller']:'SimulatorController'; 
+            // El url se forma por controller=[Controller]&action=[accion] ej: control=Activity&action=getActivity
+            $controller = isset($_GET['controller'])?$_GET['controller'].'Controller':''; 
             $action = isset($_GET['action'])?$_GET['action']:'simulator';
-            $controllerLocation = '../control/' . $controller . '.php'; 
+            $controllerLocation = '../control/' . $controller . '.php';
             
             if( file_exists( $controllerLocation ) ) { 
                 include_once( $controllerLocation );
@@ -44,7 +45,7 @@ class Router {
             if(method_exists( $cont, $action ) ) {
                 $cont->$action();
             } else {
-                throw new Exception( "Action not callable $action" );
+                throw new Exception( "Action not callable $action, for $controller" );
             }
         }
     }

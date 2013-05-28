@@ -50,7 +50,7 @@ class AccessHelper {
 		}
 	}
 
-	function generateData($host='localhost',$activity='Actividad primera'){
+	function generateData($host='localhost',$activity=1){
 
 		// Formacion del Data:
 		// es la concatenacion de los parametro obtenidos + un id que sera guardado en la base de datos, 

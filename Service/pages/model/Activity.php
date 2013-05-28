@@ -1,6 +1,6 @@
 <?php
 
-include('../core/Conexion.php');
+include('../core/Database.php');
 
 class Activity {
 
@@ -13,38 +13,47 @@ class Activity {
 	*/
 	private $description;
 	/*
-		Array con todos los parametros disponibles, cada parametro contiene su tipo de dato y el valor default, esto es recivido en 
-		formato JSON
-		EJ: (gravity:{type:'float',defaultValue=>10.0}, ... );
+		Procedimiento para la actividad
 	*/
-	private $wordlProperties;
-
+	private $steps;
 	/*
-		Array de elementos que seran editadbles en la practica 
-
+		Observaciones y/o concluciones para la actividad
 	*/
-	private $elements;
+	private $observation;
 
-	/*
-		Codigo en javascrip para su funcionamiento de la practica la cual debe crear el mundo con la libreria Box2dWeb
-	*/
-	private $script;
+	function __construct($prefix = null) {
 
-
-
-	function __construct($id=null) {
-
-		if($id!=null)
-			$this->loadFromDatabase($id);
+		if($prefix!=null)
+			$this->loadFromDatabase($prefix);
 		
 	}
 
+	/*
+		Carga la informacion de la actividad desde la base de datos
+	*/
 	function loadFromDatabase($prefix){
 		$base = new Database();
-		$query = "SELECT * FROM Activity WHERE activity_prefix='".$prefix."'";
-		$result = mysqli_query($base->getConexion(),$query);
+		$query = sprintf("SELECT * FROM Activity WHERE activity_id='%s'",$prefix);
+		$r = $base->getConexion()->query($query);
+		$res = $r->fetch_row();
+		$this->title = $res[2];
+		$this->description = $res[3];
+		$this->steps = $res[4];
+		$this->observations = $res[5];
+	}
 
-
+	/*
+		Regresa la informacion de la actividad como un array, esto es util para posteriormente convertiro a cadenas JSON
+		Nota: la informacion es regresada codificada en UTF-8
+	*/
+	function getAsArray(){
+		
+		if(empty($this->title)) return array('error'=>true);		
+		return array('title'=>utf8_encode($this->title),
+					  'description'=>utf8_encode($this->description),
+					  'steps'=>utf8_encode($this->steps),
+					  'observations'=>utf8_encode($this->observations),
+					  'error'=>false);
 	}
 
 }

@@ -14,6 +14,7 @@
 		 * Genera una conexion a la base de datos
 		 */
 		function __construct(){
+			
 			$this->status="ok";
 			
 			if (!($this->conexion=mysqli_connect($this->host,$this->user,$this->password))) 
@@ -22,7 +23,7 @@
 			}
 			
 			
-			if (!mysqli_select_db($this->base,$this->conexion) ) 
+			if (!mysqli_select_db($this->conexion,$this->base) ) 
 			{
 				 $this->status="error";
 			}
