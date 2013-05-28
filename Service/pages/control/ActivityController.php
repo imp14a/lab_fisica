@@ -13,7 +13,7 @@ class ActivityController {
 	/*
 		URL de Acceso: Service/pages/core/simulator.php?controller=Activity&action=getActivity
 		
-		Regresa la informacion de la actividdad actual con la que se a dado el acceso
+		Regresa la informacion de la actividdad actual con la que se ha dado el acceso
 
 		Return Type; UTF-8 JSON String
 

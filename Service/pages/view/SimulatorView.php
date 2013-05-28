@@ -22,10 +22,12 @@
 	
 		<canvas id="canvas"  style="position:absolute; z-index:1;  padding:0; border:none; margin:0; width:100%; height:100%;"></canvas>
 		-->
-	<body onload="init();">
-		<canvas id="canvas"  style=" width:100%; height:100%; position:absolute; top:0;left:0; z-index:1;"></canvas>
+	<body >
+    <div style="text-align:center;">
+		  <canvas width="100" height="100" id="canvas" style="background-color:blue;" ></canvas>
+    </div>
 
-      <div style="z-index:2; position:fixed; margin 0; font-family:Arial">
+      <div style="z-index:2; position:fixed; margin 0; font-family:Arial; flaot:right;">
 			<p>
 				<label for="zoom_input" style="font-weight: bold; ">Zoom:</label>
 				<input type="text" id="zoom_input" style="text-align:center; border-radius:5px; width:30px; color: #f6931f; font-weight: bold;" />
@@ -37,23 +39,32 @@
    </body>
 	<script type="text/javascript">
 
-       $(function(){
-        proportions = {VGA:{w:640, h:480,maxX=0,maxY=0},
-                       SVGA:{w:800,h:600},
-                       XGA:{w:1024,h:768},
-                       XVGA:{w:1280,h:1024}};
-       	var w = $('#canvas').width();
-       	var h = $('#canvas').height();
+       var world;
+       var proportion = 1.77;
+       var zoom = 20;
+       var prevZoom = 20;
+       var debugDraw;
+       var ground;
+       var canvasProperties = {width:0, height:0, center:{x:0,y:0}};
 
-       	$('#canvas').attr('width',w);
-       	$('#canvas').attr('height',h);
+       $(function(){
+
+        initCanvasInfo();
+        
+
+       	//var w = $('body').width();
+       	
+
+        // contamos de a como quedo
+       	//$('#canvas').attr('width',w);
+       	//$('#canvas').attr('height',h);
 
        	$( "#zoom_slider" ).slider({
             orientation: "vertical",
             range: "min",
             min: 0,
             max: 100,
-            value: 40,
+            value: 50,
             slide: function( event, ui ) {
                $( "#zoom_input" ).val( ui.value );
                prevZoom = zoom; 
@@ -61,14 +72,24 @@
             }
           });
           $( "#zoom_input" ).val( $( "#zoom_slider" ).slider( "value" ) );
+
+          init();
           //ubicamos el slider
       });
 
-      var world;
-      var zoom=40;
-      var prevZoom = 40;
-      var debugDraw;
-      var ground;
+       function initCanvasInfo(){
+            canvasProperties.height = $('body').height();;
+            canvasProperties.width = canvasProperties.height * proportion;
+            var acx = (canvasProperties.width / 2);
+        }
+
+
+
+      //cada unidad representa 100 , 100 con un zoom de 50
+      //cada unidad representa 2 , 2 con un zoom de 1
+      // Por cada unidad de zoom 
+      
+      var canvasCenter = {x , y};
       
       function init() {
          var   b2Vec2 = Box2D.Common.Math.b2Vec2
@@ -92,6 +113,7 @@
          //world.position.y = 2;
          
          var fixDef = new b2FixtureDef;
+
          fixDef.density = 1.0;
          fixDef.friction = 0.5;
          fixDef.restitution = 0.2;
@@ -100,10 +122,10 @@
          
          //create ground
          bodyDef.type = b2Body.b2_staticBody;
-         bodyDef.position.x = 15;
-         bodyDef.position.y = 10;
+         bodyDef.position.x = 1;
+         bodyDef.position.y = 1;
          fixDef.shape = new b2PolygonShape;
-         fixDef.shape.SetAsBox(11, 1.5);
+         fixDef.shape.SetAsBox(1, 1);
          ground = world.CreateBody(bodyDef);
          ground.CreateFixture(fixDef)
          
@@ -120,7 +142,7 @@
                   Math.random() + 0.1 //radius
                );
           }
-          bodyDef.position.x = 15;
+          bodyDef.position.x = 0;
           bodyDef.position.y = 1;
           world.CreateBody(bodyDef).CreateFixture(fixDef);
          
@@ -155,7 +177,7 @@
             //world.DestroyBody(ground);
          }
          // TODO rehubicamos las cosas desde el centro
-         debugDraw.SetDrawScale(zoom);
+         //debugDraw.SetDrawScale(zoom);
          world.DrawDebugData();
          world.ClearForces();
       };
