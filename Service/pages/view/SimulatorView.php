@@ -27,7 +27,7 @@
 		  <canvas width="100" height="100" id="canvas" style="background-color:blue;" ></canvas>
     </div>
 
-      <div style="z-index:2; position:fixed; margin 0; font-family:Arial; flaot:right;">
+      <div id="slider_div" style="z-index:2; position:absolute; margin 0; font-family:Arial;">
 			<p>
 				<label for="zoom_input" style="font-weight: bold; ">Zoom:</label>
 				<input type="text" id="zoom_input" style="text-align:center; border-radius:5px; width:30px; color: #f6931f; font-weight: bold;" />
@@ -41,11 +41,12 @@
 
        var world;
        var proportion = 1.77;
-       var zoom = 20;
-       var prevZoom = 20;
+       var zoom = 80;
+       var prevZoom = 80;
        var debugDraw;
        var ground;
-       var canvasProperties = {width:0, height:0, center:{x:0,y:0}};
+       // Los valores de las unidades estan dados por unidades usadas por el motor, a excepcion de los amrcados con real
+       var canvasProperties = {realWidth:0,realHeight:0,width:0, height:0, unitiValue:0, center:{x:0,y:0}};
 
        $(function(){
 
@@ -56,8 +57,16 @@
        	
 
         // contamos de a como quedo
-       	//$('#canvas').attr('width',w);
-       	//$('#canvas').attr('height',h);
+       	$('#canvas').attr('width',canvasProperties.realWidth);
+       	$('#canvas').attr('height',canvasProperties.realHeight);
+
+        // ubicamos el slider
+
+        
+
+        $('#slider_div').css('top',$('#canvas').offset().top);
+        $('#slider_div').css('left',$('#canvas').offset().left);
+
 
        	$( "#zoom_slider" ).slider({
             orientation: "vertical",
@@ -71,25 +80,34 @@
                zoom=ui.value;
             }
           });
+          // al zoom slider lo pongo sobre el canvas 
           $( "#zoom_input" ).val( $( "#zoom_slider" ).slider( "value" ) );
-
           init();
           //ubicamos el slider
       });
 
        function initCanvasInfo(){
-            canvasProperties.height = $('body').height();;
-            canvasProperties.width = canvasProperties.height * proportion;
-            var acx = (canvasProperties.width / 2);
+            canvasProperties.realHeight = $('body').height();
+            canvasProperties.realWidth = canvasProperties.realHeight * proportion;
+            canvasProperties.unitiValue = zoom;
+            canvasProperties.width = canvasProperties.realWidth / canvasProperties.unitiValue;
+            canvasProperties.height = canvasProperties.realHeight / canvasProperties.unitiValue;
+            canvasProperties.center.x = (canvasProperties.width / 2);
+            canvasProperties.center.y = (canvasProperties.height / 2);
         }
 
+        function pixels2Units(pixels){
+          
+        }
+
+        function setProportionalShape(element,propotion){
+
+        }
 
 
       //cada unidad representa 100 , 100 con un zoom de 50
       //cada unidad representa 2 , 2 con un zoom de 1
       // Por cada unidad de zoom 
-      
-      var canvasCenter = {x , y};
       
       function init() {
          var   b2Vec2 = Box2D.Common.Math.b2Vec2
@@ -122,15 +140,17 @@
          
          //create ground
          bodyDef.type = b2Body.b2_staticBody;
-         bodyDef.position.x = 1;
-         bodyDef.position.y = 1;
+         bodyDef.position.x = canvasProperties.center.x;
+         //TODO error con la posicion
+         bodyDef.position.y = canvasProperties.center.y + (canvasProperties.height/ 2) - 5;
          fixDef.shape = new b2PolygonShape;
-         fixDef.shape.SetAsBox(1, 1);
+         console.log(canvasProperties.width);
+         fixDef.shape.SetAsBox((canvasProperties.width / 2) , 1);
          ground = world.CreateBody(bodyDef);
          ground.CreateFixture(fixDef)
          
          //create some objects
-         bodyDef.type = b2Body.b2_dynamicBody;
+         /*bodyDef.type = b2Body.b2_dynamicBody;
          if(Math.random() > 2.5) {
                fixDef.shape = new b2PolygonShape;
                fixDef.shape.SetAsBox(
@@ -144,11 +164,10 @@
           }
           bodyDef.position.x = 0;
           bodyDef.position.y = 1;
-          world.CreateBody(bodyDef).CreateFixture(fixDef);
+          world.CreateBody(bodyDef).CreateFixture(fixDef);*/
          
          //setup debug draw
          	debugDraw = new b2DebugDraw();
-          console.log(document.getElementById("canvas").getContext("2d"));
           debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
           debugDraw.SetDrawScale(zoom);
           debugDraw.SetFillAlpha(0.4);
