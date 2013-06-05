@@ -16,7 +16,7 @@ class ActivityController {
 		Regresa la informacion de la actividdad actual con la que se ha dado el acceso
 
 		Return Type; UTF-8 JSON String
-
+1
 		Formatos:
 		Si la consulta se realizo correctamente:
 			{"title":"...","description":"...","steps":"...","observation":"...", "error":false }
