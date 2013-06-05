@@ -5,7 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="bootstrap/css/style.css" rel="stylesheet" media="screen">
+    <link href="bootstrap/css/style.css" rel="stylesheet" media="screen">    
+    <link rel="stylesheet" href="bootstrap/tagtip/styles/tagtip.css" type="text/css">
+    
+    <script type="text/javascript" src="bootstrap/js/prototype.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="bootstrap/tagtip/scriptaculous.js?load=effects"></script>
+    <script type="text/javascript" src="bootstrap/js/service.js" charset="UTF-8"></script>      
+    <script type="text/javascript" src="bootstrap/tagtip/tagtip.js"></script>
   </head>
   <body>
     <div id="header">
@@ -15,69 +21,87 @@
             <a class="krismar" href="http://www.krismar.com.mx"></a>
           </li> 
           <li class="item_bar_about">  
-            <a class="help" href="#"></a>
+            <a class="help"></a>
           </li> 
         </ul>
       </div>
       <div id="toolbar" class="main_bar">
         <ul class="left_bar">
           <li class="item_bar">  
-            <a class="open" href="#"></a>
+            <a id="open" class="open"></a>
           </li>  
            <li class="item_bar">  
-            <a class="intro" href="#"></a>
+            <a id="intro" class="intro"></a>
           </li>          
           <li class="item_bar">  
-            <a class="proc" href="#"></a>
+            <a id="proc" class="proc"></a>
           </li> 
            <li class="item_bar">  
-            <a class="conclusion" href="#"></a>
+            <a id="conclusion" class="conclusion"></a>
           </li>  
            <li class="item_bar">  
-            <a class="print" href="#"></a>
+            <a id="print" class="print" ></a>
           </li>   
-        </ul>        
+        </ul>             
         <ul class="right_bar">
           <li class="item_bar_control">  
-            <a class="start" href="#"></a>
+            <a id="start" class="start"></a>
           </li>
           <li class="item_bar_control">  
-            <a class="pause" href="#"></a>
+            <a id="pause" class="pause"></a>
           </li>
           <li class="item_bar_control">  
-            <a class="restart" href="#"></a>
+            <a id="restart" class="restart"></a>
           </li>
         </ul>        
       </div>
     </div>        
     <div id="content">
       <div id="navigation">
-        <p>INTRODUCCI&Oacute;N</p>
-        <textarea class="text_navigation">Marco te&oacute;rico de la pr&aacute;ctica</textarea>
+        <p id="title">INTRODUCCI&Oacute;N</p>
+        <textarea id="info" readonly=true class="text_navigation">Marco te&oacute;rico de la pr&aacute;ctica</textarea>
       </div>       
       <div id="vtoolbar">
         <ul>
           <li class="item_vbar">  
-            <a class="properties" href="#"></a>
+            <a class="properties"></a>
           </li>  
            <li class="item_vbar">  
-            <a class="world" href="#"></a>
+            <a class="world"></a>
           </li>          
           <li class="item_vbar">  
-            <a class="monitor" href="#"></a>
+            <a class="monitor"></a>
           </li> 
            <li class="item_vbar">  
-            <a class="graph" href="#"></a>
+            <a class="graph"></a>
           </li>  
           <li class="item_vbar">  
-            <a class="camera" href="#"></a>
+            <a class="camera"></a>
           </li> 
           <li class="item_vbar">  
-            <a class="script" href="#"></a>
+            <a class="script"></a>
           </li> 
         </ul>  
       </div>    
-      <div id="simulator"><p>Si estoy funcionando vamos</p></div>  
-    </div>           
+      <div id="simulator">
+        <p id="activity_title"></p>
+      </div>  
+    </div>   
+    <div id="footer">
+      <ul class="center_bar">
+        <li class="item_bar_about">
+          <label style="margin-bottom: 10px; font-size: 30px; color: white;">Tiempo:</label>
+        </li>
+        <li class="item_bar_about">
+          <input type="text" class="time" readonly=true placeholder="00:00:00:00"></input>
+        </li>
+        <li class="item_bar_about">
+          <label style="margin-bottom: 10px; font-size: 30px; color: white;">Monitor:</label>
+        </li>
+        <li class="item_bar_about">
+          <input type="text" class="monitor" readonly=true placeholder="POSICION  X: 0.00  Y: 0.00"></input>
+        </li>
+      </ul>
+    </div>
   </body>
 </html>
