@@ -14,9 +14,30 @@
 
 		<!-- demos -->
 		<!--<script src='../../js/lib/prototype-1.6.0.2.js'></script>-->
-		<script src='../../js/jquery-1.9.1.js'></script>
-		<script src='../../js/jquery-ui-1.10.3.custom.min.js'></script>
+		<script src='../../js/prototype.js'></script>
+		<script src="../../js/scriptaculous/scriptaculous.js?load=slider"></script>
 		<script src='../../js/Box2dWeb-2.1.a.3.min.js'></script>
+
+    <style type="text/css">
+    h1{ font-size: 1.5em; }
+    .track {
+        background-color: #aaa;
+        height: 0.5em; width: 10em;
+        cursor: pointer; z-index: 0;
+    }
+    .handle {
+        background-color: red;
+        position: absolute;
+        height: 1em; width: 0.25em; top: -0.25em;
+        cursor: move; z-index: 2;
+    }
+    .track.vertical { 
+        width: 0.5em; height: 10em; 
+    }
+    .track.vertical .handle {
+        width: 16px; height: 16px; margin-left: 10px; 
+    }
+</style>
 	</head>
 	<!--<body style="margin:0; padding:0;">
 	
@@ -32,8 +53,10 @@
 				<label for="zoom_input" style="font-weight: bold; ">Zoom:</label>
 				<input type="text" id="zoom_input" style="text-align:center; border-radius:5px; width:30px; color: #f6931f; font-weight: bold;" />
 			</p>
-			<center><div id="zoom_slider" style="height: 150px;"></div></center>
-		</div>
+            <div id="track1" class="track vertical" style="position: absolute; left: 25em; top: 3em;" >
+                <div id="handle1" class="handle" style="height: 0.5em;" ></div>
+            </div>
+    </div>
      
 
    </body>
@@ -84,37 +107,48 @@
 
        $(function(){
 
-        initCanvasInfo();
         
-
-       	$('#canvas').attr('width',canvasProperties.realSize.width);
-       	$('#canvas').attr('height',canvasProperties.realSize.height);
-
-        $('#slider_div').css('top',$('#canvas').offset().top);
-        $('#slider_div').css('left',$('#canvas').offset().left); 
-
-       	$( "#zoom_slider" ).slider({
-            orientation: "vertical",
-            range: "min",
-            min: 0,
-            max: 100,
-            value: zoom,
-            slide: function( event, ui ) {
-               $( "#zoom_input" ).val( ui.value );
-               prevZoom = zoom; 
-               zoom=ui.value;
-            }
-          });
-          // al zoom slider lo pongo sobre el canvas 
-          $( "#zoom_input" ).val( $( "#zoom_slider" ).slider( "value" ) );
-          init();
+       
+          
           //ubicamos el slider
       });
 
-       // el tamano de la un
+
+       window.onload = function() {
+
+        initCanvasInfo();
+        
+
+        $('canvas').writeAttribute('width',canvasProperties.realSize.width);
+        $('canvas').writeAttribute('height',canvasProperties.realSize.height);
+        console.log($('canvas').viewportOffset());
+
+        $('slider_div').setStyle({
+            top: $('canvas').viewportOffset().top,
+            left: $('canvas').viewportOffset().left
+        });
+
+        new Control.Slider('handle1' , 'track1',
+        {
+          range: $R(1,100),
+          axis:'vertical',
+          sliderValue: zoom,
+          onChange: function(v){
+                $('zoom_input').value = v;
+                prevZoom = zoom;
+                zoom = v;
+            },
+            onSlide: function(v) {
+                $('zoom_input').value = v;
+                prevZoom = zoom;
+                zoom = v;
+            }
+       } );
+       init();
+     }
 
        function initCanvasInfo(){
-            canvasProperties.realSize.height = $('body').height();
+            canvasProperties.realSize.height = $(document.body).getHeight();;
             canvasProperties.realSize.width = canvasProperties.realSize.height * proportion;
             canvasProperties.unitiValue = zoom/100 ;
             canvasProperties.size.width = canvasProperties.realSize.width / zoom;
