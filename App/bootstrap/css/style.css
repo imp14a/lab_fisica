@@ -24,6 +24,7 @@ body{
 	width: 100%;
 	height: 100px;
 	padding-top: 20px;
+	float: right;
 }
 
 #toolbar{	
@@ -56,6 +57,7 @@ body{
 	margin-right: 95px;	
 	text-align: center;
 	padding-top: 30px;
+	position: absolute;
 }
 
 #service_simulator{
@@ -104,6 +106,11 @@ body{
 	display: inline-block;
 	padding-left: 15px;	
 }
+.item_bar_watch{
+	list-style-type: none;
+	display: inline-block;
+	padding-right: 15px;	
+}
 .item_bar_control{
 	list-style-type: none;
 	display: inline-block;
@@ -139,8 +146,9 @@ ul.right_bar{
 }
 ul.center_bar{
 	padding-top: 0px;
-	margin: 0 auto 0 auto;
+	margin: 0;
 	width: 630px;
+	float: right;
 }
 
 a{
@@ -294,4 +302,67 @@ input.monitor{
 @font-face {
 	font-family: DigitalFont;
 	src: url("../fonts/DS-DIGIT.TTF"); /* TTF file for CSS3 browsers */
+}
+
+/*
+	VENTANA MODAL
+*/
+
+#full_screen{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;	
+	background: #eeeeee;
+	opacity: 0.75;
+}
+
+#modal{
+	border-radius:10px; 
+	-moz-border-radius:10px; /* Firefox */ 
+	-webkit-border-radius:10px; /* Safari y Chrome */ 
+	position: absolute;
+	top: 15%;
+	left: 40%;
+	width: 300px;
+	height: 400px;
+	padding: 16px;
+	background: #fff;
+	color: #333;
+	z-index: 1002;
+	overflow: auto;
+}
+
+#modal_title{		
+	border-radius:10px; 
+	-moz-border-radius:10px; /* Firefox */ 
+	-webkit-border-radius:10px; /* Safari y Chrome */ 
+	position: absolute;
+	width: 90%;
+	height: 40px;
+	background-color: #eeeeee;
+	text-align: center;
+}
+
+#modal_body{
+	top: 50px;
+	width: 96.6%;
+	height: 50%;
+}
+
+p.title{
+	font-size: 20px;	
+	margin: 0;
+	padding-top: 10px;
+}
+
+a.close_modal{
+	position: absolute;
+	top: 8px;
+	left: 270px;
+	cursor: pointer;
+	background-image: url(../img/icons/close_modal.png);
+	width: 24px;
+	height: 24px;
 }

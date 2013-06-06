@@ -137,8 +137,28 @@ function setTooltipsElements(){
 		align: 'bottomLeft'
 	});
 
-	new Tagtip('properties', 'Asigne nuevas propiedades a los elementos de la práctica.', {
+	new Tagtip('properties', 'Ajuste las propiedades a los elementos de la práctica.', {
 		title: 'Propiedades',
+		align: 'bottomRight'
+	});
+	new Tagtip('world', 'Ajuste las propiedades del mundo donde se realiza la práctica.', {
+		title: 'Mundo',
+		align: 'bottomRight'
+	});
+	new Tagtip('monitor', 'Observe una propiedad específica de un elemento.', {
+		title: 'Monitor',
+		align: 'bottomRight'
+	});
+	new Tagtip('graph', 'Visualice el estado actual de la práctica.', {
+		title: 'Gráfica',
+		align: 'bottomRight'
+	});
+	new Tagtip('camera', 'Defina el zoom que desea ver en la práctica.', {
+		title: 'Cámara',
+		align: 'bottomRight'
+	});
+	new Tagtip('script', 'Modifique la estructura básica de la práctica.', {
+		title: 'Script',
 		align: 'bottomRight'
 	});
 }
@@ -150,12 +170,13 @@ function setDimensionElements(){
 	var viewport = document.viewport.getDimensions();
 	var width = viewport.width; 
 	var height = viewport.height;
-	//console.log(height);
+	console.log(height);
 	//console.log(width);
+	//alert(height);
 	$('content').setStyle({'height': (height - ($('header').getHeight() + $('footer').getHeight())) + 'px'});
 	$('simulator').setStyle({'height': (height - ($('header').getHeight() + $('footer').getHeight())) + 'px'});
-	$('service_simulator').setStyle({'height': ($('simulator').getHeight() * 0.8) + 'px'});
-	$('service_simulator').setStyle({'width': ($('activity_title').getWidth() * 0.9) + 'px'});
+	$('service_simulator').setStyle({'height': ($('simulator').getHeight() - 100) + 'px'});
+	$('service_simulator').setStyle({'width': (width - ($('navigation').getWidth() + $('vtoolbar').getWidth()) -80) + 'px'});
 	//Primer actualización de contenido de información
 	$('activity_title').update(practice);
 	$('title').update("INTRODUCCIÓN"); 
