@@ -11,6 +11,8 @@ var conclusion = "";
 	si se trata de un acceso lícito o no.
 */
 
+Event.observe(window, 'resize', setDimensionElements);
+
 Event.observe(window, 'load', accessService);
 
 function accessService() {	
@@ -29,7 +31,7 @@ function accessService() {
 		   	}
 		},
   		onFailure: function() { 
-  			alert('Intente en otro momento...'); 
+  			alert('Ocurrió un error al validar el acceso.'); 
   		}
 	});
 }
@@ -55,20 +57,18 @@ function getActivityService()
 		    	intro = json.description;
 		    	proc = json.steps;
 		    	conclusion = json.observations;
-		    	//console.log(json);	
-		    	//Primer actualización
-		    	$('activity_title').update(practice);
-		    	$('title').update("INTRODUCCIÓN"); 
-		    	$('info').update(intro);
-		    	$('info').innerHTML;
-		    		
-		    	setEventsElements();		    			    	
+		    	//console.log(json);
+		    	//Redimencionamos los elementos.
+		    	setDimensionElements();		    	
+		    	//Agregamos los eventos		    			    		
+		    	setEventsElements();	
+		    	//Asignamos los tooltips	    			    	
 		    	setTooltipsElements();		    	
 		    			    	
 		    }
 		},
   		onFailure: function() { 
-  			alert('Intente en otro momento...'); 
+  			alert('El servidor de base de datos no está disponible.'); 
   		}
 	});
 }
@@ -136,4 +136,28 @@ function setTooltipsElements(){
 		title: 'Imprimir',
 		align: 'bottomLeft'
 	});
+
+	new Tagtip('properties', 'Asigne nuevas propiedades a los elementos de la práctica.', {
+		title: 'Propiedades',
+		align: 'bottomRight'
+	});
+}
+
+/*
+
+*/
+function setDimensionElements(){
+	var viewport = document.viewport.getDimensions();
+	var width = viewport.width; 
+	var height = viewport.height;
+	//console.log(height);
+	//console.log(width);
+	$('content').setStyle({'height': (height - ($('header').getHeight() + $('footer').getHeight())) + 'px'});
+	$('simulator').setStyle({'height': (height - ($('header').getHeight() + $('footer').getHeight())) + 'px'});
+	$('service_simulator').setStyle({'height': ($('simulator').getHeight() * 0.8) + 'px'});
+	$('service_simulator').setStyle({'width': ($('activity_title').getWidth() * 0.9) + 'px'});
+	//Primer actualización de contenido de información
+	$('activity_title').update(practice);
+	$('title').update("INTRODUCCIÓN"); 
+	$('info').update(intro);
 }
