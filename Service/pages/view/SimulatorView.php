@@ -7,10 +7,8 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<title>Simulador</title>
 		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
-		<link href="../../css/flick/jquery-ui-1.10.3.custom.css" rel="stylesheet">
 		<!-- libs -->
 		<!--[if IE]><script type="text/javascript" src="lib/excanvas.js"></script><![endif]-->
-
 
 		<!-- demos -->
 		<!--<script src='../../js/lib/prototype-1.6.0.2.js'></script>-->
@@ -20,22 +18,48 @@
 
     <style type="text/css">
     h1{ font-size: 1.5em; }
+    body{
+      background-color: transparent;
+      background-size: 56px;
+      /*background-image: url('../../css/img/grid.png');*/
+
+    }
     .track {
-        background-color: #aaa;
-        height: 0.5em; width: 10em;
+        background-color: transparent;
+        border-radius: 5px;
+        border: 2px solid #00aaeb;
+        height: 200px; width: 5px;
         cursor: pointer; z-index: 0;
+        margin-left: 40px;
     }
     .handle {
-        background-color: red;
+        background-color: transparent;
         position: absolute;
-        height: 1em; width: 0.25em; top: -0.25em;
+        height: 24px; width: 24px; top: -0.25em;
         cursor: move; z-index: 2;
+        background-image: url('../../css/img/handle.png');
+        margin-left: -10px;
     }
-    .track.vertical { 
-        width: 0.5em; height: 10em; 
+    .slider{
+      z-index:2;
+      position:absolute;
+      top:0;left:10px;
+      margin 0;
+      font-family:Arial;
+      color:#00aaeb;
     }
-    .track.vertical .handle {
-        width: 16px; height: 16px; margin-left: 10px; 
+    .slider input{
+      font-size:1em;
+      border:none;
+      text-align:center;
+      border-radius:5px;
+      width:35px;
+      height:24px;
+      color: #00aaeb;
+      font-weight: bold;
+    }
+    .slider input:hover{
+      border: 1px solid lightgray;
     }
 </style>
 	</head>
@@ -45,16 +69,16 @@
 		-->
 	<body >
     <div style="text-align:center;">
-		  <canvas width="100" height="100" id="canvas" style="background-color:blue;" ></canvas>
+		  <canvas width="100" height="100" id="canvas"  ></canvas>
     </div>
 
-      <div id="slider_div" style="z-index:2; position:absolute; margin 0; font-family:Arial;">
+      <div class="slider" id="slider_div">
 			<p>
-				<label for="zoom_input" style="font-weight: bold; ">Zoom:</label>
-				<input type="text" id="zoom_input" style="text-align:center; border-radius:5px; width:30px; color: #f6931f; font-weight: bold;" />
+				<label for="zoom_input">Zoom:</label>
+				<input type="text" id="zoom_input" />
 			</p>
-            <div id="track1" class="track vertical" style="position: absolute; left: 25em; top: 3em;" >
-                <div id="handle1" class="handle" style="height: 0.5em;" ></div>
+            <div id="track1" class="track vertical" style="position: absolute;" >
+                <div id="handle1" class="handle" ></div>
             </div>
     </div>
      
@@ -81,6 +105,7 @@
        var prevZoom = 80;
        var debugDraw;
        var ground;
+       var gridSize=113; // 113 pixeles son 4 centimetros 
        var groundFoxture;
        // Los valores de las unidades estan dados por unidades usadas por el motor, a excepcion de los amrcados con real
        var canvasProperties = {
@@ -99,19 +124,18 @@
             unitiValue:0 
           };
           // definiciones
-          var elements = [{ name:"ground", position:{x:0,y:2},size:{width:3,height:0.5}, isStatic:true,editable:false, elementType:'Polygon'}]
+          var elements = [{ name:"ground", position:{x:0,y:2},size:{width:3,height:0.5}, isStatic:true,editable:false, elementType:'Polygon'},
+          /*Esfera
+            Color=0.6,0.8,0.4
+            Pendulo=1,60,90*/
+          {name:"sphere",position:{x:0,y:-1}, mass:2, radio: 0.5, elasticity:0.4}]
+          
           // Bodies
           var bodies = new Array(); 
           // Fixtures
           var fixtures = new Array();
 
-       $(function(){
 
-        
-       
-          
-          //ubicamos el slider
-      });
 
 
        window.onload = function() {
@@ -121,49 +145,48 @@
 
         $('canvas').writeAttribute('width',canvasProperties.realSize.width);
         $('canvas').writeAttribute('height',canvasProperties.realSize.height);
-        console.log($('canvas').viewportOffset());
 
-        $('slider_div').setStyle({
+        /*$('slider_div').setStyle({
             top: $('canvas').viewportOffset().top,
             left: $('canvas').viewportOffset().left
-        });
+        });*/
 
+         $('zoom_input').value=zoom;
         new Control.Slider('handle1' , 'track1',
         {
-          range: $R(1,100),
+          range: $R(-100,-1),
           axis:'vertical',
-          sliderValue: zoom,
+          sliderValue: -zoom,
           onChange: function(v){
-                $('zoom_input').value = v;
+                $('zoom_input').value = Math.round(Math.abs(v));
                 prevZoom = zoom;
-                zoom = v;
+                zoom = Math.abs(v);
             },
             onSlide: function(v) {
-                $('zoom_input').value = v;
+                $('zoom_input').value =Math.round(Math.abs(v));
                 prevZoom = zoom;
-                zoom = v;
+                zoom = Math.abs(v);
             }
        } );
+       //zoomGrid();
        init();
      }
 
+     function zoomGrid(){
+        var size = gridSize * (zoom/100);
+        $(document.body).setStyle({
+          'background-size':size
+        });
+     }
+
        function initCanvasInfo(){
-            canvasProperties.realSize.height = $(document.body).getHeight();;
+            canvasProperties.realSize.height = $(document.body).getHeight();
             canvasProperties.realSize.width = canvasProperties.realSize.height * proportion;
             canvasProperties.unitiValue = zoom/100 ;
             canvasProperties.size.width = canvasProperties.realSize.width / zoom;
             canvasProperties.size.height = canvasProperties.realSize.height / zoom;
             canvasProperties.center.x = (canvasProperties.size.width / 2);
             canvasProperties.center.y = (canvasProperties.size.height / 2);
-            console.log(canvasProperties);
-        }
-
-        function pixels2Units(pixels){
-          
-        }
-
-        function setProportionalShape(element,propotion){
-
         }
 
       //cada unidad representa 100 , 100 con un zoom de 50
@@ -182,7 +205,8 @@
             //TODO quitar y ponerlo en las propiedades
             fixDef.density = 1.0;
             fixDef.friction = 0.5;
-            fixDef.restitution = 0.2;
+            //TODO
+            fixDef.restitution = 0.4;
 
             var bodyDef = new b2BodyDef;
 
@@ -191,6 +215,10 @@
             else
                 bodyDef.type = b2Body.b2_dynamicBody;
         
+            bodyDef.position.x = canvasProperties.center.x + (elements[i].position.x * canvasProperties.unitiValue);
+            bodyDef.position.y = canvasProperties.center.y + (elements[i].position.y * canvasProperties.unitiValue);
+            var body = world.CreateBody(bodyDef);
+
             // TODO revisar si el elemento es un circulo o un poligono
             if(elements[i].elementType == 'Polygon'){
                  fixDef.shape = new b2PolygonShape;
@@ -200,13 +228,14 @@
                );
              } else {
                 //TODO ver que onda con los ciculos
-                fixDef.shape = new b2CircleShape(0.5);
+                var massData = new b2MassData;
+                //massData.center = body.GetWorldCenter(); 
+                massData.mass = elements[i].mass;
+                body.SetMassData(massData);
+                fixDef.shape = new b2CircleShape(elements[i].radio);
             }
 
-            bodyDef.position.x = canvasProperties.center.x + (elements[i].position.x * canvasProperties.unitiValue);
-            bodyDef.position.y = canvasProperties.center.y + (elements[i].position.y * canvasProperties.unitiValue);
-
-            var body = world.CreateBody(bodyDef);
+            
             var fixture = body.CreateFixture(fixDef);
 
             bodies.push(body);
@@ -217,12 +246,11 @@
          debugDraw = new b2DebugDraw();
          debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
          debugDraw.SetDrawScale(zoom);
-         debugDraw.SetFillAlpha(0.4);
          debugDraw.SetLineThickness(1.0);
          debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit | b2DebugDraw.e_centerOfMassBit | b2DebugDraw.e_aabbBit  );
          world.SetDebugDraw(debugDraw);
-         
-          window.setInterval(update, 1000 / 60);
+         //update();
+         window.setInterval(update, 1000 / 60);
       };
       
       function update() {
@@ -240,6 +268,7 @@
             
             for(i=0;i<elements.length;i++){
 
+                
                 bodies[i].SetPosition(new b2Vec2(canvasProperties.center.x + (elements[i].position.x * canvasProperties.unitiValue)
                                     , canvasProperties.center.y + (elements[i].position.y * canvasProperties.unitiValue)));
                 var fixDef = new b2FixtureDef;
@@ -254,13 +283,13 @@
                         canvasProperties.unitiValue * elements[i].size.height
                     );
                 } else {
-                    //TODO ver que onda con los ciculos
-                    fixDef.shape = new b2CircleShape(0.5);
+                    //TODO El radio tambien es relativo
+                    fixDef.shape = new b2CircleShape(elements[i].radio*canvasProperties.unitiValue);
                 }
                 
                 bodies[i].DestroyFixture(fixtures[i]);
                 fixtures[i] = bodies[i].CreateFixture(fixDef);
-
+                //zoomGrid(zoom)
             }
             
          }
