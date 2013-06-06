@@ -43,7 +43,7 @@ body{
 
 #content{	
 	/*background-color: #ffffff;	*/
-	min-height: 510px;
+	min-height: 400px;
 	max-height: 100%;
 	height: auto;
 	width: 100%;
@@ -262,6 +262,7 @@ textarea.text_navigation{
 	color: #ffffff;	
 	background-color: #799b9c;
 	border: none;
+	cursor: default;
 }
 
 input.time{
