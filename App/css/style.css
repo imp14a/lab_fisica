@@ -159,7 +159,7 @@ a.krismar{
 	display: block;
 	width: 35px;
 	height: 35px;
-	background-image: url("../img/icons/krismar.png");
+	background-image: url("img/icons/krismar.png");
 	background-repeat: no-repeat;
 }
 
@@ -167,63 +167,63 @@ a.help{
 	display: block;
 	width: 35px;
 	height: 35px;
-	background-image: url("../img/icons/help.png");
+	background-image: url("img/icons/help.png");
 	background-repeat: no-repeat;
 }
 a.open{
 	display: block;
 	width: 35px;
 	height: 35px;
-	background-image: url("../img/icons/open.png");
+	background-image: url("img/icons/open.png");
 	background-repeat: no-repeat;;
 }
 a.proc{
 	display: block;
 	width: 35px;
 	height: 35px;
-	background-image: url("../img/icons/proc.png");
+	background-image: url("img/icons/proc.png");
 	background-repeat: no-repeat;;
 }
 a.intro{
 	display: block;
 	width: 35px;
 	height: 35px;
-	background-image: url("../img/icons/intro_hover.png");
+	background-image: url("img/icons/intro_hover.png");
 	background-repeat: no-repeat;
 }
 a.conclusion{
 	display: block;
 	width: 35px;
 	height: 35px;
-	background-image: url("../img/icons/conclusion.png");
+	background-image: url("img/icons/conclusion.png");
 	background-repeat: no-repeat;
 }
 a.print{
 	display: block;
 	width: 35px;
 	height: 35px;
-	background-image: url("../img/icons/print.png");
+	background-image: url("img/icons/print.png");
 	background-repeat: no-repeat;
 }
 a.start{
 	display: block;
 	width: 35px;
 	height: 35px;
-	background-image: url("../img/icons/start.png");
+	background-image: url("img/icons/start.png");
 	background-repeat: no-repeat;
 }
 a.pause{
 	display: block;
 	width: 35px;
 	height: 35px;
-	background-image: url("../img/icons/pause.png");
+	background-image: url("img/icons/pause.png");
 	background-repeat: no-repeat;
 }
 a.restart{
 	display: block;
 	width: 35px;
 	height: 35px;
-	background-image: url("../img/icons/restart.png");
+	background-image: url("img/icons/restart.png");
 	background-repeat: no-repeat;
 }
 
@@ -232,42 +232,42 @@ a.properties{
 	display: block;
 	width: 35px;
 	height: 35px;
-	background-image: url("../img/icons/properties.png");
+	background-image: url("img/icons/properties.png");
 	background-repeat: no-repeat;
 }
 a.world{
 	display: block;
 	width: 35px;
 	height: 35px;
-	background-image: url("../img/icons/world.png");
+	background-image: url("img/icons/world.png");
 	background-repeat: no-repeat;
 }
 a.monitor{
 	display: block;
 	width: 35px;
 	height: 35px;
-	background-image: url("../img/icons/monitor.png");
+	background-image: url("img/icons/monitor.png");
 	background-repeat: no-repeat;
 }
 a.graph{
 	display: block;
 	width: 35px;
 	height: 35px;
-	background-image: url("../img/icons/graph.png");
+	background-image: url("img/icons/graph.png");
 	background-repeat: no-repeat;
 }
 a.camera{
 	display: block;
 	width: 35px;
 	height: 35px;
-	background-image: url("../img/icons/camera.png");
+	background-image: url("img/icons/camera.png");
 	background-repeat: no-repeat;
 }
 a.script{
 	display: block;
 	width: 35px;
 	height: 35px;
-	background-image: url("../img/icons/script.png");
+	background-image: url("img/icons/script.png");
 	background-repeat: no-repeat;
 }
 
@@ -297,12 +297,12 @@ input.monitor{
 /* FUENTES */
 @font-face {
 	font-family: DigitalFont;
-	src: url("../fonts/DS-DIGIT.eot"); /* EOT file for IE */
+	src: url("fonts/DS-DIGIT.eot"); /* EOT file for IE */
 }
 
 @font-face {
 	font-family: DigitalFont;
-	src: url("../fonts/DS-DIGIT.TTF"); /* TTF file for CSS3 browsers */
+	src: url("fonts/DS-DIGIT.TTF"); /* TTF file for CSS3 browsers */
 }
 
 /*
@@ -363,7 +363,7 @@ a.close_modal{
 	top: 8px;
 	left: 270px;
 	cursor: pointer;
-	background-image: url(../img/icons/close_modal.png);
+	background-image: url(img/icons/close_modal.png);
 	width: 24px;
 	height: 24px;
 }
