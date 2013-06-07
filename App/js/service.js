@@ -4,38 +4,6 @@ var intro = "";
 var proc = "";
 var conclusion = "";
 
-/*
-	accessService()
-
-	Realiza una llamada al servicio de acceso y determina 
-	si se trata de un acceso lícito o no.
-*/
-
-//Event.observe(window, 'resize', setDimensionElements);
-
-Event.observe(window, 'load', accessService);
-
-function accessService() {	
-	var data = new String(window.location);
-	data = data.substring(data.indexOf("=") + 1, data.length);
-	
-	new Ajax.Request('http://lab_fisica/Service/pages/core/simulator.php', {
-  		method: 'get',
-  		parameters: {data: data},
-  		onSuccess: function(transport) {  	  			
-  			var json = transport.responseText.substring(transport.responseText.indexOf("{"), transport.responseText.length).evalJSON();  		   			  			  			  			
-		    if(json.access){		    			    			    			    			    	
-		    	getActivityService();
-		    }else{		    	
-		    	window.location = "access_denied.html";				
-		   	}
-		},
-  		onFailure: function() { 
-  			alert('Ocurrió un error al validar el acceso.'); 
-  		}
-	});
-}
-
 
 /*
 	getActivityService()
@@ -43,6 +11,8 @@ function accessService() {
 	Obtiene la información de la práctica correspondiente.
 
 */
+Event.observe(window,'load',getActivityService);
+
 function getActivityService()
 {
 	new Ajax.Request('http://lab_fisica/Service/pages/core/simulator.php', {
@@ -77,7 +47,7 @@ function getActivityService()
 	Función que establece el texto que se muestra en el área de información.
 */
 function setDescriptionElement(sender){
-	console.log(sender.srcElement.className);
+	console.log(sender);
 	
 	if (sender.srcElement.className == "intro"){
 		$('title').update("INTRODUCCIÓN");
