@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/slider.css" type="text/css">
     
     <script type="text/javascript" src="js/prototype.js" charset="UTF-8"></script>
-    <script type="text/javascript" src="js/scriptaculous.js?load=effects"></script>
+    <script type="text/javascript" src="js/scriptaculous/scriptaculous.js?load=effects"></script>
     <script type="text/javascript" src="js/scriptaculous/scriptaculous.js?load=slider"></script>
     <script type="text/javascript" src='js/Box2dWeb-2.1.a.3.min.js'></script>
     <script type="text/javascript" src="js/service.js" charset="UTF-8"></script>      
@@ -46,16 +46,16 @@
            <li class="item_bar">  
             <a id="print" class="print" ></a>
           </li>   
-        </ul>             
+        </ul>
         <ul class="right_bar">
           <li class="item_bar_control">  
-            <a id="start" class="start"></a>
+            <a id="button_start" class="start"></a>
           </li>
           <li class="item_bar_control">  
-            <a id="pause" class="pause"></a>
+            <a id="button_pause" class="pause"></a>
           </li>
           <li class="item_bar_control">  
-            <a id="restart" class="restart"></a>
+            <a id="button_restart" class="restart"></a>
           </li>
         </ul>        
       </div>
@@ -88,8 +88,8 @@
         </ul>  
       </div>    
       <div id="simulator">
-        <p id="activity_title"></p>
-        <div style="text-align:center; background-image: url('css/img/grid.png');background-size: 40px; margin-left: 150px; margin-right: 150px;">
+        <label id="activity_title" class"title">Titulo</label>
+        <div style="text-align:center;">
           <canvas width="100" height="100" id="canvas"  ></canvas>
         </div>
         <div class="slider" id="slider_div">
@@ -119,59 +119,8 @@
         </li>
       </ul>
     </div>
-
-    <script>
-    // Esto es un script GENERICO, deberia ir en un arcivo aparte TODO
-      var b2Vec2 = Box2D.Common.Math.b2Vec2
-        ,    b2FixtureDef = Box2D.Dynamics.b2FixtureDef
-        ,   b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape
-        ,   b2BodyDef = Box2D.Dynamics.b2BodyDef
-        ,   b2Body = Box2D.Dynamics.b2Body
-        ,   b2Fixture = Box2D.Dynamics.b2Fixture
-        ,   b2World = Box2D.Dynamics.b2World
-        ,   b2MassData = Box2D.Collision.Shapes.b2MassData
-        ,   b2CircleShape = Box2D.Collision.Shapes.b2CircleShape
-        ,   b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
-
-       var world;
-       // la proporcion es 4:3, con esto se genera un mundo inicial que dependera del zoom y la proporcion
-       // el eje cordenado va de -10 a 10 en el eje 'x' y el eje 'y'
-       var proportion = 1.33;
-       var zoom = 80;
-       var prevZoom = 80;
-       var debugDraw;
-       var ground;
-       var gridSize=113; // 113 pixeles son 4 centimetros 
-       var groundFoxture;
-       // Los valores de las unidades estan dados por unidades usadas por el motor, a excepcion de los amrcados con real
-       var canvasProperties = {
-            realSize:{
-              width:0,
-              height:0
-            },
-            size:{
-              width:0,
-              height:0
-            }, 
-            center:{
-              x:0,
-              y:0
-            },
-            unitiValue:0 
-          };
-
-          function initCanvasInfo(){
-            canvasProperties.realSize.height = $('canvas').up(1).getHeight();
-            canvasProperties.realSize.width = canvasProperties.realSize.height * proportion;
-            canvasProperties.unitiValue = zoom/100 ;
-            canvasProperties.size.width = canvasProperties.realSize.width / zoom;
-            canvasProperties.size.height = canvasProperties.realSize.height / zoom;
-            canvasProperties.center.x = (canvasProperties.size.width / 2);
-            canvasProperties.center.y = (canvasProperties.size.height / 2);
-        }
-
-    </script>
-    <script src="http://lab_fisica/Service/pages/core/simulator.php?controller=Simulator&action=getScript">
-    </script>
+    <script type="text/javascript" src="js/generalfunctions.js"></script>
+    <script src="http://lab_fisica/Service/pages/core/simulator.php?controller=Simulator&action=getScript"></script>
+    <script type="text/javascript" src="js/actions_buttons.js"></script>
   </body>
 </html>

@@ -11,7 +11,7 @@ var conclusion = "";
 	si se trata de un acceso lícito o no.
 */
 
-Event.observe(window, 'resize', setDimensionElements);
+//Event.observe(window, 'resize', setDimensionElements);
 
 Event.observe(window, 'load', accessService);
 
