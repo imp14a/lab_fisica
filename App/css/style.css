@@ -57,12 +57,11 @@ body{
 }
 
 #simulator{	
+	margin-left: 350px;
 	text-align: center;
-	position: relative;
+	position: absolute;
 	min-height: 400px;
 	float: left;
-	width: 74%;
-	
 }
 
 #service_simulator{

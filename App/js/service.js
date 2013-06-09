@@ -11,15 +11,15 @@ var conclusion = "";
 	Obtiene la información de la práctica correspondiente.
 
 */
-Event.observe(window,'load',getActivityService);
+Event.observe(window, 'load', getActivityService);
 
 function getActivityService()
 {
 	new Ajax.Request('http://lab_fisica/Service/pages/core/simulator.php', {
 		method: 'get',
   		parameters: {controller: 'Activity', action: 'getActivity'},
-  		onSuccess: function(transport) {		      			
-  			var json = transport.responseText.substring(transport.responseText.indexOf("{"), transport.responseText.length).evalJSON();  		   			  			  			  			  			
+  		onSuccess: function(transport) {		
+  			var json = transport.responseText.evalJSON();
 		    if(json.error){		    			    			    			    			    	
 		    	alert('Ocurrió un error mientras se cargaba la información de la práctica. Intente de nuevo.'); 
 		    }else{
@@ -30,8 +30,8 @@ function getActivityService()
 		    	//console.log(json);
 		    	//Redimencionamos los elementos.
 		    	setDimensionElements();		    	
-		    	//Agregamos los eventos		    			    		
-		    	setEventsElements();	
+		    	//Agregamos los eventos	
+		       	setEventsElements();	
 		    	//Asignamos los tooltips	    			    	
 		    	setTooltipsElements();		    	
 		    			    	
@@ -46,9 +46,7 @@ function getActivityService()
 /*	
 	Función que establece el texto que se muestra en el área de información.
 */
-function setDescriptionElement(sender){
-	console.log(sender);
-	
+function setDescriptionElement(sender){	
 	if (sender.srcElement.className == "intro"){
 		$('title').update("INTRODUCCIÓN");
 		$('info').update(intro);		
@@ -140,7 +138,7 @@ function setDimensionElements(){
 	var viewport = document.viewport.getDimensions();
 	var width = viewport.width; 
 	var height = viewport.height;
-	console.log(height);
+	//console.log(height);
 	//console.log(width);
 	//alert(height);
 	$('content').setStyle({'height': (height - ($('header').getHeight() + $('footer').getHeight())) + 'px'});
