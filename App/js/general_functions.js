@@ -130,31 +130,13 @@ function getElementByName(name){
 
 
 function update() {
+	context.clearRect ( 0 , 0 , canvasProperties.realSize.width , canvasProperties.realSize.height );
 	world.Step(1 / 60 , 10 , 10 );
 	debugDraw.SetSprite(context);
 
-	/*for(i=0;i<bodies.length;i++){
-
-		if (b.m_userData && b.m_userData.imgsrc) {
-			// This "image" body destroys polygons that it contacts
-			// Draw the image on the object
-			var size = b.m_userData.imgsize;
-			var imgObj = new Image(size,size);
-			imgObj.src = b.m_userData.imgsrc;
-			context.save();
-			// Translate to the center of the object, then flip and scale appropriately
-			context.translate(position.x,flipy); 
-			context.rotate(b.GetAngle());
-			var s2 = -1*(size/2);
-			var scale = b.m_userData.bodysize/-s2;
-			context.scale(scale,scale);
-			context.drawImage(imgObj,s2,s2);
-			context.restore();
-		}
-	}*/
-
 	world.DrawDebugData();
 	world.ClearForces();
+	drawTextures();
 }
 
 function generateCanvasUnits(canvasSize){
@@ -172,7 +154,7 @@ function setupDebugDraw(){
 	debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
 	debugDraw.SetDrawScale(zoom);
 	debugDraw.SetLineThickness(1.0);
-	debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit );
+	debugDraw.SetFlags( b2DebugDraw.e_jointBit );
 	world.SetDebugDraw(debugDraw);
 	update();
 }
@@ -203,4 +185,39 @@ function performZoom(){
 		bodies[i].body.SetPosition(new b2Vec2(x,y));
 	}
 	world.DrawDebugData();
+	drawTextures();
+}
+
+function drawTextures(){
+	for(i=0;i<bodies.length;i++){
+
+		if (bodies[i].body.m_userData && bodies[i].body.m_userData.imgsrc) {
+			// This "image" body destroys polygons that it contacts
+			// Draw the image on the object
+			var shape = bodies[i].body.GetFixtureList().GetShape();
+
+			//comprobamos si es circulo
+			if(shape.m_type==0){
+				s = (shape.m_radius*2)*zoom;
+				size = {width:s,height:s};
+			}
+			$(document.body).insert({
+				bottom: new Element('img', {src: bodies[i].body.m_userData.imgsrc,style:"display:none;"})
+			});
+			var imgObj = new Image(16,16);
+			imgObj.src = bodies[i].body.m_userData.imgsrc;
+			// agregamos la imagen al body
+			context.save();
+			position = bodies[i].body.GetWorldCenter();
+			// Translate to the center of the object, then flip and scale appropriately
+			// calculamos la posicion real
+			posx = position.x * (zoom)- size.width/2;
+			posy = position.y * (zoom)- size.height/2;
+			context.translate(posx,posy); 
+			context.rotate(bodies[i].body.GetAngle());
+			context.drawImage(imgObj,0,0,size.width,size.height);
+			context.restore();
+		}
+	}
+
 }

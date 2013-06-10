@@ -14,7 +14,6 @@
 		<script src='../../../../../App/js/prototype.js'></script>
 		<script src="../../../../../App/js/scriptaculous/scriptaculous.js?load=slider"></script>
 		<script src='../../../../../App/js/Box2dWeb-2.1.a.3.min.js'></script>
-    <script src='../../../../../App/js/general_functions.js'></script>
 
     <style type="text/css">
     h1{ font-size: 1.5em; }
@@ -81,18 +80,18 @@
                 <div id="handle1" class="handle" ></div>
             </div>
     </div>
-     
+     <!--<img height="128" src="../../../../../App/css/img/point.png" style="display: none;">
+     <img height="128" src="../../../../../App/css/img/sphere.png" style="display: none;">-->
 
    </body>
+   <script src='../../../../../App/js/general_functions.js'></script>
 	<script type="text/javascript">
 
-
-
        // Definicio de los elementos solidos que se crearan // esferas cuadrados suelo etc
-       var elements = [{name:'ground', position:{x:0,y:2.5},size:{width:3,height:0.5},elasticity:0.5,density:1,friction:0.5, isStatic:true, elementType:'Polygon',isDrawable:true},
-                       {name:'sphere',position:{x:0,y:-0.5}, mass:4, radio: 0.3, elasticity:0.4,isStatic:false,elementType:'Circle', isDrawable:true,
+       var elements = [{name:'ground', position:{x:0,y:2.5},size:{width:3,height:0.5},elasticity:0.5,density:1,friction:0.5, isStatic:true, elementType:'Polygon',isDrawable:false},
+                       {name:'sphere',position:{x:0,y:0.1}, mass:4, radio: 0.4, elasticity:0.4,isStatic:false,elementType:'Circle', isDrawable:true,
                         image:{src:'../../../../../App/css/img/sphere.png',size:128}},
-                       {name:'pendulo',radio:2, angle:-90,isDrawable:false}];
+                       {name:'pendulo',radio:3, angle:-90,isDrawable:false,pointImage:{src:'../../../../../App/css/img/point.png',size:48}}];
 
      function createInteractiveWorld(){
 
@@ -101,7 +100,8 @@
         var posx = Math.cos(pendulo.angle)*pendulo.radio;
         var posy = Math.sin(pendulo.angle)*pendulo.radio;
 
-        var aux = createWorldElement({name:'aux',position:{x:posx,y:posy}, mass:10, radio: 0.1, elasticity:0,isStatic:true,elementType:'Circle'});
+        var aux = createWorldElement({name:'aux',position:{x:posx,y:posy}, mass:10, radio: 0.1, elasticity:0,isStatic:true,elementType:'Circle',image:pendulo.pointImage});
+        //var aux = createWorldElement({name:'auxbar',position:{x:posx,y:posy}, mass:10, radio: 0.1, elasticity:0,isStatic:true,elementType:'Polygon',image:pendulo.pointImage});
 
         var defJoint = new b2DistanceJointDef;
         //TODO pedimos el elemento esfera
