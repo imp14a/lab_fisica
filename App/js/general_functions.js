@@ -133,7 +133,7 @@ function update() {
 	world.Step(1 / 60 , 10 , 10 );
 	debugDraw.SetSprite(context);
 
-	for(i=0;i<bodies.length;i++){
+	/*for(i=0;i<bodies.length;i++){
 
 		if (b.m_userData && b.m_userData.imgsrc) {
 			// This "image" body destroys polygons that it contacts
@@ -151,7 +151,7 @@ function update() {
 			context.drawImage(imgObj,s2,s2);
 			context.restore();
 		}
-	}
+	}*/
 
 	world.DrawDebugData();
 	world.ClearForces();
