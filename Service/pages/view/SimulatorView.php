@@ -14,7 +14,7 @@
 		<script src='../../../../../App/js/prototype.js'></script>
 		<script src="../../../../../App/js/scriptaculous/scriptaculous.js?load=slider"></script>
 		<script src='../../../../../App/js/Box2dWeb-2.1.a.3.min.js'></script>
-    <script src='../../../../../App/js/generalfunctions.js'></script>
+    <script src='../../../../../App/js/general_functions.js'></script>
 
     <style type="text/css">
     h1{ font-size: 1.5em; }
@@ -108,7 +108,6 @@
         defJoint.Initialize(aux,sphere,
             aux.GetWorldCenter(),
             sphere.GetWorldCenter());
-
         var joint = world.CreateJoint(defJoint);
      }
 
@@ -140,34 +139,25 @@
 
 
       function performZoom(){
-        /*   // RECALCUAMOS LA UNIDAD
-        canvasProperties.unitiValue = zoom/100 ;
+        
 
-        for(i=0;i<elements.length;i++){
 
-                
-                bodies[i].SetPosition(new b2Vec2(canvasProperties.center.x + (elements[i].position.x * canvasProperties.unitiValue)
-                                    , canvasProperties.center.y + (elements[i].position.y * canvasProperties.unitiValue)));
-                var fixDef = new b2FixtureDef;
-                fixDef.density = 1.0;
-                fixDef.friction = 0.5;
-                fixDef.restitution = 0.2;
+        debugDraw.SetDrawScale(zoom);
+        //Trasladamos los bodies
+        var cs = $('canvas').getHeight();
+        generateCanvasUnits(cs);
+        for(i=0;i<bodies.length;i++){
+          pos = bodies[i].body.GetWorldCenter();
+          console.log(canvasProperties.center);
+          console.log(pos);
+          
+          x = canvasProperties.center.x - (pos.x*canvasProperties.unitiValue);
+          y = canvasProperties.center.y - (pos.y*canvasProperties.unitiValue);
+          console.log(x+'::'+y);
+          bodies[i].body.SetPosition(new b2Vec2(x,y));
+        }
 
-                if(elements[i].elementType == 'Polygon'){
-                    fixDef.shape = new b2PolygonShape;
-                    fixDef.shape.SetAsBox(
-                        canvasProperties.unitiValue * elements[i].size.width,
-                        canvasProperties.unitiValue * elements[i].size.height
-                    );
-                } else {
-                    //TODO El radio tambien es relativo
-                    fixDef.shape = new b2CircleShape(elements[i].radio*canvasProperties.unitiValue);
-                }
-                
-                bodies[i].DestroyFixture(fixtures[i]);
-                fixtures[i] = bodies[i].CreateFixture(fixDef);
-                //zoomGrid(zoom)
-            }*/
+        world.DrawDebugData();
       }
 
       function zoomGrid(){
