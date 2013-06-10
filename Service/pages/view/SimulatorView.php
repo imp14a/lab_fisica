@@ -90,7 +90,8 @@
 
        // Definicio de los elementos solidos que se crearan // esferas cuadrados suelo etc
        var elements = [{name:'ground', position:{x:0,y:2.5},size:{width:3,height:0.5},elasticity:0.5,density:1,friction:0.5, isStatic:true, elementType:'Polygon',isDrawable:true},
-                       {name:'sphere',position:{x:0,y:-0.5}, mass:4, radio: 0.3, elasticity:0.4,isStatic:false,elementType:'Circle', isDrawable:true},
+                       {name:'sphere',position:{x:0,y:-0.5}, mass:4, radio: 0.3, elasticity:0.4,isStatic:false,elementType:'Circle', isDrawable:true,
+                        image:{src:'../../../../../App/css/img/sphere.png',size:128}},
                        {name:'pendulo',radio:2, angle:-90,isDrawable:false}];
 
      function createInteractiveWorld(){
@@ -137,35 +138,12 @@
         setupDebugDraw();
       }
 
-
-      function performZoom(){
-        
-
-
-        debugDraw.SetDrawScale(zoom);
-        //Trasladamos los bodies
-        var cs = $('canvas').getHeight();
-        generateCanvasUnits(cs);
-        for(i=0;i<bodies.length;i++){
-          pos = bodies[i].body.GetWorldCenter();
-          console.log(canvasProperties.center);
-          console.log(pos);
-          
-          x = canvasProperties.center.x - (pos.x*canvasProperties.unitiValue);
-          y = canvasProperties.center.y - (pos.y*canvasProperties.unitiValue);
-          console.log(x+'::'+y);
-          bodies[i].body.SetPosition(new b2Vec2(x,y));
-        }
-
-        world.DrawDebugData();
-      }
-
       function zoomGrid(){
         var size = gridSize * (zoom/100);
         $(document.body).setStyle({
           'background-size':size
         });
-     }
+      }
 
 
 	</script>

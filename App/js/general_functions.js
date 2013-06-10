@@ -35,6 +35,8 @@ var isPlayed = false;
 var canvasProperties = { realSize:{ width:0, height:0 }, size:{ width:0, height:0 }, center:{ x:0, y:0 }, unitiValue:0 };
 var bodies = new Array();
 
+var context = document.getElementById("canvas").getContext("2d");
+
 window.onload = function() {
 	var cs = $(document.body).getHeight()*0.6
 	generateCanvasUnits(cs);
@@ -83,6 +85,13 @@ function createWorldElement(elementInfo){
 
 	bodyDef.position.x = canvasProperties.center.x + (elementInfo.position.x * canvasProperties.unitiValue);
 	bodyDef.position.y = canvasProperties.center.y + (elementInfo.position.y * canvasProperties.unitiValue);
+	if(typeof elementInfo.image != 'undefined'){
+		var data = { imgsrc: elementInfo.image.src,
+		    	 imgsize: elementInfo.image.size,
+		    	 bodysize: zoom
+		    	}
+		bodyDef.userData = data;
+	}
 	var body = world.CreateBody(bodyDef);
 
 	if(elementInfo.elementType == 'Polygon'){
@@ -98,6 +107,7 @@ function createWorldElement(elementInfo){
 		body.SetMassData(massData);
 		fixDef.shape = new b2CircleShape(elementInfo.radio);
 	}
+
 	var fixture = body.CreateFixture(fixDef);
 	var bodyStructyure = {name:elementInfo.name,body:body,fixture:fixture};
 	bodies.push(bodyStructyure);
@@ -121,7 +131,28 @@ function getElementByName(name){
 
 function update() {
 	world.Step(1 / 60 , 10 , 10 );
-	debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
+	debugDraw.SetSprite(context);
+
+	for(i=0;i<bodies.length;i++){
+
+		if (b.m_userData && b.m_userData.imgsrc) {
+			// This "image" body destroys polygons that it contacts
+			// Draw the image on the object
+			var size = b.m_userData.imgsize;
+			var imgObj = new Image(size,size);
+			imgObj.src = b.m_userData.imgsrc;
+			context.save();
+			// Translate to the center of the object, then flip and scale appropriately
+			context.translate(position.x,flipy); 
+			context.rotate(b.GetAngle());
+			var s2 = -1*(size/2);
+			var scale = b.m_userData.bodysize/-s2;
+			context.scale(scale,scale);
+			context.drawImage(imgObj,s2,s2);
+			context.restore();
+		}
+	}
+
 	world.DrawDebugData();
 	world.ClearForces();
 }
@@ -141,7 +172,7 @@ function setupDebugDraw(){
 	debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
 	debugDraw.SetDrawScale(zoom);
 	debugDraw.SetLineThickness(1.0);
-	debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit | b2DebugDraw.e_centerOfMassBit | b2DebugDraw.e_aabbBit  );
+	debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit );
 	world.SetDebugDraw(debugDraw);
 	update();
 }
@@ -156,4 +187,20 @@ function play(){
 function pause(){
 	window.clearInterval(interval_id);
 	isPlayed = false;
+}
+
+function performZoom(){
+	debugDraw.SetDrawScale(zoom);
+	var cs = $('canvas').getHeight();
+	var previo = new Array();
+	for(i=0;i<bodies.length;i++){
+		previo.push({x:bodies[i].body.GetWorldCenter().x - canvasProperties.center.x,y: bodies[i].body.GetWorldCenter().y - canvasProperties.center.y});
+	}
+	generateCanvasUnits(cs);
+	for(i=0;i<bodies.length;i++){
+		x = canvasProperties.center.x + (previo[i].x);
+		y = canvasProperties.center.y + (previo[i].y);
+		bodies[i].body.SetPosition(new b2Vec2(x,y));
+	}
+	world.DrawDebugData();
 }
