@@ -13,8 +13,7 @@ var conclusion = "";
 */
 Event.observe(window, 'load', getActivityService);
 
-function getActivityService()
-{
+function getActivityService(){
 	new Ajax.Request('http://lab_fisica/Service/pages/core/simulator.php', {
 		method: 'get',
   		parameters: {controller: 'Activity', action: 'getActivity'},
@@ -75,15 +74,15 @@ function setEventsElements(){
 	Se agregan los tooltips de los elementos.
 */
 function setTooltipsElements(){
-	new Tagtip('start', 'Inicia la simulación de la práctica.', {
+	new Tagtip('button_start', 'Inicia la simulación de la práctica.', {
 		title: 'Iniciar',
 		align: 'bottomRight'
 	});
-	new Tagtip('pause', 'Pausa la simulación de la práctica.', {
+	new Tagtip('button_pause', 'Pausa la simulación de la práctica.', {
 		title: 'Pausar',
 		align: 'bottomRight'
 	});
-	new Tagtip('restart', 'Reinicia la simulación de la práctica.', {
+	new Tagtip('button_restart', 'Reinicia la simulación de la práctica.', {
 		title: 'Reiniciar',
 		align: 'bottomRight'
 	});
