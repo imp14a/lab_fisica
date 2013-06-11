@@ -14,7 +14,8 @@ var b2Vec2 = Box2D.Common.Math.b2Vec2
     ,   b2MassData = Box2D.Collision.Shapes.b2MassData
     ,   b2CircleShape = Box2D.Collision.Shapes.b2CircleShape
     ,   b2DebugDraw = Box2D.Dynamics.b2DebugDraw
-    ,   b2DistanceJointDef = Box2D.Dynamics.Joints.b2DistanceJointDef;
+    ,   b2DistanceJointDef = Box2D.Dynamics.Joints.b2DistanceJointDef
+    ,	b2JointDef = Box2D.Dynamics.Joints.b2JointDef;
 
 /*
 	Atributos Generales
@@ -25,7 +26,7 @@ var world;
 // la proporcion es 4:3, con esto se genera un mundo inicial que dependera del zoom y la proporcion
 // el eje cordenado va de -10 a 10 en el eje "x" y el eje "y"
 var proportion = 1.33;
-var zoom = 80;
+var zoom = 100;
 var prevZoom = zoom;
 var debugDraw;
 var gridSize=113; // 113 pixeles son 4 centimetros 
@@ -86,12 +87,17 @@ function createWorldElement(elementInfo){
 	bodyDef.position.x = canvasProperties.center.x + (elementInfo.position.x * canvasProperties.unitiValue);
 	bodyDef.position.y = canvasProperties.center.y + (elementInfo.position.y * canvasProperties.unitiValue);
 	if(typeof elementInfo.image != 'undefined'){
-		var data = { imgsrc: elementInfo.image.src,
-		    	 imgsize: elementInfo.image.size,
-		    	 bodysize: zoom
-		    	}
+		var data = { 
+			resource: elementInfo.image.resource,
+			bodysize: zoom
+		}
 		bodyDef.userData = data;
 	}
+	if(typeof elementInfo.angle!= 'undefined')
+	{
+		bodyDef.angle = elementInfo.angle;
+	}
+
 	var body = world.CreateBody(bodyDef);
 
 	if(elementInfo.elementType == 'Polygon'){
@@ -154,7 +160,7 @@ function setupDebugDraw(){
 	debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
 	debugDraw.SetDrawScale(zoom);
 	debugDraw.SetLineThickness(1.0);
-	debugDraw.SetFlags( b2DebugDraw.e_jointBit );
+	debugDraw.SetFlags( b2DebugDraw.e_jointBit );//| b2DebugDraw.e_shapeBit );
 	world.SetDebugDraw(debugDraw);
 	update();
 }
@@ -191,7 +197,7 @@ function performZoom(){
 function drawTextures(){
 	for(i=0;i<bodies.length;i++){
 
-		if (bodies[i].body.m_userData && bodies[i].body.m_userData.imgsrc) {
+		if (bodies[i].body.m_userData && bodies[i].body.m_userData.resource) {
 			// This "image" body destroys polygons that it contacts
 			// Draw the image on the object
 			var shape = bodies[i].body.GetFixtureList().GetShape();
@@ -201,12 +207,8 @@ function drawTextures(){
 				s = (shape.m_radius*2)*zoom;
 				size = {width:s,height:s};
 			}
-			$(document.body).insert({
-				bottom: new Element('img', {src: bodies[i].body.m_userData.imgsrc,style:"display:none;"})
-			});
-			var imgObj = new Image(16,16);
-			imgObj.src = bodies[i].body.m_userData.imgsrc;
-			// agregamos la imagen al body
+			//TODO restringimos a solo buscar dentro de el elemento Resources
+			var imgObj = document.getElementById(bodies[i].body.m_userData.resource);
 			context.save();
 			position = bodies[i].body.GetWorldCenter();
 			// Translate to the center of the object, then flip and scale appropriately
@@ -216,6 +218,7 @@ function drawTextures(){
 			context.translate(posx,posy); 
 			context.rotate(bodies[i].body.GetAngle());
 			context.drawImage(imgObj,0,0,size.width,size.height);
+			//drawAdditionalData(context);
 			context.restore();
 		}
 	}

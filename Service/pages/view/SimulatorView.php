@@ -80,36 +80,45 @@
                 <div id="handle1" class="handle" ></div>
             </div>
     </div>
-     <!--<img height="128" src="../../../../../App/css/img/point.png" style="display: none;">
-     <img height="128" src="../../../../../App/css/img/sphere.png" style="display: none;">-->
 
-   </body>
+    <div id="resources" style="display:none;">
+      <img id="sphere" src="../../../../../App/css/img/sphere.png" />
+      <img id="point" src="../../../../../App/css/img/point.png" />
+    </div>
+
    <script src='../../../../../App/js/general_functions.js'></script>
 	<script type="text/javascript">
 
        // Definicio de los elementos solidos que se crearan // esferas cuadrados suelo etc
        var elements = [{name:'ground', position:{x:0,y:2.5},size:{width:3,height:0.5},elasticity:0.5,density:1,friction:0.5, isStatic:true, elementType:'Polygon',isDrawable:false},
                        {name:'sphere',position:{x:0,y:0.1}, mass:4, radio: 0.4, elasticity:0.4,isStatic:false,elementType:'Circle', isDrawable:true,
-                        image:{src:'../../../../../App/css/img/sphere.png',size:128}},
-                       {name:'pendulo',radio:3, angle:-90,isDrawable:false,pointImage:{src:'../../../../../App/css/img/point.png',size:48}}];
+                        image:{resource:'sphere'}},//referencia del recurso
+                       {name:'pendulo',radio:3, angle:-90,isDrawable:false,pointImage:{resource:'point'}}];
 
      function createInteractiveWorld(){
 
         var pendulo = getElementByName('pendulo');
+        var selement = getElementByName('sphere');
 
         var posx = Math.cos(pendulo.angle)*pendulo.radio;
         var posy = Math.sin(pendulo.angle)*pendulo.radio;
 
         var aux = createWorldElement({name:'aux',position:{x:posx,y:posy}, mass:10, radio: 0.1, elasticity:0,isStatic:true,elementType:'Circle',image:pendulo.pointImage});
-        //var aux = createWorldElement({name:'auxbar',position:{x:posx,y:posy}, mass:10, radio: 0.1, elasticity:0,isStatic:true,elementType:'Polygon',image:pendulo.pointImage});
-
+        /*widthBar = Math.sqrt(Math.pow(posx - selement.position.x,2) + Math.pow(posy - selement.position.y,2 )) / 2;
+        console.log(widthBar);
+        barx = (posx + selement.position.x)/2; bary = (posy + selement.position.y)/2;
+        var auxbar = createWorldElement({name:'auxbar',position:{x:barx,y:bary},size:{width:widthBar,height:0.05},
+                                        mass:0.1, density:0,elasticity:0,isStatic:false,elementType:'Polygon', angle:-90});*/
+        // TODO creamos la barilla que unira los elementos esta no tendra nada de masa
         var defJoint = new b2DistanceJointDef;
         //TODO pedimos el elemento esfera
         sphere = getBodyByName('sphere');
         defJoint.Initialize(aux,sphere,
             aux.GetWorldCenter(),
             sphere.GetWorldCenter());
-        var joint = world.CreateJoint(defJoint);
+        joint = world.CreateJoint(defJoint);
+
+
      }
 
      function reload(){
@@ -120,8 +129,19 @@
 
      }
 
-     function watchVariable(element_id,variale){
+     function watchVariable(name,variale,field){
 
+     }
+
+     function getEditableValuesForElement(name){
+
+     }
+
+     function setValuesForElement(name,property,value){
+
+     }
+     function drawAdditionalData(context){
+        // Aqui pintamos el joint
      }
 
     function init() {
