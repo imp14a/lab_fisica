@@ -3,6 +3,7 @@ var practice = "";
 var intro = "";
 var proc = "";
 var conclusion = "";
+var modal = null;
 
 
 /*
@@ -32,8 +33,9 @@ function getActivityService(){
 		    	//Agregamos los eventos	
 		       	setEventsElements();	
 		    	//Asignamos los tooltips	    			    	
-		    	setTooltipsElements();		    	
-		    			    	
+		    	setTooltipsElements();			    		    			    			    			    	
+		    	//Creamos una ventana modal		 		    	
+		    	modal = new Modal();		    	
 		    }
 		},
   		onFailure: function() { 
@@ -68,6 +70,41 @@ function setEventsElements(){
 	$('proc').observe('click', setDescriptionElement);
 	$('conclusion').observe('click', setDescriptionElement);		    	
 	//TODO: Incluir todos los eventos para cada elemento.
+	$('properties').observe('click', showModalWindow);
+	$('world').observe('click', showModalWindow);
+	$('monitor').observe('click', showModalWindow);
+	$('graph').observe('click', showModalWindow);
+	$('script').observe('click', showModalWindow);
+}
+
+/*
+	Muestra la ventana dialogo.
+*/
+function showModalWindow(sender){
+	//TODO: Obtener variables editables	
+	if (sender.srcElement.className == "properties"){   	
+		modal.setProperties('Propiedades', 'Variables de propiedades.');		
+	}
+	else if (sender.srcElement.className == "world"){   	
+		modal.setProperties('Mundo', 'Variables de mundo.');		
+	}
+	else if (sender.srcElement.className == "monitor"){   	
+		modal.setProperties('Monitor', 'Agregar variable a inspeccionar.');		
+	}
+	else if (sender.srcElement.className == "graph"){   	
+		modal.setProperties('Gráfica', 'Mostrar gráfica.');		
+	}
+	else if (sender.srcElement.className == "script"){   	
+		modal.setProperties('Script', 'Mostrar script.');		
+	}	
+	modal.showModal();
+}
+
+/*
+	Realiza los cambios de propiedades en el mundo.
+*/
+function worldChange(){
+
 }
 
 /*
@@ -131,7 +168,7 @@ function setTooltipsElements(){
 }
 
 /*
-
+	Redimensiona los elementos de acuerdo al tamaño del viewport.
 */
 function setDimensionElements(){
 	var viewport = document.viewport.getDimensions();
