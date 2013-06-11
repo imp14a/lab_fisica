@@ -55,11 +55,11 @@ var Modal = Class.create({
 		this.btn_cancel.observe('click', this.hideModal.bindAsEventListener(this));		
 	},
 	
-	setProperties: function(title, content) {
+	setProperties: function(title, content, accept_event) {
 		this.title.update(title);
 		this.content.update(content);
-		//this.btn_ok = $('btn_ok');		
-		//this.btn_ok.observe('click', accept_event);		
+		this.btn_ok = $('btn_ok');		
+		this.btn_ok.observe('click', accept_event);		
 	},
 
   	showModal: function(type) {    		

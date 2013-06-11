@@ -397,3 +397,8 @@ a.btn_cancel{
 	height: 32px;
 	display: inline-block;	
 }
+
+input.property{
+	width: 50px;
+	text-align: right;;
+}

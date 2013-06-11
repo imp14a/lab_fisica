@@ -83,12 +83,31 @@ function setEventsElements(){
 function showModalWindow(sender){
 	//TODO: Obtener variables editables	
 	if (sender.srcElement.className == "properties"){   	
-		modal.setProperties('Propiedades', 'Variables de propiedades.');		
+		modal.setProperties('Propiedades', 'Variables de propiedades.', propertiesChange);		
 	}
 	else if (sender.srcElement.className == "world"){   	
-		modal.setProperties('Mundo', 'Variables de mundo.');		
+		modal.setProperties('Mundo',
+			'<table>' +
+				'<tr>' +
+					'<td>' + '<label>Fuerza de gravedad:</label>' + '</td>' +
+					'<td>' + '<input id="gravity" class="property" type="text" placeholder="9.81"/>' + '</td>' +
+					'<td>' + '<label>(m/s²)</label>' + '</td>' +
+				'</tr>' +
+				'<tr>' +
+					'<td>' + '<label>Densidad del medio:</label>' + '</td>' +
+					'<td>' + '<input id="density" class="property" type="text" placeholder="0.00"/>' + '</td>' +
+					'<td>' + '<label>(kg/m³)</label>' + '</td>' +
+				'</tr>' +
+				'<tr>' +
+					'<td>' + '<input id="visible_axes" type="checkbox"/>' + '<label>Mostrar ejes</label>' + '</td>' +
+				'</tr>' +
+				'<tr>' +
+					'<td>' + '<input id="visible_floor" type="checkbox"/>' + '<label>Mostrar suelo</label>' + '</td>' +
+				'</tr>' +
+			'</table>',
+			worldChange);		
 	}
-	else if (sender.srcElement.className == "monitor"){   	
+	/*else if (sender.srcElement.className == "monitor"){   	
 		modal.setProperties('Monitor', 'Agregar variable a inspeccionar.');		
 	}
 	else if (sender.srcElement.className == "graph"){   	
@@ -96,15 +115,22 @@ function showModalWindow(sender){
 	}
 	else if (sender.srcElement.className == "script"){   	
 		modal.setProperties('Script', 'Mostrar script.');		
-	}	
+	}*/	
 	modal.showModal();
+}
+
+/*
+	Realiza los cambios de propiedades de objetos.
+*/
+function propertiesChange(){
+
 }
 
 /*
 	Realiza los cambios de propiedades en el mundo.
 */
 function worldChange(){
-
+	console.log("TODO: Procesar propiedades");
 }
 
 /*
