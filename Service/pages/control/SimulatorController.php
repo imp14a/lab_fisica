@@ -23,10 +23,11 @@ class SimulatorController {
 	function getScript(){
 
 		//echo "var hola='hola';";
-		echo "
-       var elements = [{name:'ground', position:{x:0,y:2.5},size:{width:3,height:0.5},elasticity:0.5,density:1,friction:0.5, isStatic:true, elementType:'Polygon',isDrawable:true},
-                       {name:'sphere',position:{x:0,y:-0.5}, mass:4, radio: 0.3, elasticity:0.4,isStatic:false,elementType:'Circle', isDrawable:true},
-                       {name:'pendulo',radio:3, angle:-90,isDrawable:false}];
+		echo "       // Definicio de los elementos solidos que se crearan // esferas cuadrados suelo etc
+       var elements = [{name:'ground', position:{x:0,y:2.5},size:{width:3,height:0.5},elasticity:0.5,density:1,friction:0.5, isStatic:true, elementType:'Polygon',isDrawable:false},
+                       {name:'sphere',position:{x:0,y:1}, mass:4, radio: 0.4, elasticity:0.4,isStatic:false,elementType:'Circle', isDrawable:true,
+                        image:{resource:'sphere'}},
+                       {name:'pendulo',radio:2.5, angle:-90,isDrawable:false,pointImage:{resource:'point'}}];
 
      function createInteractiveWorld(){
 
@@ -35,7 +36,8 @@ class SimulatorController {
         var posx = Math.cos(pendulo.angle)*pendulo.radio;
         var posy = Math.sin(pendulo.angle)*pendulo.radio;
 
-        var aux = createWorldElement({name:'aux',position:{x:posx,y:posy}, mass:10, radio: 0.1, elasticity:0,isStatic:true,elementType:'Circle'});
+        var aux = createWorldElement({name:'aux',position:{x:posx,y:posy}, mass:10, radio: 0.1, elasticity:0,isStatic:true,elementType:'Circle',image:pendulo.pointImage});
+        //var aux = createWorldElement({name:'auxbar',position:{x:posx,y:posy}, mass:10, radio: 0.1, elasticity:0,isStatic:true,elementType:'Polygon',image:pendulo.pointImage});
 
         var defJoint = new b2DistanceJointDef;
         //TODO pedimos el elemento esfera
@@ -43,7 +45,6 @@ class SimulatorController {
         defJoint.Initialize(aux,sphere,
             aux.GetWorldCenter(),
             sphere.GetWorldCenter());
-
         var joint = world.CreateJoint(defJoint);
      }
 
@@ -55,7 +56,15 @@ class SimulatorController {
 
      }
 
-     function watchVariable(element_id,variale){
+     function watchVariable(name,variale,field){
+
+     }
+
+     function getEditableValuesForElement(name){
+
+     }
+
+     function setValuesForElement(name,property,value){
 
      }
 
@@ -71,8 +80,19 @@ class SimulatorController {
         }
         createInteractiveWorld();
         setupDebugDraw();
+      }
+
+      function zoomGrid(){
+        var size = gridSize * (zoom/100);
+        $(document.body).setStyle({
+          'background-size':size
+        });
       }";
 	}
+
+    function writeResources(){
+
+    }
 
 }
 
