@@ -131,6 +131,7 @@ function propertiesChange(){
 */
 function worldChange(){
 	console.log("TODO: Procesar propiedades");
+	modal.hideModal();
 }
 
 /*
