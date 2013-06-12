@@ -23,7 +23,7 @@ class SimulatorController {
 	function getScript(){
 
 		//echo "var hola='hola';";
-		echo "       // Definicio de los elementos solidos que se crearan // esferas cuadrados suelo etc
+		echo "// Definicio de los elementos solidos que se crearan // esferas cuadrados suelo etc
        var elements = [{name:'ground', position:{x:0,y:2.5},size:{width:3,height:0.5},elasticity:0.5,density:1,friction:0.5, isStatic:true, elementType:'Polygon',isDrawable:false},
                        {name:'sphere',position:{x:0,y:1}, mass:4, radio: 0.4, elasticity:0.4,isStatic:false,elementType:'Circle', isDrawable:true,
                         image:{resource:'sphere'}},

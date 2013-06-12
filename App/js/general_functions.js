@@ -9,13 +9,15 @@ var b2Vec2 = Box2D.Common.Math.b2Vec2
     ,   b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape
     ,   b2BodyDef = Box2D.Dynamics.b2BodyDef
     ,   b2Body = Box2D.Dynamics.b2Body
+    ,	b2FilterData = Box2D.Dynamics.b2FilterData
     ,   b2Fixture = Box2D.Dynamics.b2Fixture
     ,   b2World = Box2D.Dynamics.b2World
     ,   b2MassData = Box2D.Collision.Shapes.b2MassData
     ,   b2CircleShape = Box2D.Collision.Shapes.b2CircleShape
     ,   b2DebugDraw = Box2D.Dynamics.b2DebugDraw
     ,   b2DistanceJointDef = Box2D.Dynamics.Joints.b2DistanceJointDef
-    ,	b2JointDef = Box2D.Dynamics.Joints.b2JointDef;
+    ,	b2RevoluteJointDef = Box2D.Dynamics.Joints.b2RevoluteJointDef
+    ,	b2BuoyancyController = Box2D.Dynamics.Controllers.b2BuoyancyController;
 
 /*
 	Atributos Generales
@@ -35,6 +37,9 @@ var isPlayed = false;
 // Los valores de las unidades estan dados por unidades usadas por el motor, a excepcion de los amrcados con real
 var canvasProperties = { realSize:{ width:0, height:0 }, size:{ width:0, height:0 }, center:{ x:0, y:0 }, unitiValue:0 };
 var bodies = new Array();
+var buoyancyController = new b2BuoyancyController;
+var ground = {show:false,body:null};
+var worldProperties = {gravity:9.32,density:0,showGround:false,showAxis:false};
 
 var context = document.getElementById("canvas").getContext("2d");
 
@@ -48,6 +53,7 @@ window.onload = function() {
 		top: $('canvas').viewportOffset().top,
 		left: $('canvas').viewportOffset().left
 	});*/
+
 	$('zoom_input').value = zoom;
 	new Control.Slider('handle1' , 'track1',
 	{
@@ -113,6 +119,11 @@ function createWorldElement(elementInfo){
 		body.SetMassData(massData);
 		fixDef.shape = new b2CircleShape(elementInfo.radio);
 	}
+	if(elementInfo.name=="ground"){
+		console.log('pisito!!');
+		fd = new b2FilterData;
+		//fixDef.filter = 
+	}
 
 	var fixture = body.CreateFixture(fixDef);
 	var bodyStructyure = {name:elementInfo.name,body:body,fixture:fixture};
@@ -140,8 +151,47 @@ function update() {
 	world.Step(1 / 60 , 10 , 10 );
 	debugDraw.SetSprite(context);
 
+/* for (var currentBody:b2Body= currentBody; currentBody=currentBody.GetNext()) {
+ 	
+ }
+ 	var bodyList = world.GetBodyList();
+	for(i=0;i<bodyList.length;i++){
+		currentBody = bodyList[i]; 
+		if (currentBody.GetType()==b2Body.b2_dynamicBody) {
+			var currentBodyControllers:b2ControllerEdge=currentBody.GetControllerList();
+			if (currentBodyControllers!=null) {
+				buoyancyController.RemoveBody(currentBody);
+			}
+			for (var c:b2ContactEdge=currentBody.GetContactList(); c; c=c.next) {
+				var contact:b2Contact=c.contact;
+				var fixtureA:b2Fixture=contact.GetFixtureA();
+				var fixtureB:b2Fixture=contact.GetFixtureB();
+				if (fixtureA.IsSensor()) {
+					var bodyB:b2Body=fixtureB.GetBody();
+					var bodyBControllers:b2ControllerEdge=bodyB.GetControllerList();
+					if (bodyBControllers==null) {
+						buoyancyController.AddBody(bodyB);
+					}
+				}
+				if (fixtureB.IsSensor()) {
+					var bodyA:b2Body=fixtureA.GetBody();
+					var bodyAControllers:b2ControllerEdge=bodyA.GetControllerList();
+					if (bodyAControllers==null) {
+						buoyancyController.AddBody(bodyA);
+					}
+				}
+			}
+		}
+	}
+
+	/**/
+
+
 	world.DrawDebugData();
 	world.ClearForces();
+	if(worldProperties.showAxis){
+		drawAxis(context);
+	}
 	drawTextures();
 }
 
@@ -160,7 +210,7 @@ function setupDebugDraw(){
 	debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
 	debugDraw.SetDrawScale(zoom);
 	debugDraw.SetLineThickness(1.0);
-	debugDraw.SetFlags( b2DebugDraw.e_jointBit );//| b2DebugDraw.e_shapeBit );
+	debugDraw.SetFlags( b2DebugDraw.e_jointBit| b2DebugDraw.e_shapeBit );
 	world.SetDebugDraw(debugDraw);
 	update();
 }
@@ -222,5 +272,32 @@ function drawTextures(){
 			context.restore();
 		}
 	}
+}
+
+/**
+	El formato de las world properties es el formato como se muestra arriba
+*/
+function setWoldProperties(properties){
+	worldProperties = properties;
+	if(worldProperties.showGround){
+
+	}
+}
+
+function drawAxis(context){
+	context.strokeStyle="#999999";
+	context.lineWidth=3;
+	context.moveTo(canvasProperties.realSize.width/2,0);
+	context.lineTo(canvasProperties.realSize.width/2,canvasProperties.realSize.height);
+	context.moveTo(0,canvasProperties.realSize.height/2);
+	context.lineTo(canvasProperties.realSize.width,canvasProperties.realSize.height/2);
+	context.stroke();
+}
+
+function showGround(){
+	var ground = {name:'ground', position:{x:0,y:1.2},size:{width:3,height:0.5},elasticity:0.5,density:1,friction:0.5, isStatic:true, elementType:'Polygon'};
+}
+
+function removeGround(){
 
 }

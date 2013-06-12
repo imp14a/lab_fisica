@@ -90,10 +90,9 @@
 	<script type="text/javascript">
 
        // Definicio de los elementos solidos que se crearan // esferas cuadrados suelo etc
-       var elements = [{name:'ground', position:{x:0,y:2.5},size:{width:3,height:0.5},elasticity:0.5,density:1,friction:0.5, isStatic:true, elementType:'Polygon',isDrawable:false},
-                       {name:'sphere',position:{x:0,y:0.1}, mass:4, radio: 0.4, elasticity:0.4,isStatic:false,elementType:'Circle', isDrawable:true,
+       var elements = [{name:'sphere',position:{x:0,y:0.1}, mass:4, radio: 0.4, elasticity:0.4,isStatic:false,elementType:'Circle', isDrawable:true,
                         image:{resource:'sphere'}},//referencia del recurso
-                       {name:'pendulo',radio:3, angle:-90,isDrawable:false,pointImage:{resource:'point'}}];
+                       {name:'pendulo',radio:1.5, angle:-180,isDrawable:false,pointImage:{resource:'point'}}];
 
      function createInteractiveWorld(){
 
@@ -140,6 +139,7 @@
      function setValuesForElement(name,property,value){
 
      }
+
      function drawAdditionalData(context){
         // Aqui pintamos el joint
      }
@@ -154,7 +154,14 @@
                 createWorldElement(elements[i]);
             }
         }
+        //buoyancyController.normal.Set(0,0);
+        console.log(canvasProperties.size.height);
+        buoyancyController.offset = - canvasProperties.size.height;
+        buoyancyController.useDensity = true;
+        buoyancyController.density = 100.0;
+        buoyancyController.useWorldGravity = true;
         createInteractiveWorld();
+        world.AddController(buoyancyController);
         setupDebugDraw();
       }
 
