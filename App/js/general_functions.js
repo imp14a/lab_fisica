@@ -25,6 +25,7 @@ var b2Vec2 = Box2D.Common.Math.b2Vec2
 */
 
 var world;
+var context = document.getElementById("canvas").getContext("2d");
 // la proporcion es 4:3, con esto se genera un mundo inicial que dependera del zoom y la proporcion
 // el eje cordenado va de -10 a 10 en el eje "x" y el eje "y"
 var proportion = 1.33;
@@ -34,14 +35,29 @@ var debugDraw;
 var gridSize=113; // 113 pixeles son 4 centimetros 
 var interval_id;
 var isPlayed = false;
-// Los valores de las unidades estan dados por unidades usadas por el motor, a excepcion de los amrcados con real
-var canvasProperties = { realSize:{ width:0, height:0 }, size:{ width:0, height:0 }, center:{ x:0, y:0 }, unitiValue:0 };
-var bodies = new Array();
 var buoyancyController = new b2BuoyancyController;
-var ground = {show:false,body:null};
-var worldProperties = {gravity:9.32,density:0,showGround:false,showAxis:false};
+// Los valores de las unidades estan dados por unidades usadas por el motor, a excepcion de los amrcados con real
+var canvasProperties = {
+	realSize:{width:0, height:0 },
+	size:{ width:0, height:0 },
+	center:{ x:0, y:0 },
+	unitiValue:0 
+};
+var bodies = new Array();
+var ground = {
+	showed:false,
+	elementInfo:{name:'ground', position:{x:0,y:1.2},size:{width:3,height:0.5},elasticity:0.5,density:1,friction:0.5, isStatic:true, elementType:'Polygon'},
+	body:null
+};
 
-var context = document.getElementById("canvas").getContext("2d");
+var worldProperties = {
+	gravity:9.32,
+	density:0,
+	showGround:false,
+	showAxes:false
+};
+
+
 
 window.onload = function() {
 	var cs = $(document.body).getHeight()*0.6
@@ -74,6 +90,26 @@ window.onload = function() {
 	init();
 }
 
+function init() {
+	world = new b2World( new b2Vec2(0, 10),true);
+
+	for(i=0;i<elements.length;i++){
+		if(elements[i].isDrawable){
+			createWorldElement(elements[i]);
+		}
+	}
+	if(worldProperties.showGround){
+
+	}
+	//buoyancyController.normal.Set(0,0);
+	buoyancyController.offset = - canvasProperties.size.height;
+	buoyancyController.useDensity = true;
+	buoyancyController.density = 100.0;
+	buoyancyController.useWorldGravity = true;
+	createInteractiveWorld();
+	world.AddController(buoyancyController);
+	setupDebugDraw();
+}
 
 //TODO documentar el formato del el elementInfo
 function createWorldElement(elementInfo){
@@ -186,10 +222,11 @@ function update() {
 
 	/**/
 
+	context.lineWidth=5;
 
 	world.DrawDebugData();
 	world.ClearForces();
-	if(worldProperties.showAxis){
+	if(worldProperties.showAxes){
 		drawAxis(context);
 	}
 	drawTextures();
@@ -210,7 +247,7 @@ function setupDebugDraw(){
 	debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
 	debugDraw.SetDrawScale(zoom);
 	debugDraw.SetLineThickness(1.0);
-	debugDraw.SetFlags( b2DebugDraw.e_jointBit| b2DebugDraw.e_shapeBit );
+	debugDraw.SetFlags( b2DebugDraw.e_jointBit);//| b2DebugDraw.e_shapeBit );
 	world.SetDebugDraw(debugDraw);
 	update();
 }
@@ -251,7 +288,6 @@ function drawTextures(){
 			// This "image" body destroys polygons that it contacts
 			// Draw the image on the object
 			var shape = bodies[i].body.GetFixtureList().GetShape();
-
 			//comprobamos si es circulo
 			if(shape.m_type==0){
 				s = (shape.m_radius*2)*zoom;
@@ -285,6 +321,8 @@ function setWoldProperties(properties){
 }
 
 function drawAxis(context){
+	context.beginPath();
+	prevStyle = context.strokeStyle;
 	context.strokeStyle="#999999";
 	context.lineWidth=3;
 	context.moveTo(canvasProperties.realSize.width/2,0);
@@ -292,10 +330,12 @@ function drawAxis(context){
 	context.moveTo(0,canvasProperties.realSize.height/2);
 	context.lineTo(canvasProperties.realSize.width,canvasProperties.realSize.height/2);
 	context.stroke();
+
+	
 }
 
 function showGround(){
-	var ground = {name:'ground', position:{x:0,y:1.2},size:{width:3,height:0.5},elasticity:0.5,density:1,friction:0.5, isStatic:true, elementType:'Polygon'};
+	
 }
 
 function removeGround(){

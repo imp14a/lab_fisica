@@ -85,32 +85,35 @@ function showModalWindow(sender){
 	if (sender.srcElement.className == "properties"){   	
 		modal.setProperties('Propiedades', 'Variables de propiedades.', propertiesChange);		
 	}
-	else if (sender.srcElement.className == "world"){   	
-		modal.setProperties('Mundo',
-			'<table>' +
-				'<tr>' +
-					'<td>' + '<label>Fuerza de gravedad:</label>' + '</td>' +
-					'<td>' + '<input id="gravity" class="property" type="text" placeholder="9.81"/>' + '</td>' +
-					'<td>' + '<label>(m/s²)</label>' + '</td>' +
-				'</tr>' +
-				'<tr>' +
-					'<td>' + '<label>Densidad del medio:</label>' + '</td>' +
-					'<td>' + '<input id="density" class="property" type="text" placeholder="0.00"/>' + '</td>' +
-					'<td>' + '<label>(kg/m³)</label>' + '</td>' +
-				'</tr>' +
-				'<tr>' +
-					'<td>' + '<input id="visible_axes" type="checkbox"/>' + '<label>Mostrar ejes</label>' + '</td>' +
-				'</tr>' +
-				'<tr>' +
-					'<td>' + '<input id="visible_floor" type="checkbox"/>' + '<label>Mostrar suelo</label>' + '</td>' +
-				'</tr>' +
-			'</table>',
-			worldChange);		
+	else if (sender.srcElement.className == "world"){
+		//var input 
+		var container = new Element('div', {'class': 'container'})
+		.insert({
+			bottom: new Element('div',{class:'input'})
+				.insert({bottom: new Element('label').update("Fuerza de gravedad:")})
+				.insert({bottom: new Element('input',{id:'gravity',type:'text',class:'property',placeholder:"9.81"})})
+				.insert({bottom: new Element('label').update("(ms/s²)")})
+		}).insert({
+			bottom: new Element('div',{class:'input'})
+				.insert({bottom: new Element('label').update("Densidad del medio:")})
+				.insert({bottom: new Element('input',{id:'density',type:'text',class:'property',placeholder:"0.00"})})
+				.insert({bottom: new Element('label').update("(kg/m²)")})
+		}).insert({
+			bottom: new Element('div',{class:'input'})
+				.insert({bottom: new Element('label').update("Mostrar ejes")})
+				.insert({bottom: new Element('input',{id:'show_axes',type:'checkbox',class:'property'})})
+		}).insert({
+			bottom: new Element('div',{class:'input'})
+				.insert({bottom: new Element('label').update("Mostrar suelo")})
+				.insert({bottom: new Element('input',{id:'show_ground',type:'checkbox',class:'property'})})
+		})
+		
+		modal.setProperties('Mundo', container, worldChange);
 	}
 	/*else if (sender.srcElement.className == "monitor"){   	
 		modal.setProperties('Monitor', 'Agregar variable a inspeccionar.');		
 	}
-	else if (sender.srcElement.className == "graph"){   	
+	else if (sender.srcElement.className == "graph"){
 		modal.setProperties('Gráfica', 'Mostrar gráfica.');		
 	}
 	else if (sender.srcElement.className == "script"){   	
@@ -130,7 +133,8 @@ function propertiesChange(){
 	Realiza los cambios de propiedades en el mundo.
 */
 function worldChange(){
-	console.log("TODO: Procesar propiedades");
+	//TODO 
+	res = modal.get
 	modal.hideModal();
 }
 

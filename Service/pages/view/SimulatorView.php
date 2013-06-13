@@ -144,35 +144,6 @@
         // Aqui pintamos el joint
      }
 
-    function init() {
-         world = new b2World(
-               new b2Vec2(0, 10)    //gravity
-            ,  true                 //allow sleep
-         );
-         for(i=0;i<elements.length;i++){
-            if(elements[i].isDrawable){
-                createWorldElement(elements[i]);
-            }
-        }
-        //buoyancyController.normal.Set(0,0);
-        console.log(canvasProperties.size.height);
-        buoyancyController.offset = - canvasProperties.size.height;
-        buoyancyController.useDensity = true;
-        buoyancyController.density = 100.0;
-        buoyancyController.useWorldGravity = true;
-        createInteractiveWorld();
-        world.AddController(buoyancyController);
-        setupDebugDraw();
-      }
-
-      function zoomGrid(){
-        var size = gridSize * (zoom/100);
-        $(document.body).setStyle({
-          'background-size':size
-        });
-      }
-
-
 	</script>
 	</body>
 

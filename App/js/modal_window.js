@@ -85,5 +85,17 @@ var Modal = Class.create({
 		   	display: 'none'
 		}); 		
 		return false;
+  	},
+
+  	getPropertiesValues:function(event){
+  		var result = $(this.content).select('.property');
+  		var res = new Array();
+  		res.each(
+  			function(elemennt){
+  				prop = {}
+  				(elemennt
+  			}
+  		);
+
   	}
 });

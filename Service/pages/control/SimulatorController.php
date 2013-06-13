@@ -20,8 +20,15 @@ class SimulatorController {
 		} 
 	}
 
-	function getScript(){
+    function newScript(){
 
+    }
+
+    function getViewScript(){
+
+    }
+
+	function getScript(){
 		//echo "var hola='hola';";
 		echo "// Definicio de los elementos solidos que se crearan // esferas cuadrados suelo etc
        var elements = [{name:'ground', position:{x:0,y:2.5},size:{width:3,height:0.5},elasticity:0.5,density:1,friction:0.5, isStatic:true, elementType:'Polygon',isDrawable:false},
@@ -67,32 +74,8 @@ class SimulatorController {
      function setValuesForElement(name,property,value){
 
      }
-
-    function init() {
-         world = new b2World(
-               new b2Vec2(0, 10)    //gravity
-            ,  true                 //allow sleep
-         );
-         for(i=0;i<elements.length;i++){
-            if(elements[i].isDrawable){
-                createWorldElement(elements[i]);
-            }
-        }
-        createInteractiveWorld();
-        setupDebugDraw();
-      }
-
-      function zoomGrid(){
-        var size = gridSize * (zoom/100);
-        $(document.body).setStyle({
-          'background-size':size
-        });
-      }";
+     ";
 	}
-
-    function writeResources(){
-
-    }
 
 }
 
