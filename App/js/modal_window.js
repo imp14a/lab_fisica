@@ -92,8 +92,7 @@ var Modal = Class.create({
   		var res = new Array();
   		res.each(
   			function(elemennt){
-  				prop = {}
-  				(elemennt
+  				prop = {};
   			}
   		);
 
