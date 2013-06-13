@@ -1,19 +1,19 @@
 /* default style */
 .tagtip {
-	background: #fff;
-	border: 1px solid #c7c7c7;
-	color: #505050;
-	padding: 2px;
-	width: 200px;
-	text-align: center;
+	border:1px solid #999;
+	border-radius: 3px;
+	background-color: #E3EAEF;
+	box-shadow: 3px 3px 4px rgba(0,0,0,0.3);
+	-webkit-box-shadow:3px 3px 4px rgba(0,0,0,0.3);	
 	z-index: 999;
+	font-size: 12px;
 }
 
-.tagtip .title {
-	padding: 2px; 
-	background: #e6e6e6;
+.tagtip .title {	
+	font-weight: bold;
+	padding-left: 5px;
 }
 
 .tagtip .content {
-	padding: 2px 2px 0px 2px;
+	padding: 2px 2px 0px 15px;
 }
