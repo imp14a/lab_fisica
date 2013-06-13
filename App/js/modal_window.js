@@ -91,11 +91,10 @@ var Modal = Class.create({
   		var result = $(this.content).select('.property');
   		var res = new Array();
   		res.each(
-  			function(elemennt){
+  			function(element){
   				prop = {}
-  				(elemennt
-  			}
-  		);
+  				(element
+  			});
 
   	}
 });

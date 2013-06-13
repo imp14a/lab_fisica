@@ -20,7 +20,7 @@ var Tagtip = Class.create({
 			ajax: null,
 			ajaxRefresh: true,
 			align: 'topMiddle',
-			hideDelay: 2,
+			hideDelay: .5,
          hideTrigger: 'mouseout',
 			offsetx: 0,
 			offsety: 8,
@@ -95,8 +95,8 @@ var Tagtip = Class.create({
 	addObservers: function() {
 		this.trigger.observe(this.showTrigger, this.showDelayed.bindAsEventListener(this, "trigger"));
 		this.trigger.observe(this.hideTrigger, this.hideDelayed.bindAsEventListener(this));
-		//this.container.observe(this.showTrigger, this.showDelayed.bindAsEventListener(this));
-		//this.container.observe(this.hideTrigger, this.hideDelayed.bindAsEventListener(this));
+		this.container.observe(this.showTrigger, this.showDelayed.bindAsEventListener(this));
+		this.container.observe(this.hideTrigger, this.hideDelayed.bindAsEventListener(this));
 	},
 	
 	showDelayed: function(event, whoCalled) {
@@ -107,7 +107,7 @@ var Tagtip = Class.create({
 				this.hideDelayed();
 		} else
 			this.showDelayTimer = setTimeout(this.showMenu.bind(this), this.showDelay);
-		setTimeout(this.hideDelayed.bind(this), this.hideDelay);
+		setTimeout(this.hideDelayed.bind(this), this.hideDelay + 800);
 	},
   
   	showMenu: function(event) { 
