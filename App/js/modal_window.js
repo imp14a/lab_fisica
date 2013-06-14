@@ -90,10 +90,10 @@ var Modal = Class.create({
   		var result = $(this.content).select('.property');
   		var res = {};
   		result.each(
-  			function(element){
-          res[element.id]=element.getValue();
-        }
-  		);
+            function(element){
+                res[element.id]=element.getValue();
+            }
+        );
       return res;
   	},
     setPropertiesValues:function(object){

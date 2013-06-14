@@ -5,6 +5,7 @@
 	background-color: #E3EAEF;
 	box-shadow: 3px 3px 4px rgba(0,0,0,0.3);
 	-webkit-box-shadow:3px 3px 4px rgba(0,0,0,0.3);	
+	-moz-box-shadow:3px 3px 4px rgba(0,0,0,0.3);	
 	z-index: 999;
 	font-size: 12px;
 }
