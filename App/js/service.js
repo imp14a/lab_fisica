@@ -101,14 +101,14 @@ function showModalWindow(sender){
 		}).insert({
 			bottom: new Element('div',{class:'input'})
 				.insert({bottom: new Element('label').update("Mostrar ejes")})
-				.insert({bottom: new Element('input',{id:'show_axes',type:'checkbox',class:'property'})})
+				.insert({bottom: new Element('input',{id:'showAxes',type:'checkbox',class:'property'})})
 		}).insert({
 			bottom: new Element('div',{class:'input'})
 				.insert({bottom: new Element('label').update("Mostrar suelo")})
-				.insert({bottom: new Element('input',{id:'show_ground',type:'checkbox',class:'property'})})
+				.insert({bottom: new Element('input',{id:'showGround',type:'checkbox',class:'property'})})
 		})
-		
 		modal.setProperties('Mundo', container, worldChange);
+		modal.setPropertiesValues(worldProperties);
 	}
 	/*else if (sender.srcElement.className == "monitor"){   	
 		modal.setProperties('Monitor', 'Agregar variable a inspeccionar.');		
@@ -133,8 +133,9 @@ function propertiesChange(){
 	Realiza los cambios de propiedades en el mundo.
 */
 function worldChange(){
-	//TODO 
-	res = modal.get
+
+	worldProperties = modal.getPropertiesValues();
+	update();
 	modal.hideModal();
 }
 

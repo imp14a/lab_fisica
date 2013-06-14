@@ -47,6 +47,9 @@ class Router {
             } else {
                 throw new Exception( "Action not callable $action, for $controller" );
             }
+        }else{
+            //TODO cambiar esto
+            echo "window.location = 'access_denied.html';";
         }
     }
 }

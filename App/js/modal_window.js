@@ -86,15 +86,20 @@ var Modal = Class.create({
 		}); 		
 		return false;
   	},
-
-  	getPropertiesValues:function(event){
+  	getPropertiesValues:function(){
   		var result = $(this.content).select('.property');
-  		var res = new Array();
-  		res.each(
-  			function(elemennt){
-  				prop = {};
-  			}
+  		var res = {};
+  		result.each(
+  			function(element){
+          res[element.id]=element.getValue();
+        }
   		);
-
-  	}
+      return res;
+  	},
+    setPropertiesValues:function(object){
+      if(this.content.empty()) return;
+      for(key in object) {
+          this.content.select('#'+key)[0].setValue(object[key]);
+      }
+    }
 });
