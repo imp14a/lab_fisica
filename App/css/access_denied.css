@@ -34,5 +34,6 @@ body{
 	background-repeat: no-repeat;
 	background-position: center top;
 	background-image: url('img/error_image.png');
+	background-size: contain;
 
 }
