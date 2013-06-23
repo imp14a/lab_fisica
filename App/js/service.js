@@ -5,6 +5,10 @@ var proc = "";
 var conclusion = "";
 var modal = null;
 
+//Unidades de tiempo para el control de la simulación
+var unit = 0;
+//Variable de intervalo de tiempo
+var interval = null;
 
 /*
 	getActivityService()
@@ -75,6 +79,10 @@ function setEventsElements(){
 	$('monitor').observe('click', showModalWindow);
 	$('graph').observe('click', showModalWindow);
 	$('script').observe('click', showModalWindow);
+	//Control de intervalo de tiempo
+	$('button_start').observe('click', startSimulation);
+	$('button_pause').observe('click', stopSimulation);
+	$('button_restart').observe('click', restartSimulation);
 }
 
 /*
@@ -217,4 +225,34 @@ function setDimensionElements(){
 	$('activity_title').update(practice);
 	$('title').update("INTRODUCCIÓN"); 
 	$('info').update(intro);
+}
+
+/* 
+	Inicia simulación 
+*/
+function startSimulation(){
+	interval = setInterval(function(){
+		unit++;
+		$('time').value = ("0" + parseInt(unit/360000)).slice(-2) + ":" + ("0" + parseInt(unit/6000)%60).slice(-2) + ":" + ("0" + parseInt(unit/100)%60).slice(-2) + ":" + ("0" + unit%100).slice(-2);
+	},10);
+}
+
+/*
+	Pausa/Detiene simulación
+*/
+function stopSimulation(){
+	if (interval){
+		clearInterval(interval);
+	}
+}
+
+/*
+	Reinicia simulación
+*/
+function restartSimulation(){
+	unit = 0;
+	interval = setInterval(function(){
+		unit++;
+		$('time').value = ("0" + parseInt(unit/360000)).slice(-2) + ":" + ("0" + parseInt(unit/6000)%60).slice(-2) + ":" + ("0" + parseInt(unit/100)%60).slice(-2) + ":" + ("0" + unit%100).slice(-2);
+	},10);
 }
