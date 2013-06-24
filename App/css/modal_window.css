@@ -103,3 +103,8 @@ div .container .input > label:first-child{
 	display: inline-block;
 	
 }
+
+div .container .elementName{
+	font-weight: bold;
+	margin-left: 15px;
+}

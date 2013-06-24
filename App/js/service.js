@@ -88,10 +88,36 @@ function setEventsElements(){
 /*
 	Muestra la ventana dialogo.
 */
+
 function showModalWindow(sender){
 	//TODO: Obtener variables editables	
-	if (sender.srcElement.className == "properties"){   	
-		modal.setProperties('Propiedades', 'Variables de propiedades.', propertiesChange);		
+	//TOOD agregar validaciones a los input
+	if (sender.srcElement.className == "properties"){
+
+		var container = new Element('div',{'class':'container'});
+
+		var editables=getEditablesElements();
+		console.log(editables);
+		var i=0;
+		for(i=0;i<editables.length;i++){
+			console.log(editables[i]);
+			console.log(i);
+			var prop = getEditableValuesForElement(editables[i]);
+			//TODO agregamos el titulo
+			//TODO verificar el placeholder de acuerdo al tio de dato
+			console.log(i);
+			console.log(prop);
+			console.log(editables[i]);
+			container.insert({bottom:new Element('label',{'class':'elementName'}).update(editables[i])});
+			for(j=0;j<prop.length;j++){
+				container.insert({bottom: new Element('div',{class:'input'})
+					.insert({bottom: new Element('label').update(prop[j].name)})
+					.insert({bottom: new Element('input',{id:prop[j].name,type:'text',class:'property',value:prop[j].value,placeholder:"0.00"})})
+					.insert({bottom: new Element('label').update(prop[j].unity)})});
+			}
+		}
+
+		modal.setProperties('Propiedades', container,propertiesChange);		
 	}
 	else if (sender.srcElement.className == "world"){
 		//var input 

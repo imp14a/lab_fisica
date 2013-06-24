@@ -89,10 +89,13 @@
    <script src='../../../../../App/js/general_functions.js'></script>
 	<script type="text/javascript">
 
+
        // Definicio de los elementos solidos que se crearan // esferas cuadrados suelo etc
        var elements = [{name:'sphere',position:{x:0,y:0.1}, mass:4, radio: 0.4, elasticity:0.4,isStatic:false,elementType:'Circle', isDrawable:true,
                         image:{resource:'sphere'}},//referencia del recurso
                        {name:'pendulo',radio:1.5, angle:-180,isDrawable:false,pointImage:{resource:'point'}}];
+
+        var origianElements = elements;
 
      function createInteractiveWorld(){
 
@@ -111,7 +114,7 @@
         // TODO creamos la barilla que unira los elementos esta no tendra nada de masa
         var defJoint = new b2DistanceJointDef;
         //TODO pedimos el elemento esfera
-        sphere = getBodyByName('sphere');
+        sphere = getBodyByName('sphere');pendulo
         defJoint.Initialize(aux,sphere,
             aux.GetWorldCenter(),
             sphere.GetWorldCenter());
@@ -132,7 +135,23 @@
 
      }
 
+     function getEditablesElements(){
+        return ["Pendulo","Esfera"];
+     }
+
      function getEditableValuesForElement(name){
+        var res=[];
+        switch(name){
+          case 'Pendulo':
+            var eleme =getElementByName('pendulo');
+            res[0]={name:'Radio', value:eleme.radio,unity:'mts',type:'float',minVal:0.1,maxVal:100};
+            res[1]={name:'Angulo', value:eleme.angle,unity:'*?',type:'float',minVal:-360,maxVal:360};
+            return res;
+          break;
+          case 'Esfera':
+            return res;
+          break;
+        }
 
      }
 
