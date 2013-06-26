@@ -96,23 +96,16 @@ function showModalWindow(sender){
 
 		var container = new Element('div',{'class':'container'});
 
-		var editables=getEditablesElements();
+		var editables = getEditablesElements();
 		console.log(editables);
 		var i=0;
 		for(i=0;i<editables.length;i++){
-			console.log(editables[i]);
-			console.log(i);
-			var prop = getEditableValuesForElement(editables[i]);
-			//TODO agregamos el titulo
-			//TODO verificar el placeholder de acuerdo al tio de dato
-			console.log(i);
-			console.log(prop);
-			console.log(editables[i]);
-			container.insert({bottom:new Element('label',{'class':'elementName'}).update(editables[i])});
+			var prop = editables[i].elements;
+			container.insert({bottom:new Element('label',{'class':'elementName'}).update(editables[i].displayName)});
 			for(j=0;j<prop.length;j++){
 				container.insert({bottom: new Element('div',{class:'input'})
-					.insert({bottom: new Element('label').update(prop[j].name)})
-					.insert({bottom: new Element('input',{id:prop[j].name,type:'text',class:'property',value:prop[j].value,placeholder:"0.00"})})
+					.insert({bottom: new Element('label').update(prop[j].displayName)})
+					.insert({bottom: new Element('input',{name:editables[i].name+'.'+prop[j].name,type:'text',class:'property',value:prop[j].value,placeholder:"0.00"})})
 					.insert({bottom: new Element('label').update(prop[j].unity)})});
 			}
 		}
@@ -125,21 +118,21 @@ function showModalWindow(sender){
 		.insert({
 			bottom: new Element('div',{class:'input'})
 				.insert({bottom: new Element('label').update("Fuerza de gravedad:")})
-				.insert({bottom: new Element('input',{id:'gravity',type:'text',class:'property',placeholder:"9.81"})})
+				.insert({bottom: new Element('input',{name:'gravity',type:'text',class:'property',placeholder:"9.81"})})
 				.insert({bottom: new Element('label').update("(ms/s²)")})
 		}).insert({
 			bottom: new Element('div',{class:'input'})
 				.insert({bottom: new Element('label').update("Densidad del medio:")})
-				.insert({bottom: new Element('input',{id:'density',type:'text',class:'property',placeholder:"0.00"})})
+				.insert({bottom: new Element('input',{name:'density',type:'text',class:'property',placeholder:"0.00"})})
 				.insert({bottom: new Element('label').update("(kg/m²)")})
 		}).insert({
 			bottom: new Element('div',{class:'input'})
 				.insert({bottom: new Element('label').update("Mostrar ejes")})
-				.insert({bottom: new Element('input',{id:'showAxes',type:'checkbox',class:'property'})})
+				.insert({bottom: new Element('input',{name:'showAxes',type:'checkbox',class:'property'})})
 		}).insert({
 			bottom: new Element('div',{class:'input'})
 				.insert({bottom: new Element('label').update("Mostrar suelo")})
-				.insert({bottom: new Element('input',{id:'showGround',type:'checkbox',class:'property'})})
+				.insert({bottom: new Element('input',{name:'showGround',type:'checkbox',class:'property'})})
 		})
 		modal.setProperties('Mundo', container, worldChange);
 		modal.setPropertiesValues(worldProperties);
@@ -160,7 +153,11 @@ function showModalWindow(sender){
 	Realiza los cambios de propiedades de objetos.
 */
 function propertiesChange(){
-
+	properties = modal.getPropertiesValues();
+	for(key in properties){
+		var name = key.split('.');
+		setValuesForElement(name[0],name[1],properties[key]);
+	}
 }
 
 /*

@@ -136,23 +136,19 @@
      }
 
      function getEditablesElements(){
-        return ["Pendulo","Esfera"];
-     }
 
-     function getEditableValuesForElement(name){
-        var res=[];
-        switch(name){
-          case 'Pendulo':
-            var eleme =getElementByName('pendulo');
-            res[0]={name:'Radio', value:eleme.radio,unity:'mts',type:'float',minVal:0.1,maxVal:100};
-            res[1]={name:'Angulo', value:eleme.angle,unity:'*?',type:'float',minVal:-360,maxVal:360};
-            return res;
-          break;
-          case 'Esfera':
-            return res;
-          break;
-        }
-
+      return [{name:'pendulo',displayName:'Pendulo',
+                elements:[{name:'radio',displayName:'Radio', value:elements[1].radio,unity:'mts',type:'float',minVal:0.1,maxVal:100},
+                           {name:'angulo',displayName:'Angulo', value:elements[1].angle,unity:'*?',type:'float',minVal:-360,maxVal:360}]
+                },
+                {name:'sphere',displayName:'Esfera',
+                elements:[{name:'position.x',displayName:'Posicion X', value:elements[0].position.x,unity:'mts',type:'float',minVal:0.1,maxVal:10},
+                          {name:'position.y',displayName:'Posicion Y', value:elements[0].position.y,unity:'mts',type:'float',minVal:0.1,maxVal:10},
+                          {name:'mass',displayName:'Masa', value:elements[0].mass,unity:'kgs',type:'float',minVal:0.1,maxVal:10},
+                          {name:'radio',displayName:'Radio', value:elements[0].radio,unity:'mts',type:'float',minVal:0.1,maxVal:10},
+                          {name:'elasticity',displayName:'Elasticidad', value:elements[0].elasticity,unity:'kgs',type:'float',minVal:0.1,maxVal:10}
+                ]}
+              ];
      }
 
      function setValuesForElement(name,property,value){
