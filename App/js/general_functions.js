@@ -29,7 +29,7 @@ var context = document.getElementById("canvas").getContext("2d");
 // la proporcion es 4:3, con esto se genera un mundo inicial que dependera del zoom y la proporcion
 // el eje cordenado va de -10 a 10 en el eje "x" y el eje "y"
 var proportion = 1.33;
-var zoom = 100;
+var zoom = 50;
 var prevZoom = zoom;
 var debugDraw;
 var gridSize=113; // 113 pixeles son 4 centimetros 
@@ -70,19 +70,19 @@ window.onload = function() {
 		left: $('canvas').viewportOffset().left
 	});*/
 
-	$('zoom_input').value = zoom;
+	$('zoom_input').value = zoom*2;
 	new Control.Slider('handle1' , 'track1',
 	{
 		range: $R(-100,-1),
 		axis:'vertical',
 		sliderValue: - zoom,
 		onChange: function(v){
-			$('zoom_input').value = Math.round(Math.abs(v));
+			$('zoom_input').value = Math.round(Math.abs(v)*2);
 			zoom = Math.abs(v);
 			performZoom();
 		},
 		onSlide: function(v) {
-			$('zoom_input').value =Math.round(Math.abs(v));
+			$('zoom_input').value =Math.round(Math.abs(v)*2);
 			zoom = Math.abs(v);
 			performZoom();
 		}
@@ -252,16 +252,28 @@ function setupDebugDraw(){
 	update();
 }
 
-function play(){
+function startSimulation(){
 	if(!isPlayed){
 		interval_id = window.setInterval(update, 1000 / 60);
 		isPlayed = true;
+		interval = setInterval(function(){
+			unit++;
+			$('time').value = ("0" + parseInt(unit/360000)).slice(-2) + ":" + ("0" + parseInt(unit/6000)%60).slice(-2) + ":" + ("0" + parseInt(unit/100)%60).slice(-2) + ":" + ("0" + unit%100).slice(-2);
+		},10);
 	}
 }
 
-function pause(){
-	window.clearInterval(interval_id);
-	isPlayed = false;
+function stopSimulation(){
+	if (interval){
+		window.clearInterval(interval);
+		window.clearInterval(interval_id);
+		isPlayed = false;
+	}
+}
+
+function restartSimulation(){
+	stopSimulation();
+	startSimulation();
 }
 
 function performZoom(){
@@ -278,6 +290,9 @@ function performZoom(){
 		bodies[i].body.SetPosition(new b2Vec2(x,y));
 	}
 	world.DrawDebugData();
+	if(worldProperties.showAxes){
+		drawAxis(context);
+	}
 	drawTextures();
 }
 
@@ -324,14 +339,13 @@ function drawAxis(context){
 	context.beginPath();
 	prevStyle = context.strokeStyle;
 	context.strokeStyle="#999999";
-	context.lineWidth=3;
+	context.lineWidth=2;
 	context.moveTo(canvasProperties.realSize.width/2,0);
 	context.lineTo(canvasProperties.realSize.width/2,canvasProperties.realSize.height);
 	context.moveTo(0,canvasProperties.realSize.height/2);
 	context.lineTo(canvasProperties.realSize.width,canvasProperties.realSize.height/2);
 	context.stroke();
 
-	
 }
 
 function showGround(){

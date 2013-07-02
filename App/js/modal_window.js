@@ -99,7 +99,8 @@ var Modal = Class.create({
     setPropertiesValues:function(object){
       if(this.content.empty()) return;
       for(key in object) {
-          this.content.select('#'+key)[0].setValue(object[key]);
+        console.log(key);
+          this.content.select('[name='+key+']')[0].setValue(object[key]);
       }
     }
 });

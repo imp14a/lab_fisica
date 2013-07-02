@@ -33,7 +33,7 @@ class SimulatorController {
 		echo "// Definicio de los elementos solidos que se crearan // esferas cuadrados suelo etc
        var elements = [{name:'sphere',position:{x:0,y:0.1}, mass:4, radio: 0.4, elasticity:0.4,isStatic:false,elementType:'Circle', isDrawable:true,
                         image:{resource:'sphere'}},//referencia del recurso
-                       {name:'pendulo',radio:1.5, angle:-180,isDrawable:false,pointImage:{resource:'point'}}];
+                       {name:'pendulo',radio:5, angle:-90,isDrawable:false,pointImage:{resource:'point'}}];
 
         var origianElements = elements;
 
@@ -74,7 +74,7 @@ class SimulatorController {
      function watchVariable(name,variale,field){
 
      }
-
+ 
      function getEditablesElements(){
 
       return [{name:'pendulo',displayName:'Pendulo',
