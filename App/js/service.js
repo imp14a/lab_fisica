@@ -249,33 +249,3 @@ function setDimensionElements(){
 	$('title').update("INTRODUCCIÓN"); 
 	$('info').update(intro);
 }
-
-/* 
-	Inicia simulación 
-*/
-function startSimulation(){
-	interval = setInterval(function(){
-		unit++;
-		$('time').value = ("0" + parseInt(unit/360000)).slice(-2) + ":" + ("0" + parseInt(unit/6000)%60).slice(-2) + ":" + ("0" + parseInt(unit/100)%60).slice(-2) + ":" + ("0" + unit%100).slice(-2);
-	},10);
-}
-
-/*
-	Pausa/Detiene simulación
-*/
-function stopSimulation(){
-	if (interval){
-		clearInterval(interval);
-	}
-}
-
-/*
-	Reinicia simulación
-*/
-function restartSimulation(){
-	unit = 0;
-	interval = setInterval(function(){
-		unit++;
-		$('time').value = ("0" + parseInt(unit/360000)).slice(-2) + ":" + ("0" + parseInt(unit/6000)%60).slice(-2) + ":" + ("0" + parseInt(unit/100)%60).slice(-2) + ":" + ("0" + unit%100).slice(-2);
-	},10);
-}
