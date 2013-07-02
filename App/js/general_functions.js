@@ -300,14 +300,9 @@ function setupDebugDraw(){
 	debugDraw = new b2DebugDraw();
 	debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
 	debugDraw.SetDrawScale(zoom);
-<<<<<<< HEAD
 	debugDraw.SetFillAlpha(0.5);
 	debugDraw.SetLineThickness(0);
 	debugDraw.SetFlags( b2DebugDraw.e_jointBit );//| b2DebugDraw.e_shapeBit );
-=======
-	debugDraw.SetLineThickness(1.0);
-	debugDraw.SetFlags( b2DebugDraw.e_jointBit);// | b2DebugDraw.e_shapeBit );
->>>>>>> 5971ef0eabdae790f03ea19cdc95e630f64edca2
 	world.SetDebugDraw(debugDraw);
 	update();
 }
