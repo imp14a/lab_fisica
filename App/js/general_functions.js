@@ -91,7 +91,7 @@ window.onload = function() {
 }
 
 function init() {
-	world = new b2World( new b2Vec2(0, 10),true);
+	world = new b2World( new b2Vec2(0, 9.81), true);
 
 	for(i=0;i<elements.length;i++){
 		if(elements[i].isDrawable){
@@ -101,10 +101,12 @@ function init() {
 	if(worldProperties.showGround){
 
 	}
-	//buoyancyController.normal.Set(0,0);
-	buoyancyController.offset = - canvasProperties.size.height;
+	buoyancyController.normal.Set(1, 1);
+	buoyancyController.offset = 6; //canvasProperties.size.height;
 	buoyancyController.useDensity = true;
-	buoyancyController.density = 100.0;
+	buoyancyController.density = 2.0;
+	buoyancyController.linearDrag=5;
+    buoyancyController.angularDrag=2;
 	buoyancyController.useWorldGravity = true;
 	createInteractiveWorld();
 	world.AddController(buoyancyController);
@@ -118,6 +120,7 @@ function createWorldElement(elementInfo){
 	fixDef.density = elementInfo.density; // 1.0
 	fixDef.friction = elementInfo.friction; // 0.5
 	fixDef.restitution = elementInfo.elasticity; //0.4
+	fixDef.isSensor = elementInfo.isSensor;
 
 	var bodyDef = new b2BodyDef;
 
@@ -182,7 +185,7 @@ function getElementByName(name){
 }
 
 
-function update() {
+function update() {	
 	context.clearRect ( 0 , 0 , canvasProperties.realSize.width , canvasProperties.realSize.height );
 	world.Step(1 / 60 , 10 , 10 );
 	debugDraw.SetSprite(context);
@@ -247,7 +250,7 @@ function setupDebugDraw(){
 	debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
 	debugDraw.SetDrawScale(zoom);
 	debugDraw.SetLineThickness(1.0);
-	debugDraw.SetFlags( b2DebugDraw.e_jointBit);//| b2DebugDraw.e_shapeBit );
+	debugDraw.SetFlags( b2DebugDraw.e_jointBit);// | b2DebugDraw.e_shapeBit );
 	world.SetDebugDraw(debugDraw);
 	update();
 }
