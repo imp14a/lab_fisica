@@ -35,7 +35,7 @@ var debugDraw;
 var gridSize=113; // 113 pixeles son 4 centimetros 
 var interval_id;
 var isPlayed = false;
-var buoyancyController = new b2BuoyancyController;
+var buoyancyController = new b2BuoyancyController();
 // Los valores de las unidades estan dados por unidades usadas por el motor, a excepcion de los amrcados con real
 var canvasProperties = {
 	realSize:{width:0, height:0 },
@@ -101,16 +101,39 @@ function init() {
 	if(worldProperties.showGround){
 
 	}
-	buoyancyController.normal.Set(1, 1);
-	buoyancyController.offset = 6; //canvasProperties.size.height;
+	//Se agrega la densidad del medio
+	setMediaDensity();
+
+	createInteractiveWorld();
+	setupDebugDraw();
+}
+
+function setMediaDensity(){
+	buoyancyController = new b2BuoyancyController();
+	buoyancyController.normal.Set(0, -1);
+	buoyancyController.offset = 0; //No hay desplazamiento debido a que abarca todo el mundo (size)
 	buoyancyController.useDensity = true;
 	buoyancyController.density = 2.0;
-	buoyancyController.linearDrag=5;
-    buoyancyController.angularDrag=2;
-	buoyancyController.useWorldGravity = true;
-	createInteractiveWorld();
-	world.AddController(buoyancyController);
-	setupDebugDraw();
+	buoyancyController.linearDrag= 5;
+    buoyancyController.angularDrag= 2;
+    world.AddController(buoyancyController);
+
+	var bodyDef = new b2BodyDef();
+    bodyDef.type = b2Body.b2_staticBody;
+    bodyDef.position.x = 0;
+    bodyDef.position.y = 0;
+    
+    var fixtureDef = new b2FixtureDef();
+	fixtureDef.isSensor = true;
+    fixtureDef.density = 1;
+    fixtureDef.friction = 0.5;
+    fixtureDef.restitution = 0.3;
+	
+    fixtureDef.shape = new b2PolygonShape();
+    fixtureDef.shape.SetAsBox(canvasProperties.size.width, canvasProperties.size.height);
+    var body = world.CreateBody(bodyDef);
+    var fixture = body.CreateFixture(fixtureDef);
+    listenForContact(); //funcion necesaria para la densidad del medio
 }
 
 //TODO documentar el formato del el elementInfo
@@ -225,7 +248,7 @@ function update() {
 
 	/**/
 
-	context.lineWidth=5;
+	context.lineWidth=2;
 
 	world.DrawDebugData();
 	world.ClearForces();
@@ -233,6 +256,34 @@ function update() {
 		drawAxis(context);
 	}
 	drawTextures();
+}
+
+function listenForContact(){
+	var listener = new Box2D.Dynamics.b2ContactListener;
+	listener.BeginContact = function(contact){
+		var fixtureA = contact.GetFixtureA();
+		var fixtureB = contact.GetFixtureB();
+		if(fixtureA.IsSensor()){
+			var bodyB = fixtureB.GetBody();
+			if(!bodyB.GetControllerList()) buoyancyController.AddBody(bodyB);
+		}else if(fixtureB.IsSensor()){
+			var bodyA = fixtureA.GetBody();
+			if(!bodyA.GetControllerList()) buoyancyController.AddBody(bodyA);
+		}
+	}
+	listener.EndContact = function(contact){
+		var fixtureA = contact.GetFixtureA();
+		var fixtureB = contact.GetFixtureB();
+		if(fixtureA.IsSensor()){
+			var bodyB = fixtureB.GetBody();
+			console.log(bodyB);
+			if(bodyB.GetControllerList()) buoyancyController.RemoveBody(bodyB);
+		}else if(fixtureB.IsSensor()){
+			var bodyA = fixtureA.GetBody();
+			if(bodyA.GetControllerList()) buoyancyController.RemoveBody(bodyA);
+		}
+	}
+	world.SetContactListener(listener);
 }
 
 function generateCanvasUnits(canvasSize){
@@ -249,8 +300,9 @@ function setupDebugDraw(){
 	debugDraw = new b2DebugDraw();
 	debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
 	debugDraw.SetDrawScale(zoom);
-	debugDraw.SetLineThickness(1.0);
-	debugDraw.SetFlags( b2DebugDraw.e_jointBit | b2DebugDraw.e_shapeBit );
+	debugDraw.SetFillAlpha(0.5);
+	debugDraw.SetLineThickness(0);
+	debugDraw.SetFlags( b2DebugDraw.e_jointBit );//| b2DebugDraw.e_shapeBit );
 	world.SetDebugDraw(debugDraw);
 	update();
 }
