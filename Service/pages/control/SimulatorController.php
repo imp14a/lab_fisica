@@ -72,7 +72,7 @@ class SimulatorController {
      }
 
      function watchVariable(name,variale,field){
-
+        
      }
  
      function getEditablesElements(){
@@ -92,7 +92,10 @@ class SimulatorController {
      }
 
      function setValuesForElement(name,property,value){
-        console.log(name+'-'+property+':'+value);
+        var element = getElementByName(name);
+        if(element!=null){
+            element[property] = value;
+        }
 
      }
 

@@ -152,7 +152,10 @@
      }
 
      function setValuesForElement(name,property,value){
-
+      var element = getElementByName(name);
+      if(element!=null){
+        element[property] = value;
+      }
      }
 
      function drawAdditionalData(context){
