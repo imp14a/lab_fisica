@@ -4,6 +4,7 @@ var intro = "";
 var proc = "";
 var conclusion = "";
 var modal = null;
+var elementsChanged = false;
 
 //Unidades de tiempo para el control de la simulación
 var unit = 0;
@@ -156,8 +157,17 @@ function propertiesChange(){
 	properties = modal.getPropertiesValues();
 	for(key in properties){
 		var name = key.split('.');
-		setValuesForElement(name[0],name[1],properties[key]);
+		if(name.length>2)
+			setValuesForElement(name[0],name[1]+'.'+name[2],properties[key]);
+		else
+			setValuesForElement(name[0],name[1],properties[key]);
 	}
+	elementsChanged = true;
+	if(!isPlayed){
+		useNewProperties();
+	}
+	modal.hideModal();
+
 }
 
 /*

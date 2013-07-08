@@ -95,7 +95,11 @@ class SimulatorController {
      function setValuesForElement(name,property,value){
         var element = getElementByName(name);
         if(element!=null){
-            element[property] = value;
+            el = property.split('.');
+            if(el.length>1)
+                element[el[0]][el[1]] = value;
+            else
+                element[property] = value;
         }
 
      }

@@ -308,6 +308,9 @@ function setupDebugDraw(){
 }
 
 function startSimulation(){
+	if(elementsChanged){
+		useNewProperties();
+	}
 	if(!isPlayed){
 		interval_id = window.setInterval(update, 1000 / 60);
 		isPlayed = true;
@@ -324,6 +327,14 @@ function stopSimulation(){
 		window.clearInterval(interval_id);
 		isPlayed = false;
 	}
+}
+
+function useNewProperties(){
+	bodies = new Array();
+	init();
+	createInteractiveWorld();
+	update();
+	elementsChanged =  false;
 }
 
 function restartSimulation(){
