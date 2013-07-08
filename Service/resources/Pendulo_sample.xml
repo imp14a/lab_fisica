@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LaboratorioFisica
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xsi:noNamespaceSchemaLocation='http://lab_fisica/Service/Resources/LaboratorioFisica.xsd'>
+    <WorldProperties>
+        <Propertie name="gravity" value="9.82" description="Gravedad del ambiente"></Propertie>
+        <Propertie name="density" value="2.00" description="Densidad del ambiente"></Propertie>
+        <Propertie name="showAxes" value="false" description="Inidica si se mostraran los ejes"></Propertie>
+        <Propertie name="showGround" value="false" description="Inidica si se mostrara el suelo"></Propertie>
+    </WorldProperties>
+    <WorldElements>
+        <WorldElement name="sphere">
+            <Propertie name="position" value="2,2" description="Ubicación de de la esfera en el ejecordenado, valores separados por coma"></Propertie>
+            <Propertie name="mass" value="221" description="Masa de la esfera del péndulo"></Propertie>
+            <Propertie name="radio" value="213" description="Radio para definir el tamaño de la esfera"></Propertie>
+            <Propertie name="elasticity" value="213" description="Elasticidad de la esfera"></Propertie>
+        </WorldElement>
+        <WorldElement name="pendulo">
+            <Propertie name="radio" value="2.0" description="Radio de distancia hacia el péndulo"></Propertie>
+            <Propertie name="angle" value="90" description="ángulo de inclinacion del péndulo en grados"></Propertie>
+        </WorldElement>
+    </WorldElements>
+    <ActivityInfo>
+        <Field name="Introducción">
+            <Content></Content>
+        </Field>
+        <Field name="Procedimiento">
+            <Content></Content>
+        </Field>
+        <Field name="Concluciones">
+            <Content></Content>
+        </Field>
+    </ActivityInfo>
+</LaboratorioFisica>

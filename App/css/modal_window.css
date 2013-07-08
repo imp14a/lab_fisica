@@ -108,3 +108,14 @@ div .container .elementName{
 	font-weight: bold;
 	margin-left: 15px;
 }
+
+div .container .warningModal{
+	background-image: url(img/icons/warning_16.png);
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 32px;
+	text-align: left;
+}
+div .container .warningModal label{
+	margin-left: 20px;
+}

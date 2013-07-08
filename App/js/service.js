@@ -96,9 +96,12 @@ function showModalWindow(sender){
 	if (sender.srcElement.className == "properties"){
 
 		var container = new Element('div',{'class':'container'});
-
+		if(isPlayed)
+		{
+			container.insert({bottom: new Element('div',{'class':'warningModal'}).
+				insert({bottom: new Element('label').update("Los cambios se verán reflejados cuando reinicies la actividad")})});
+		}
 		var editables = getEditablesElements();
-		console.log(editables);
 		var i=0;
 		for(i=0;i<editables.length;i++){
 			var prop = editables[i].elements;
@@ -137,6 +140,11 @@ function showModalWindow(sender){
 		})
 		modal.setProperties('Mundo', container, worldChange);
 		modal.setPropertiesValues(worldProperties);
+	}
+	else if(sender.srcElement.className == "file"){
+		var container = new Element('div', {'class': 'container'});
+		container.insert({bottom: new Element('label',{'class':'elementName'})}).update("Opciones de archivo");
+		//TODO terminarl e modal
 	}
 	/*else if (sender.srcElement.className == "monitor"){   	
 		modal.setProperties('Monitor', 'Agregar variable a inspeccionar.');		

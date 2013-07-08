@@ -21,7 +21,6 @@ var b2Vec2 = Box2D.Common.Math.b2Vec2
 
 /*
 	Atributos Generales
-
 */
 
 var world;
@@ -52,7 +51,7 @@ var ground = {
 
 var worldProperties = {
 	gravity:9.32,
-	density:0.00,
+	density:2.00,
 	showGround:false,
 	showAxes:false
 };
@@ -91,7 +90,7 @@ window.onload = function() {
 }
 
 function init() {
-	world = new b2World( new b2Vec2(0, 9.81), true);
+	world = new b2World( new b2Vec2(0,worldProperties.gravity), true);
 
 	for(i=0;i<elements.length;i++){
 		if(elements[i].isDrawable){
@@ -113,7 +112,7 @@ function setMediaDensity(){
 	buoyancyController.normal.Set(0, -1);
 	buoyancyController.offset = 0; //No hay desplazamiento debido a que abarca todo el mundo (size)
 	buoyancyController.useDensity = true;
-	buoyancyController.density = 2.0;
+	buoyancyController.density = worldProperties.density;
 	buoyancyController.linearDrag= 5;
     buoyancyController.angularDrag= 2;
     world.AddController(buoyancyController);
@@ -213,43 +212,10 @@ function update() {
 	world.Step(1 / 60 , 10 , 10 );
 	debugDraw.SetSprite(context);
 
-/* for (var currentBody:b2Body= currentBody; currentBody=currentBody.GetNext()) {
- 	
- }
- 	var bodyList = world.GetBodyList();
-	for(i=0;i<bodyList.length;i++){
-		currentBody = bodyList[i]; 
-		if (currentBody.GetType()==b2Body.b2_dynamicBody) {
-			var currentBodyControllers:b2ControllerEdge=currentBody.GetControllerList();
-			if (currentBodyControllers!=null) {
-				buoyancyController.RemoveBody(currentBody);
-			}
-			for (var c:b2ContactEdge=currentBody.GetContactList(); c; c=c.next) {
-				var contact:b2Contact=c.contact;
-				var fixtureA:b2Fixture=contact.GetFixtureA();
-				var fixtureB:b2Fixture=contact.GetFixtureB();
-				if (fixtureA.IsSensor()) {
-					var bodyB:b2Body=fixtureB.GetBody();
-					var bodyBControllers:b2ControllerEdge=bodyB.GetControllerList();
-					if (bodyBControllers==null) {
-						buoyancyController.AddBody(bodyB);
-					}
-				}
-				if (fixtureB.IsSensor()) {
-					var bodyA:b2Body=fixtureA.GetBody();
-					var bodyAControllers:b2ControllerEdge=bodyA.GetControllerList();
-					if (bodyAControllers==null) {
-						buoyancyController.AddBody(bodyA);
-					}
-				}
-			}
-		}
-	}
-
-	/**/
-
-	context.lineWidth=2;
-
+	world.SetGravity(new b2Vec2(0,worldProperties.gravity));
+	buoyancyController.density = worldProperties.density;
+	
+	context.lineWidth = 2;
 	world.DrawDebugData();
 	world.ClearForces();
 	if(worldProperties.showAxes){
