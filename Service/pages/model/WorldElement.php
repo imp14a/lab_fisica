@@ -1,38 +1,17 @@
 <?php
 
-include('../core/Conexion.php');
 
-class World {
 
-	private $elastisty;
-	private $friction;
-	private $mass;
-	private $color;
-	private $velocity;
-	private $postion;
-	private $position_y;
-	private $rotation;
-	private $momentum;
-	private $force;
+class WorldElement extends Model {
 
-	/*
-		El formato de la gracion del escript va dentro de una funcion en javascript para 2dBoxWeb
-		return 
-		function createElement(){ ... } 
-	*/
-	private $creation_script;
+	private $model_name="WorldElement";
 
-	function __construct($id==null) {
-		if($id!=null)
-			$this->loadFromDatabase($id);
-	}
-
-	function loadFromDatabase($world_id){
-		$base = new Database();
-		$query = "SELECT * FROM WorldElement WHERE world_id='".$world_id."'";
-		$result = mysqli_query($base->getConexion(),$query);
-	}
+	private $relationship = array(
+		'OneToMany'=>array('model'=>'Propertie','local_field'=>'world_element_id','model_field'=>'owner_id')
+		);
 
 }
+
+
 
 ?>

@@ -6,6 +6,7 @@
  */
 
 include('../control/AccessHelper.php');
+include('../model/Model.php');
 
 class Router {
 
@@ -28,6 +29,7 @@ class Router {
             }
         }elseif(isset($_SESSION['activity'])){
             // El url se forma por controller=[Controller]&action=[accion] ej: control=Activity&action=getActivity
+            
             $controller = isset($_GET['controller'])?$_GET['controller'].'Controller':''; 
             $action = isset($_GET['action'])?$_GET['action']:'simulator';
             $controllerLocation = '../control/' . $controller . '.php';

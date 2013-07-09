@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Laboratorio de F&iacute;sica</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=9">
+    <script type="text/javascript" src="js/prototype.js" charset="UTF-8"></script>
+    <script>
+    function getFrameByName(name) {
+        for (var i = 0; i < frames.length; i++)
+            if (frames[i].name == name)
+                return frames[i];
+        return null;
+    }
+    function uploadDone(name) {
+        var frame = getFrameByName(name);
+        if (frame) {
+            ret = frame.document.getElementsByTagName("body")[0].innerHTML;
+            if (ret.length) {
+                var jsonResponse = eval("("+ret+")");
+                console.log(jsonResponse);
+                if(typeof jsonResponse.error != 'undefined'){
+                    alert(jsonResponse.error);
+                }else{
+
+                }
+            }
+        }
+    }
+
+    </script>
+  </head>
+  <body>
+    <div>
+        <form id="send_file" action="http://lab_fisica/Service/pages/core/simulator.php?controller=File&action=uploadFile" method="post" enctype="multipart/form-data" target="hidden_upload">
+            <input type="file" id="file" name="file" />
+            <input type="submit" name="submit" id="send_button" value="Submit">
+            <iframe id="hidden_upload" name="hidden_upload" src='' onLoad='uploadDone("hidden_upload")' style='width:600px;height:200px;border:0px solid #fff'></iframe>
+        </form>
+    </div>
+    <div class="log">
+    </div>
+  </body>
+</html>

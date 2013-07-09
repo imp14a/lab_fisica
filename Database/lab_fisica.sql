@@ -120,3 +120,35 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2013-05-31 16:25:26
+
+
+
+/* 
+Last changes 09/07/2013
+*/
+
+CREATE  TABLE `lab_fisica`.`Propertie` (
+  `propertie_id` INT NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(45) NULL ,
+  `value` VARCHAR(45) NULL ,
+  `description` VARCHAR(200) NULL ,
+  `type` ENUM('World','Element') NULL ,
+  `editable` BIT NULL ,
+  PRIMARY KEY (`propertie_id`) );
+
+
+CREATE  TABLE `lab_fisica`.`WorldElement` (
+  `world_element_id` INT NOT NULL ,
+  `name` VARCHAR(45) NULL ,
+  `display_name` VARCHAR(45) NULL ,
+  `world_id` INT NOT NULL ,
+  PRIMARY KEY (`world_element_id`) ,
+  INDEX `world_id_ix` (`world_id` ASC) ,
+  CONSTRAINT `fk_WorldElement_1`
+    FOREIGN KEY (`world_id` )
+    REFERENCES `lab_fisica`.`World` (`world_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+
+ALTER TABLE Propertie ADD COLUMN owner_id INT NOT NULL;

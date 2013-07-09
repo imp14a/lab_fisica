@@ -39,6 +39,7 @@
 ul.modal_toolbar{	
 	width: 100%;	
 	margin: 0;
+	padding: 0;
 	text-align: center;
 }
 
@@ -115,7 +116,8 @@ div .container .warningModal{
 	width: 100%;
 	height: 32px;
 	text-align: left;
+	margin-bottom: 15px;
 }
 div .container .warningModal label{
-	margin-left: 20px;
+	margin-left: 25px;
 }
