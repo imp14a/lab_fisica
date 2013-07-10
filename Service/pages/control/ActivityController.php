@@ -25,8 +25,17 @@ class ActivityController {
 
 	*/
 	function getActivity() {
-		$this->activity->loadFromDatabase($_SESSION['activity']);
-		echo json_encode($this->activity->getAsArray());
+		$activity = $this->activity->loadFromDatabase("Activity.activity_id='".$_SESSION['activity']."'");
+		//print_r($activity['Activity']);
+		$res = array(
+			"title"=>utf8_encode($activity['Activity']['title']),
+			"description"=>utf8_encode($activity['Activity']['description']),
+			"steps"=>utf8_encode($activity['Activity']['steps']),
+			"observation"=>utf8_encode($activity['Activity']['observations']),
+			"error"=>false
+			);
+
+		echo json_encode($res);
 	}
 
 }

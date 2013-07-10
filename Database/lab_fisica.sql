@@ -138,10 +138,10 @@ CREATE  TABLE `lab_fisica`.`Propertie` (
 
 
 CREATE  TABLE `lab_fisica`.`WorldElement` (
-  `world_element_id` INT NOT NULL ,
+  `world_element_id` INT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(45) NULL ,
   `display_name` VARCHAR(45) NULL ,
-  `world_id` INT NOT NULL ,
+  `world_id` INT NULL ,
   PRIMARY KEY (`world_element_id`) ,
   INDEX `world_id_ix` (`world_id` ASC) ,
   CONSTRAINT `fk_WorldElement_1`
@@ -154,4 +154,6 @@ CREATE  TABLE `lab_fisica`.`WorldElement` (
 ALTER TABLE Propertie ADD COLUMN owner_id INT NOT NULL;
 
 
-/* test from ipad */
+ALTER TABLE World DROP gravity;
+
+ALTER TABLE World DROP density;

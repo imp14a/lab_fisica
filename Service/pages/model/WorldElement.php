@@ -4,10 +4,17 @@
 
 class WorldElement extends Model {
 
-	private $model_name="WorldElement";
+	protected $model_name="WorldElement";
 
-	private $relationship = array(
-		'OneToMany'=>array('model'=>'Propertie','local_field'=>'world_element_id','model_field'=>'owner_id')
+	protected $relationship = array(
+		array(
+			'type'=>'OneToMany',
+			'relationship_name'=>'Properties',
+			'model'=>'Propertie',
+			'local_field'=>'world_element_id',
+			'model_field'=>'owner_id',
+			'conditions'=>"type='Element'"
+			)
 		);
 
 }

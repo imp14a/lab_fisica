@@ -7,7 +7,7 @@
 		private $password="";
 		private $base="lab_fisica";
 		
-		private $status;
+		public $status;
 		private $conexion;
 		
 		/**
@@ -31,10 +31,6 @@
 		
 		function getConexion(){
 			return $this->conexion;	
-		}
-		
-		function getStatus(){
-			return $this->status;
 		}
 	}
 	
