@@ -152,3 +152,6 @@ CREATE  TABLE `lab_fisica`.`WorldElement` (
 
 
 ALTER TABLE Propertie ADD COLUMN owner_id INT NOT NULL;
+
+
+/* test from ipad */
