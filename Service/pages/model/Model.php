@@ -8,7 +8,7 @@ class Model {
 	private $conection;
 	private $data;
 
-	private $relationshio;
+	private $relationshp;
 
 	function __construct($prefix = null) {
 		$this->conection = new Database();
@@ -41,7 +41,25 @@ class Model {
 	}
 
 	function createRelationship(){
-		
+		foreach($this->relationship as $type->$rel){
+			switch($type){
+				case 'OneToOne':
+					 if( file_exists( $rel['model'] ) ) {
+					  include_once( $rel['model'] );
+					  }else
+					  	 throw new Exception("No se encuentra el controlador $rel['model']");
+					  }
+					  if( class_exists($rel['model'] , false ) ) {
+					   	 $cont = new $rel['model'];
+					  } else {
+					  	 throw new Exception( "Controller Class not found $rel['model']" );
+					  }
+					)8¶876(  $cont->loadFromDatabase($rel['model_field']."=".$this->data[$this->model_name][$rel['local_field']]);
+				break;
+				case 'OneToMany':
+				break;
+			}
+		}
 	}
 
 
