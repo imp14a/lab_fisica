@@ -58,8 +58,12 @@ var Modal = Class.create({
 	setProperties: function(title, content, accept_event) {
 		this.title.update(title);
 		this.content.update(content);
-		this.btn_ok = $('btn_ok');		
-		this.btn_ok.observe('click', accept_event);		
+		this.btn_ok = $('btn_ok');	
+    //Cerrar modal en caso de que accept_event sea null	
+    if(accept_event)
+		  this.btn_ok.observe('click', accept_event);		
+    else
+      this.btn_ok.observe('click', this.hideModal.bindAsEventListener(this));   
 	},
 
   	showModal: function(type) {    		

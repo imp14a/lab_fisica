@@ -144,15 +144,17 @@ function showModalWindow(sender){
 	else if(sender.srcElement.className == "file"){
 		var container = new Element('div', {'class': 'container'});
 		container.insert({bottom: new Element('label',{'class':'elementName'})}).update("Opciones de archivo");
-		//TODO terminarl e modal
 	}
-	/*else if (sender.srcElement.className == "monitor"){   	
+	else if (sender.srcElement.className == "monitor"){   	
 		modal.setProperties('Monitor', 'Agregar variable a inspeccionar.');		
 	}
 	else if (sender.srcElement.className == "graph"){
-		modal.setProperties('Gráfica', 'Mostrar gráfica.');		
+		var graph_view = new Element('div', {'id': 'graph_view'});
+		modal.setProperties('Gráfica', graph_view);	
+		//TODO: Obtener los datos a mostrar en la gráfica 
+		var linegraph = new Grafico.LineGraph($('graph_view'), { workload: [8, 10, 6, 12, 7, 6, 9] });
 	}
-	else if (sender.srcElement.className == "script"){   	
+	/*else if (sender.srcElement.className == "script"){   	
 		modal.setProperties('Script', 'Mostrar script.');		
 	}*/	
 	modal.showModal();
