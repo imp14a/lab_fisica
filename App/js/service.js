@@ -170,26 +170,7 @@ function showModalWindow(sender){
 			var graph_view = new Element('div', {'id': 'graph_container'})
 				.insert({bottom: new Element('label', {'class': 'graph_title'}).update(watch_variable.tag)})
 				.insert({bottom: new Element('div', {'id': 'graph_view'})})	
-			modal.setProperties('Gráfica', graph_view);
-			if(watch_variable.isVector){
-				graph_interval = setInterval(function(){
-					var linegraph = new Grafico.LineGraph($('graph_view'), {
-							  		a: watch_variable.data,
-							  		b: watch_variable.y_data
-								},{
-							  		stroke_width: 3,
-							  		colors : {a: '#0000FF', b: '#FF0000'}
-							});
-				},500);
-			}else{
-				graph_interval = setInterval(function(){
-					var linegraph = new Grafico.LineGraph($('graph_view'), {
-							  a: watch_variable.data}, {
-							  stroke_width: 3,
-							  colors : {a: '#0000FF', b: '#FF0000'}
-							});
-				},500);
-			}			
+			modal.setProperties('Gráfica', graph_view);			
 		}else{
 			var graph_view = new Element('div', {'class': 'container'});			
 			graph_view.insert({bottom: new Element('label').update("No se tiene asignada una variable para graficar.")});

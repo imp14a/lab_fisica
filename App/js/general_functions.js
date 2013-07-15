@@ -303,8 +303,20 @@ function setWatchInterval(){
 				if(watch_variable.isVector){
 					watch_variable.data.push(Number((eval(watch_variable.function).x * 10).toFixed(2)));
 					watch_variable.y_data.push(Number((eval(watch_variable.function).y * 10).toFixed(2)));
+					var linegraph = new Grafico.LineGraph($('graph_view'), {
+							  		a: watch_variable.data,
+							  		b: watch_variable.y_data
+								},{
+							  		stroke_width: 3,
+							  		colors : {a: '#0000FF', b: '#FF0000'}
+							});
 				}else{
 					watch_variable.data.push(Number((eval(watch_variable.function) * 10).toFixed(2)));
+					var linegraph = new Grafico.LineGraph($('graph_view'), {
+							  a: watch_variable.data}, {
+							  stroke_width: 3,
+							  colors : {a: '#0000FF'}
+							});
 				}				
 			},500);
 		}else{
