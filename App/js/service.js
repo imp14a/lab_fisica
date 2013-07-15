@@ -174,14 +174,20 @@ function showModalWindow(sender){
 			if(watch_variable.isVector){
 				graph_interval = setInterval(function(){
 					var linegraph = new Grafico.LineGraph($('graph_view'), {
-							  a: watch_variable.data,
-							  b: watch_variable.y_data
-							},{stroke_width: 3});
+							  		a: watch_variable.data,
+							  		b: watch_variable.y_data
+								},{
+							  		stroke_width: 3,
+							  		colors : {a: '#0000FF', b: '#FF0000'}
+							});
 				},500);
 			}else{
 				graph_interval = setInterval(function(){
-					var linegraph = new Grafico.LineGraph($('graph_view'), 
-							  watch_variable.data, {stroke_width: 3});
+					var linegraph = new Grafico.LineGraph($('graph_view'), {
+							  a: watch_variable.data}, {
+							  stroke_width: 3,
+							  colors : {a: '#0000FF', b: '#FF0000'}
+							});
 				},500);
 			}			
 		}else{
