@@ -306,7 +306,7 @@ function setWatchInterval(){
 				}else{
 					watch_variable.data.push(Number((eval(watch_variable.function) * 10).toFixed(2)));
 				}				
-			},1000);
+			},500);
 		}else{
 			if(watch_variable.isVector){
 				$('watch').value = watch_variable.tag + ' X: ' + eval(watch_variable.function).x.toFixed(4) + ' Y: ' + eval(watch_variable.function).y.toFixed(4);

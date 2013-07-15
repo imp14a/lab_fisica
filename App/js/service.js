@@ -167,16 +167,22 @@ function showModalWindow(sender){
 	}
 	else if (sender.srcElement.className == "graph"){
 		if(watch_variable){
-			var graph_view = new Element('div', {'id': 'graph_view', 'class': 'container'});			
+			var graph_view = new Element('div', {'id': 'graph_container'})
+				.insert({bottom: new Element('label', {'class': 'graph_title'}).update(watch_variable.tag)})
+				.insert({bottom: new Element('div', {'id': 'graph_view'})})	
 			modal.setProperties('Gráfica', graph_view);
 			if(watch_variable.isVector){
-				var linegraph = new Grafico.LineGraph($('graph_view'), {
+				graph_interval = setInterval(function(){
+					var linegraph = new Grafico.LineGraph($('graph_view'), {
 							  a: watch_variable.data,
 							  b: watch_variable.y_data
 							},{stroke_width: 3});
+				},500);
 			}else{
-				var linegraph = new Grafico.LineGraph($('graph_view'), 
+				graph_interval = setInterval(function(){
+					var linegraph = new Grafico.LineGraph($('graph_view'), 
 							  watch_variable.data, {stroke_width: 3});
+				},500);
 			}			
 		}else{
 			var graph_view = new Element('div', {'class': 'container'});			
