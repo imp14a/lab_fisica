@@ -11,10 +11,18 @@
     <script type="text/javascript" src="js/scriptaculous/scriptaculous.js?load=effects"></script>        
     <script type="text/javascript" src="js/modal_window.js" charset="UTF-8"></script>
     <script type="text/javascript" src="js/raphael-min.js" charset="UTF-8"></script>
-    <script type="text/javascript" src="js/grafico.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="js/grafico.base.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="js/grafico.line.js" charset="UTF-8"></script>
   </head>
   <body>        
     <div id="modal">
+      <script>
+        var linegraph = new Grafico.LineGraph($('modal'), {
+                a : [8, -10, 6, 12,7, -6, -9],
+                b : [6, 8,  -4, 8, -12,6, 2],
+                c : [2, 9,  12,7, 8, -9, 8]
+              },{stroke_width: 3});
+      </script>
         <!-- <a id="view_modal">Ver modal</a>                      -->
     </div>        
   </body>

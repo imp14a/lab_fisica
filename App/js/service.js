@@ -10,7 +10,8 @@ var elementsChanged = false;
 var unit = 0;
 //Variable de intervalo de tiempo
 var interval = null;
-
+// Variable para monitorear
+var watch_variable = null;
 /*
 	getActivityService()
 
@@ -145,14 +146,42 @@ function showModalWindow(sender){
 		var container = new Element('div', {'class': 'container'});
 		container.insert({bottom: new Element('label',{'class':'elementName'})}).update("Opciones de archivo");
 	}
-	else if (sender.srcElement.className == "monitor"){   	
-		modal.setProperties('Monitor', 'Agregar variable a inspeccionar.');		
+	else if (sender.srcElement.className == "monitor"){ 
+		var container = new Element('div',{'class':'container'});
+		var watchables = getWatchVariables();
+		var i=0;
+		for(i=0;i<watchables.length;i++){
+			var prop = watchables[i].elements;
+			container.insert({bottom:new Element('label',{'class':'elementName'}).update(watchables[i].displayName)});
+			for(j=0;j<prop.length;j++){
+				container.insert({bottom: new Element('div',{class:'input'})
+					.insert({bottom: new Element('input',{name:watchables[i].name,
+												value:prop[j].function,
+												type:'radio',class:'property',
+												tag:prop[j].displayName,
+												isVector:prop[j].isVector})})
+					.insert({bottom: new Element('label').update(prop[j].displayName)})});
+			}
+		}
+		modal.setProperties('Monitor', container, monitorChange);		
 	}
 	else if (sender.srcElement.className == "graph"){
-		var graph_view = new Element('div', {'id': 'graph_view'});
+		var graph_view = new Element('div', {'id': 'graph_view', 'class': 'container'});			
+		if(watch_variable){
+			modal.setProperties('Gráfica', graph_view);
+			if(watch_variable.isVector){
+				var linegraph = new Grafico.LineGraph($('graph_view'), {
+							  a: watch_variable.data,
+							  b: watch_variable.y_data
+							},{stroke_width: 3});
+			}else{
+				var linegraph = new Grafico.LineGraph($('graph_view'), 
+							  watch_variable.data, {stroke_width: 3});
+			}			
+		}else{
+			graph_view.insert({bottom: new Element('label').update("No se tiene asignada una variable para graficar.")});
+		}
 		modal.setProperties('Gráfica', graph_view);	
-		//TODO: Obtener los datos a mostrar en la gráfica 
-		var linegraph = new Grafico.LineGraph($('graph_view'), { workload: [8, 10, 6, 12, 7, 6, 9] });
 	}
 	/*else if (sender.srcElement.className == "script"){   	
 		modal.setProperties('Script', 'Mostrar script.');		
@@ -178,6 +207,16 @@ function propertiesChange(){
 	}
 	modal.hideModal();
 
+}
+
+/*
+	Establece la variable a monitorear.
+*/
+function monitorChange(){
+	watch_variable = modal.getWatchVariable();
+	modal.hideModal(); 
+	//Iniciar a monitorear
+	setWatchInterval();
 }
 
 /*

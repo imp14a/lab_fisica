@@ -284,6 +284,36 @@ function startSimulation(){
 			unit++;
 			$('time').value = ("0" + parseInt(unit/360000)).slice(-2) + ":" + ("0" + parseInt(unit/6000)%60).slice(-2) + ":" + ("0" + parseInt(unit/100)%60).slice(-2) + ":" + ("0" + unit%100).slice(-2);
 		},10);
+		setWatchInterval();
+	}
+}
+
+function setWatchInterval(){
+	if(watch_variable){
+		if(isPlayed){
+			watch_interval = setInterval(function(){				
+				if(watch_variable.isVector){
+					$('watch').value = watch_variable.tag + ' X: ' + eval(watch_variable.function).x.toFixed(4) + ' Y: ' + eval(watch_variable.function).y.toFixed(4);
+				}else{
+					$('watch').value = watch_variable.tag + ': ' + eval(watch_variable.function).toFixed(4);
+				}
+			},100);
+			//Agregar datos para grafica (cada segundo)
+			graph_interval = setInterval(function(){
+				if(watch_variable.isVector){
+					watch_variable.data.push(Number((eval(watch_variable.function).x * 10).toFixed(2)));
+					watch_variable.y_data.push(Number((eval(watch_variable.function).y * 10).toFixed(2)));
+				}else{
+					watch_variable.data.push(Number((eval(watch_variable.function) * 10).toFixed(2)));
+				}				
+			},1000);
+		}else{
+			if(watch_variable.isVector){
+				$('watch').value = watch_variable.tag + ' X: ' + eval(watch_variable.function).x.toFixed(4) + ' Y: ' + eval(watch_variable.function).y.toFixed(4);
+			}else{
+				$('watch').value = watch_variable.tag + ': ' + eval(watch_variable.function).toFixed(4);
+			}
+		}
 	}
 }
 
@@ -291,6 +321,8 @@ function stopSimulation(){
 	if (interval){
 		window.clearInterval(interval);
 		window.clearInterval(interval_id);
+		window.clearInterval(watch_interval);
+		window.clearInterval(graph_interval);
 		isPlayed = false;
 	}
 }
