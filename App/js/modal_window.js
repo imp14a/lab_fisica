@@ -49,7 +49,14 @@ var Modal = Class.create({
   		this.container.setStyle({display: 'none'});
   		this.overlay.setStyle({display: 'none'});  		  	
   	},
-  
+  setBounds:function(w,h,t,l){
+    container.setStyle({
+      width:h,
+      heiht:h,
+      top:t,
+      left:l
+    });
+  },
 	addObservers: function() {		
 		this.btn_cancel = $('btn_cancel');		
 		this.btn_cancel.observe('click', this.hideModal.bindAsEventListener(this));		

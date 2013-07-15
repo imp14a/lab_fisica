@@ -183,9 +183,20 @@ function showModalWindow(sender){
 		}
 		modal.setProperties('Gráfica', graph_view);	
 	}
-	/*else if (sender.srcElement.className == "script"){   	
-		modal.setProperties('Script', 'Mostrar script.');		
-	}*/	
+	else if (sender.srcElement.className == "script"){
+		var container = new Element('div', {'class': 'container',});
+		var textarea = new Element('textarea');
+		container.insert({
+			bottom:textarea
+		});
+		var myCodeMirror = CodeMirror.fromTextArea(textarea,{
+			alignCDATA:true,
+			mode:  "xml",
+			alignCDATA: true
+		});
+		modal.setBounds('90%','70%','5%','10%');
+		modal.setProperties('Script',container);		
+	}	
 	modal.showModal();
 }
 
