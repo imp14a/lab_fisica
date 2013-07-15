@@ -69,7 +69,10 @@ class SimulatorController {
      }
 
      function getWatchVariables(){
-
+        return [{name: 'sphere', displayName:'Esfera',
+                elements:[{name:'position', displayName:'Posicion', function:'sphere.GetPosition()', isVector:'true'},
+                          {name:'velocity', displayName:'Velocidad', function:'sphere.GetLinearVelocity()', isVector:'true'}]
+                }]; //TODO: implementar todas las variables
      }
 
      function watchVariable(name,variale,field){

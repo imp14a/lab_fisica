@@ -106,5 +106,23 @@ var Modal = Class.create({
         console.log(key);
           this.content.select('[name='+key+']')[0].setValue(object[key]);
       }
+    },
+    getWatchVariable:function(){
+      var result = $(this.content).select('.property');
+      var res = {};
+      result.each(
+            function(element){
+                if(element.checked){
+                  res['tag'] = element.readAttribute('tag');
+                  res['function'] = element.readAttribute('value');
+                  res['isVector'] = element.readAttribute('isVector');  
+                  res['data'] = new Array(); 
+                  if(res['isVector']){ 
+                    res['y_data'] = new Array();
+                  }
+                }
+            }
+        );
+      return res;
     }
 });
