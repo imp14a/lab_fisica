@@ -314,6 +314,9 @@ input.monitor{
 	src: url("fonts/DS-DIGIT.TTF"); /* TTF file for CSS3 browsers */
 }
 
+.graph_title{
+	font-weight: bold;
+}
 #graph_view{
 	height: 300px;
 	width: 300px;
