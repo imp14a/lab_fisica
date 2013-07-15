@@ -12,6 +12,8 @@ var unit = 0;
 var interval = null;
 // Variable para monitorear
 var watch_variable = null;
+
+var xmlCodeMirror = null;
 /*
 	getActivityService()
 
@@ -178,18 +180,30 @@ function showModalWindow(sender){
 		modal.setProperties('Gráfica', graph_view);	
 	}
 	else if (sender.srcElement.className == "script"){
-		var container = new Element('div', {'class': 'container',});
-		var textarea = new Element('textarea');
-		container.insert({
-			bottom:textarea
-		});
-		var myCodeMirror = CodeMirror.fromTextArea(textarea,{
-			alignCDATA:true,
-			mode:  "xml",
-			alignCDATA: true
-		});
-		modal.setBounds('90%','70%','5%','10%');
-		modal.setProperties('Script',container);		
+		new Ajax.Request('http://lab_fisica/Service/pages/core/simulator.php', {
+			method: 'get',
+			parameters: {controller: 'File', action: 'createXMLDocument'},
+			onSuccess: function(transport) {
+				var container = new Element('div', {'class': 'container',});
+				var textarea = new Element('textarea',{'id':'xml_textarea'});
+				textarea.value = transport.responseText;
+				container.insert({
+					bottom:textarea
+				});
+				xmlCodeMirror = CodeMirror.fromTextArea(textarea,{
+					alignCDATA:true,
+					mode:  "xml",
+					alignCDATA: true
+				});
+
+				btn_save = new Element('a',{'class':'btn_save'});
+				modal.addToolbarButton({top:btn_save});
+				modal.setBounds('80%','80%','5%','10%');
+				modal.setProperties('Script',container);
+				xmlCodeMirror.setSize('auto','90%');
+				xmlCodeMirror.refresh()
+			}
+		});		
 	}	
 	modal.showModal();
 }

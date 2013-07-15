@@ -70,6 +70,19 @@ a.btn_ok{
 	width: 32px;
 	height: 32px;
 	display: inline-block;	
+	margin-top: 5px;
+}
+a.btn_save{	
+	cursor: pointer;
+	background-image: url(img/icons/save.png);
+	background-repeat: no-repeat;
+	width: 32px;
+	height: 32px;
+	display: inline-block;
+	float: left;
+	margin-left: 50px;
+	margin-right: -80px;
+	margin-top: 5px;
 }
 a.separator{
 	width: 32px;
@@ -83,6 +96,7 @@ a.btn_cancel{
 	width: 32px;
 	height: 32px;
 	display: inline-block;	
+	margin-top: 5px;
 }
 
 input.property{

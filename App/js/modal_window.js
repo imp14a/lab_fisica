@@ -12,6 +12,7 @@ var Modal = Class.create({
 		this.btn_cancel = null;
 		this.title = null;
 		this.content = null;
+    this.toolbar = null
 
 		this.buildModal();
 		this.addObservers();		
@@ -41,6 +42,7 @@ var Modal = Class.create({
 
   		this.overlay = overlay;
   		this.container = container;
+      this.toolbar = toolbar;
   		this.content = content;
   		this.title = title;
   		this.btn_ok = btn_ok;
@@ -51,11 +53,14 @@ var Modal = Class.create({
   	},
   setBounds:function(w,h,t,l){
     container.setStyle({
-      width:h,
-      heiht:h,
+      width:w,
+      height:h,
       top:t,
       left:l
     });
+  },
+  addToolbarButton:function(buton_opts){
+    this.toolbar.insert(buton_opts);
   },
 	addObservers: function() {		
 		this.btn_cancel = $('btn_cancel');		

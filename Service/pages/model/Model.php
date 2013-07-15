@@ -105,22 +105,6 @@ class Model {
 		return strtolower(preg_replace('~(?<=\\w)([A-Z])~', '_$1', $word));
 	}
 
-	/*
-		Regresa la informacion de la actividad como un array, esto es util para posteriormente convertiro a cadenas JSON
-		Nota: la informacion es regresada codificada en UTF-8
-	*/
-	//TODO redeterminar de acuerdo a lo obtenido
-	
-	function getAsArray(){
-
-		if(empty($this->title)) return array('error'=>true);		
-		return array('title'=>utf8_encode($this->title),
-					  'description'=>utf8_encode($this->description),
-					  'steps'=>utf8_encode($this->steps),
-					  'observations'=>utf8_encode($this->observations),
-					  'error'=>false);
-	}
-
 }
 
 

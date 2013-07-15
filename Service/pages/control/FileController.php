@@ -24,7 +24,7 @@ class FileController {
             try{
                 $this->xml->load($_FILES["file"]["tmp_name"]);
                 if($this->xml->schemaValidate('../../resources/LaboratorioFisica.xsd')){
-                     $worldProp = $this->xml->getElementsByTagName('WorldProperties')->item(0)->getElementsByTagName('Propertie');
+                     $worldProp = $this->xml->getElementsByTagName('WorldProperties')->item(0)->getElementsByTagName('Property');
                      $res =  array();
                      for($i=0;$i<$worldProp->length;$i++){
                         $value = FileControLLer::getRealValue($worldProp->item($i)->getAttribute('value'));
@@ -34,7 +34,7 @@ class FileController {
                      
                      for($i=0;$i<$worldElements->length;$i++){
                         $res['WorldElements'][$i]['name'] = $worldElements->item($i)->getAttribute('name');
-                        $propertiesElement = $worldElements->item($i)->getElementsByTagName('Propertie');
+                        $propertiesElement = $worldElements->item($i)->getElementsByTagName('Property');
                         for($j=0;$j<$propertiesElement->length;$j++){
                             $value = FileControLLer::getRealValue($propertiesElement->item($j)->getAttribute('value'));
                             $res['WorldElements'][$i][$propertiesElement->item($j)->getAttribute('name')] = $value;
@@ -76,7 +76,10 @@ class FileController {
     }
 
     function downloadFile(){
-        //TODO hacer el salvado del archivo
+        if(isset($_POST['xml_info'])){
+            //TODO validarlo
+            //$this->xml->load();
+        }
     }
 
     function createXMLDocument(){
@@ -130,15 +133,14 @@ class FileController {
         $activityInfo->appendChild($steps);
         $activityInfo->appendChild($obser);
 
-        header('Content-type: text/xml');
+        //header('Content-type: text/xml');
 
-        echo $this->xml->saveXML($laboratorioFisica) . "\n";
-        //print_r($data);
-        die();
+
+        echo $this->xml->saveXML($laboratorioFisica);
     }
 
     private function createPropertie($propertie){
-        $prop = $this->xml->createElement('Propertie');
+        $prop = $this->xml->createElement('Property');
         $prop->setAttribute('name',$propertie['Propertie']['name']);
         $prop->setAttribute('value',$propertie['Propertie']['value']);
         $prop->setAttribute('description',utf8_encode($propertie['Propertie']['description']));
