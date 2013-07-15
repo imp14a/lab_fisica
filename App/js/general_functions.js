@@ -51,7 +51,7 @@ var ground = {
 
 var worldProperties = {
 	gravity:9.32,
-	density:2.00,
+	density:0.00,
 	showGround:false,
 	showAxes:false
 };
