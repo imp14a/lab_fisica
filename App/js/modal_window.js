@@ -31,9 +31,9 @@ var Modal = Class.create({
 
   		document.body.insert(overlay);
 
-		container.insert(title);		
-		toolbar.insert(btn_ok);
-		toolbar.insert(separator);
+  		container.insert(title);		
+  		toolbar.insert(btn_ok);
+  		toolbar.insert(separator);
   		toolbar.insert(btn_cancel);	  		
   		container.insert(toolbar);  	
   		container.insert(content);  	  		
@@ -46,7 +46,7 @@ var Modal = Class.create({
   		this.content = content;
   		this.title = title;
   		this.btn_ok = btn_ok;
-		this.btn_cancel = btn_cancel;
+		  this.btn_cancel = btn_cancel;
   		
   		this.container.setStyle({display: 'none'});
   		this.overlay.setStyle({display: 'none'});  		  	
@@ -62,12 +62,17 @@ var Modal = Class.create({
   addToolbarButton:function(buton_opts){
     this.toolbar.insert(buton_opts);
   },
+  removeToolbarButton:function(selector){
+    ele = $(this.toolbar).select(selector)[0];
+    if(ele)
+      ele.remove();
+  },
 	addObservers: function() {		
 		this.btn_cancel = $('btn_cancel');		
 		this.btn_cancel.observe('click', this.hideModal.bindAsEventListener(this));		
 	},
 	
-	setProperties: function(title, content, accept_event) {
+	setProperties: function(title, content, accept_event,cancel_event) {
 		this.title.update(title);
 		this.content.update(content);
 		this.btn_ok = $('btn_ok');	
@@ -75,7 +80,10 @@ var Modal = Class.create({
     if(accept_event)
 		  this.btn_ok.observe('click', accept_event);		
     else
-      this.btn_ok.observe('click', this.hideModal.bindAsEventListener(this));   
+      this.btn_ok.observe('click', this.hideModal.bindAsEventListener(this));
+
+    if(cancel_event)
+      this.btn_cancel.observe('click',cancel_event);
 	},
 
   	showModal: function(type) {    		

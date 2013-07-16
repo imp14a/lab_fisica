@@ -31,6 +31,7 @@ function getActivityService(){
 		    if(json.error){		    			    			    			    			    	
 		    	alert('Ocurrió un error mientras se cargaba la información de la práctica. Intente de nuevo.'); 
 		    }else{
+
 		    	practice = json.title;
 		    	intro = json.description;
 		    	proc = json.steps;
@@ -76,8 +77,9 @@ function setDescriptionElement(sender){
 function setEventsElements(){
 	$('intro').observe('click', setDescriptionElement);
 	$('proc').observe('click', setDescriptionElement);
-	$('conclusion').observe('click', setDescriptionElement);		    	
+	$('conclusion').observe('click', setDescriptionElement);	    	
 	//TODO: Incluir todos los eventos para cada elemento.
+	$('open').observe('click',showModalWindow);
 	$('properties').observe('click', showModalWindow);
 	$('world').observe('click', showModalWindow);
 	$('monitor').observe('click', showModalWindow);
@@ -144,10 +146,6 @@ function showModalWindow(sender){
 		modal.setProperties('Mundo', container, worldChange);
 		modal.setPropertiesValues(worldProperties);
 	}
-	else if(sender.srcElement.className == "file"){
-		var container = new Element('div', {'class': 'container'});
-		container.insert({bottom: new Element('label',{'class':'elementName'})}).update("Opciones de archivo");
-	}
 	else if (sender.srcElement.className == "monitor"){ 
 		var container = new Element('div',{'class':'container'});
 		var watchables = getWatchVariables();
@@ -200,13 +198,76 @@ function showModalWindow(sender){
 				btn_save.observe('click', saveXMLDocument);
 				modal.addToolbarButton({top:btn_save});
 				modal.setBounds('80%','80%','5%','10%');
-				modal.setProperties('Script',container);
+				function xmlShowDone(){
+					modal.hideModal();
+					modal.removeToolbarButton('.btn_save');
+					modal.setBounds('300px','auto','30%','40%');
+				}
+				modal.setProperties('Script',container,xmlShowDone,xmlShowDone);
 				xmlCodeMirror.setSize('auto','90%');
-				xmlCodeMirror.refresh()
+				xmlCodeMirror.refresh();
 			}
 		});		
-	}	
+	}else if(sender.srcElement.className == "open"){
+		var container = new Element('div',{'class':'container'});
+		if(isPlayed){
+			container.insert({bottom: new Element('div',{'class':'warningModal'}).
+				insert({bottom: new Element('label').update("Los cambios se verán reflejados cuando reinicies la actividad")})});
+		}
+
+		container.insert({bottom: new Element('label',{'class':'elementName'})}).update("Abrir archivo de practica.");
+		form = new Element('form',{id:'uploadFileForm',target:'fileiFrame',method:'post',
+				action:"http://wowinteractive.com.mx/lab_fisica/Service/pages/core/simulator.php?controller=File&action=uploadFile",
+				enctype:"multipart/form-data"});
+		form.insert({
+			bottom: new Element('input',{type:'file',id:'file',name:'file'})
+		}).insert({
+			bottom: new Element('iframe',{id:'fileiFrame',name:'fileiFrame',style:"width:0; height:0;",onload:'xmlUploaded("fileiFrame")',src:''})
+		});
+
+		container.insert({
+			bottom: form
+		});
+
+		function sendForm(){
+			form.submit();
+		}
+
+		modal.setProperties('Abrir practica',container,sendForm);	
+	}
 	modal.showModal();
+}
+
+/*
+	Carga la informacion generada al subir el archivo
+*/
+function xmlUploaded(name){
+	
+	var frame = getFrameByName(name);
+    if (frame) {
+        ret = frame.document.getElementsByTagName("body")[0].innerHTML;
+        if (ret.length) {
+        	//TODO validacion si el documento regreso mal
+            var jsonResponse = eval("("+ret+")");
+            // asignamos valores recividos
+            worldProperties = jsonResponse.WorldProperties
+            //TODO realizar todo lo de 
+            console.log(jsonResponse);
+            if(typeof jsonResponse.error != 'undefined'){
+                alert(jsonResponse.error);
+            }else{
+
+            }
+        }
+    }
+    this.propertiesChange = true;
+    modal.hideModal();
+}
+function getFrameByName(name) {
+    for (var i = 0; i < frames.length; i++)
+        if (frames[i].name == name)
+            return frames[i];
+    return null;
 }
 
 /*

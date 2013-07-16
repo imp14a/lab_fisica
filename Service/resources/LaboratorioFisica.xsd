@@ -9,7 +9,7 @@
 			<xs:element name="WorldProperties" minOccurs="1" maxOccurs="1">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="Propertie" minOccurs="4" maxOccurs="4" >
+						<xs:element name="Property" minOccurs="4" maxOccurs="4" >
 							<xs:complexType>
 								<xs:attribute name="name" use="required">
 									<xs:simpleType>
@@ -46,7 +46,7 @@
 						<xs:element name="WorldElement" minOccurs="0" maxOccurs="unbounded">
 							<xs:complexType>
 								<xs:sequence>
-									<xs:element name="Propertie" minOccurs="0" maxOccurs="unbounded" >
+									<xs:element name="Property" minOccurs="0" maxOccurs="unbounded" >
 										<xs:complexType>
 											<xs:attribute name="name" use="required">
 												<xs:simpleType>
@@ -115,7 +115,7 @@
 
 <!-- 
 	Este tipo deberia ser generico
-<xs:complexType name="t_Propertie">
+<xs:complexType name="t_Property">
     <xs:attribute name="name" use="required">
         <xs:simpleType>
             <xs:restriction base="xs:string">

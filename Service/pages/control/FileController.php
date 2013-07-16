@@ -58,7 +58,6 @@ class FileController {
     }
 
     public static function getRealValue($string_object){
-        print_r(strstr($string_object, '{'));
         if(strstr($string_object, '{')){
             $obj = json_decode($string_object);
             if(empty($obj)){
