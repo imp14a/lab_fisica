@@ -75,16 +75,24 @@ class FileController {
         return $string_object;
     }
 
-    function downloadFile(){
-        if(isset($_POST['xml_info'])){
-            //TODO validarlo
-            //$this->xml->load();
+    function downloadXMLFile(){
+        if(isset($_POST['xml'])){
+            $activity = new Activity();
+            $activity->relationshipLevel = 0;
+            $data = $activity->loadFromDatabase("Activity.activity_id='".$_SESSION['activity']."'");
+            $xmlName = $data['Activity']['activity_prefix'] ;
+            header("Cache-Control: public");
+            header("Content-Description: File Transfer");
+            header("Content-Disposition: attachment; filename=$xmlName.xml");
+            header('Content-type: text/xml');
+
+            echo $_POST['xml'];
         }
     }
 
     function createXMLDocument(){
-        $activitty = new Activity();
-        $data = $activitty->loadFromDatabase("Activity.activity_id='".$_SESSION['activity']."'");
+        $activity = new Activity();
+        $data = $activity->loadFromDatabase("Activity.activity_id='".$_SESSION['activity']."'");
         $this->xml->formatOutput = true;
         
         $laboratorioFisica = $this->xml->createElement('LaboratorioFisica');

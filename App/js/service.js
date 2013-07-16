@@ -197,6 +197,7 @@ function showModalWindow(sender){
 				});
 
 				btn_save = new Element('a',{'class':'btn_save'});
+				btn_save.observe('click', saveXMLDocument);
 				modal.addToolbarButton({top:btn_save});
 				modal.setBounds('80%','80%','5%','10%');
 				modal.setProperties('Script',container);
@@ -206,6 +207,15 @@ function showModalWindow(sender){
 		});		
 	}	
 	modal.showModal();
+}
+
+/*
+	Guarda el archivo XML editado
+*/
+function saveXMLDocument(){
+	var form = new Element('form',{method:'post','action':"http://lab_fisica/Service/pages/core/simulator.php?controller=File&action=downloadXMLFile"});
+	form.insert({bottom:new Element('input',{id:'xml',name:'xml','type':'hidden',value:xmlCodeMirror.getValue()})});
+	form.submit();
 }
 
 /*
@@ -296,10 +306,6 @@ function setTooltipsElements(){
 	});
 	new Tagtip('graph', 'Visualice el estado actual de la práctica.', {
 		title: 'Gráfica',
-		align: 'bottomRight'
-	});
-	new Tagtip('camera', 'Defina el zoom que desea ver en la práctica.', {
-		title: 'Cámara',
 		align: 'bottomRight'
 	});
 	new Tagtip('script', 'Modifique la estructura básica de la práctica.', {

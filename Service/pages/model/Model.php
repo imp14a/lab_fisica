@@ -7,6 +7,7 @@ class Model {
 	protected $conection;
 	protected $data;
 	protected $relationship;
+	public $relationshipLevel = 2;
 
 	function __construct() {
 		$this->conection = new Database();
@@ -30,7 +31,8 @@ class Model {
 				$this->data[$this->model_name][$finfo->name] = $row[$field_no];
 				$field_no++;
 			}
-			$this->createRelationship();
+			if($this->relationshipLevel>0)
+				$this->createRelationship();
 		}
 		
 		return $this->data;
