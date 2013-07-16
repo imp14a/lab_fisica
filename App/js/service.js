@@ -23,7 +23,7 @@ var xmlCodeMirror = null;
 Event.observe(window, 'load', getActivityService);
 
 function getActivityService(){
-	new Ajax.Request('http://lab_fisica/Service/pages/core/simulator.php', {
+	new Ajax.Request('http://wowinteractive.com.mx/lab_fisica/Service/pages/core/simulator.php', {
 		method: 'get',
   		parameters: {controller: 'Activity', action: 'getActivity'},
   		onSuccess: function(transport) {		
@@ -180,7 +180,7 @@ function showModalWindow(sender){
 		modal.setProperties('Gráfica', graph_view);	
 	}
 	else if (sender.srcElement.className == "script"){
-		new Ajax.Request('http://lab_fisica/Service/pages/core/simulator.php', {
+		new Ajax.Request('http://wowinteractive.com.mx/lab_fisica/Service/pages/core/simulator.php', {
 			method: 'get',
 			parameters: {controller: 'File', action: 'createXMLDocument'},
 			onSuccess: function(transport) {
@@ -213,7 +213,7 @@ function showModalWindow(sender){
 	Guarda el archivo XML editado
 */
 function saveXMLDocument(){
-	var form = new Element('form',{method:'post','action':"http://lab_fisica/Service/pages/core/simulator.php?controller=File&action=downloadXMLFile"});
+	var form = new Element('form',{method:'post','action':"http://wowinteractive.com.mx/lab_fisica/Service/pages/core/simulator.php?controller=File&action=downloadXMLFile"});
 	form.insert({bottom:new Element('input',{id:'xml',name:'xml','type':'hidden',value:xmlCodeMirror.getValue()})});
 	form.submit();
 }

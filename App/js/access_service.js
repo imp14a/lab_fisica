@@ -13,7 +13,7 @@ function accessService() {
 	var data = new String(window.location);
 	data = data.substring(data.indexOf("=") + 1, data.length);
 	
-	new Ajax.Request('http://lab_fisica/Service/pages/core/simulator.php', {
+	new Ajax.Request('http://wowinteractive.com.mx/lab_fisica/Service/pages/core/simulator.php', {
   		method: 'get',
   		parameters: {data: data},
   		onSuccess: function(transport) {  	  			
