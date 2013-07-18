@@ -6,7 +6,6 @@
  */
 
 include('../control/AccessHelper.php');
-include('../model/Model.php');
 
 class Router {
 

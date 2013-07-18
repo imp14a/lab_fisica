@@ -1,5 +1,6 @@
 <?php
 
+include_once('Model.php');
 
 class World extends Model {
 

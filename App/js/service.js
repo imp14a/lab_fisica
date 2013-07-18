@@ -23,6 +23,7 @@ var xmlCodeMirror = null;
 Event.observe(window, 'load', getActivityService);
 
 function getActivityService(){
+	adjustWindow();
 	new Ajax.Request('http://wowinteractive.com.mx/lab_fisica/Service/pages/core/simulator.php', {
 		method: 'get',
   		parameters: {controller: 'Activity', action: 'getActivity'},
@@ -36,9 +37,9 @@ function getActivityService(){
 		    	intro = json.description;
 		    	proc = json.steps;
 		    	conclusion = json.observations;
-		    	//console.log(json);
-		    	//Redimencionamos los elementos.
-		    	setDimensionElements();		    	
+
+		    	$('title').update("INTRODUCCIÓN"); 
+		    	$('info').update(intro);
 		    	//Agregamos los eventos	
 		       	setEventsElements();	
 		    	//Asignamos los tooltips	    			    	
@@ -375,22 +376,3 @@ function setTooltipsElements(){
 	});
 }
 
-/*
-	Redimensiona los elementos de acuerdo al tamaño del viewport.
-*/
-function setDimensionElements(){
-	var viewport = document.viewport.getDimensions();
-	var width = viewport.width; 
-	var height = viewport.height;
-	//console.log(height);
-	//console.log(width);
-	//alert(height);
-	$('content').setStyle({'height': (height - ($('header').getHeight() + $('footer').getHeight())) + 'px'});
-	$('simulator').setStyle({'height': (height - ($('header').getHeight() + $('footer').getHeight())) + 'px'});
-	$('service_simulator').setStyle({'height': ($('simulator').getHeight() - 100) + 'px'});
-	$('service_simulator').setStyle({'width': (width - ($('navigation').getWidth() + $('vtoolbar').getWidth()) -80) + 'px'});
-	//Primer actualización de contenido de información
-	$('activity_title').update(practice);
-	$('title').update("INTRODUCCIÓN"); 
-	$('info').update(intro);
-}

@@ -20,6 +20,7 @@
     <script type="text/javascript" src="js/tagtip.js"></script>  
     <script type="text/javascript" src="js/modal_window.js" charset="UTF-8"></script>
     <script type="text/javascript" src="js/service.js" charset="UTF-8"></script>  
+    <script type="text/javascript" src="js/resize_window.js" charset="UTF-8"></script>  
     <script type="text/javascript" src="js/raphael-min.js" charset="UTF-8"></script>
     
     <script type="text/javascript" src="js/grafico.base.js" charset="UTF-8"></script>                  
@@ -43,7 +44,7 @@
       </div>
     </div>   
       <div id="toolbar" class="main_bar">
-        <ul class="left_bar">
+        <ul id="left_bar" class="left_bar">
           <li class="item_bar">  
             <a id="open" class="open"></a>
           </li>  
@@ -56,7 +57,7 @@
            <li class="item_bar">  
             <a id="conclusion" class="conclusion"></a>
           </li>  
-           <li class="item_bar">  
+           <li class="item_bar last">  
             <a id="print" class="print" ></a>
           </li>   
         </ul>
@@ -70,16 +71,8 @@
           <li class="item_bar_control">  
             <a id="button_restart" class="restart"></a>
           </li>
-        </ul>        
-      </div>
-    </div>        
-    <div id="content">
-      <div id="navigation">
-        <div><div></div><div></div></div>
-        <p id="title">INTRODUCCI&Oacute;N</p>
-        <textarea id="info" readonly=true class="text_navigation">Marco te&oacute;rico de la pr&aacute;ctica</textarea>
-      </div>       
-      <div id="vtoolbar">
+        </ul>  
+        <div id="vtoolbar">
         <ul>
           <li class="item_vbar">  
             <a id="properties" class="properties"></a>
@@ -97,12 +90,17 @@
             <a id="script" class="script"></a>
           </li> 
         </ul>  
+      </div>      
+      </div>
+    </div>        
+    <div id="content">
+      <div id="navigation">
+        <div><div></div><div></div></div>
+        <p id="title">INTRODUCCI&Oacute;N</p>
+        <textarea id="info" readonly=true class="text_navigation">Marco te&oacute;rico de la pr&aacute;ctica</textarea>
       </div>    
       <div id="simulator">
-        <label id="activity_title" class"title">Titulo</label>
-        <div id="service_simulator" style="text-align:center;">
-          <canvas width="100" height="100" id="canvas"  ></canvas>
-        </div>
+        <center><canvas width="800" height="600" id="canvas"  ></canvas></center>
         <div class="slider" id="slider_div">
           <p>
             <label for="zoom_input">Zoom:</label>

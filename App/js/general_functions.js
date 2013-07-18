@@ -59,8 +59,8 @@ var worldProperties = {
 
 
 window.onload = function() {
-	var cs = $(document.body).getHeight()*0.6
-	generateCanvasUnits(cs);
+	var cs = $('simulator').getHeight();
+	generateCanvasUnits(cs-100);
 	$('canvas').writeAttribute('width',canvasProperties.realSize.width);
 	$('canvas').writeAttribute('height',canvasProperties.realSize.height);
 
@@ -253,6 +253,7 @@ function listenForContact(){
 }
 
 function generateCanvasUnits(canvasSize){
+	
 	canvasProperties.realSize.height = canvasSize;
 	canvasProperties.realSize.width = canvasProperties.realSize.height * proportion;
 	canvasProperties.unitiValue = zoom/100 ;
