@@ -20,7 +20,7 @@ body{
 }
 
 .temaPreview{
-	margin 20px;
+	margin :20px;
 	padding:10px;
 	
 	border-bottom: 1px solid black;

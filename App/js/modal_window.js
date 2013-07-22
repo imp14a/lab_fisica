@@ -15,42 +15,42 @@ var Modal = Class.create({
     this.toolbar = null
 
 		this.buildModal();
-		this.addObservers();		
-  	},
-  	
-  	buildModal: function() { 
-  		overlay = new Element('div', { 'class': 'full_screen'});
-  		container = new Element('div', { 'class': 'w_modal' });
-  		content = new Element('div', { 'class': 'modal_body' });  			  		  	
-  		title = new Element('div', { 'class': 'modal_title' });	
-  		toolbar = new Element('ul', { 'class': 'modal_toolbar' });		
+		this.addObservers();
 
-  		btn_ok = new Element('a', { 'class': 'btn_ok', 'id': 'btn_ok'});
-  		separator = new Element('a', { 'class': 'separator' });
-  		btn_cancel = new Element('a', { 'class': 'btn_cancel', 'id': 'btn_cancel'});
+  },
+  buildModal: function() {
+    overlay = new Element('div', { 'class': 'full_screen'});
+		container = new Element('div', { 'class': 'w_modal' });
+		content = new Element('div', { 'class': 'modal_body' });  			  		  	
+		title = new Element('div', { 'class': 'modal_title' });	
+		toolbar = new Element('ul', { 'class': 'modal_toolbar' });		
 
-  		document.body.insert(overlay);
+		btn_ok = new Element('a', { 'class': 'btn_ok', 'id': 'btn_ok'});
+		separator = new Element('a', { 'class': 'separator' });
+		btn_cancel = new Element('a', { 'class': 'btn_cancel', 'id': 'btn_cancel'});
 
-  		container.insert(title);		
-  		toolbar.insert(btn_ok);
-  		toolbar.insert(separator);
-  		toolbar.insert(btn_cancel);	  		
-  		container.insert(toolbar);  	
-  		container.insert(content);  	  		
+		document.body.insert(overlay);
 
-  		document.body.insert(container);
+		container.insert(title);		
+		toolbar.insert(btn_ok);
+		toolbar.insert(separator);
+		toolbar.insert(btn_cancel);	  		
+		container.insert(toolbar);  	
+		container.insert(content);  	  		
 
-  		this.overlay = overlay;
-  		this.container = container;
-      this.toolbar = toolbar;
-  		this.content = content;
-  		this.title = title;
-  		this.btn_ok = btn_ok;
-		  this.btn_cancel = btn_cancel;
-  		
-  		this.container.setStyle({display: 'none'});
-  		this.overlay.setStyle({display: 'none'});  		  	
-  	},
+		document.body.insert(container);
+
+		this.overlay = overlay;
+		this.container = container;
+    this.toolbar = toolbar;
+		this.content = content;
+		this.title = title;
+		this.btn_ok = btn_ok;
+	  this.btn_cancel = btn_cancel;
+		
+		this.container.setStyle({display: 'none'});
+		this.overlay.setStyle({display: 'none'});
+  },
   setBounds:function(w,h,t,l){
     container.setStyle({
       width:w,

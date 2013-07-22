@@ -80,7 +80,7 @@ body{
 	width: 23%;
 	max-width:278px;
 	min-height: 10%;
-	padding: 30px;
+	padding: 3%;
 	clear: left;
 	float: left;
 	padding-left: 0;
@@ -124,7 +124,7 @@ body{
 	border-right: 3px solid #5f9ea0;
 	float: left;
 	width: 17%;
-	padding: 1%;
+	padding: 3% 1%;
 	padding-top: 5px;
 	padding-bottom: 5px;
 }
@@ -175,8 +175,8 @@ ul.left_bar{
 	margin-bottom: 0;
 	width: 23%;
 	max-width: 278px;
-	padding-left: 15px;
-	padding-right: 15px;
+	padding-left: 1.5%;
+	padding-right: 1.5%;
 }
 
 

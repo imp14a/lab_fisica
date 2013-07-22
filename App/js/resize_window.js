@@ -38,13 +38,13 @@ function adjustWindow(){
 		$('left_bar').setStyle({
 			width:'23%',
 			'margin-top': '-30px',
-			'padding-left':'15px',
-			'padding-right':'15px'
+			'padding-left':'1.5%',
+			'padding-right':'1.5%'
 		});
 		$('left_bar').select('.item_bar').each(function(e){
 			e.setStyle({
 				'border-bottom':'none',
-				'border-right': e.hasClassName('last')?'':'3px solid #5f9ea0',
+				'border-right': e.hasClassName('last')?'':'2px solid #5f9ea0',
 				width:"17%"
 			});
 		});
