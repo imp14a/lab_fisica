@@ -131,7 +131,7 @@ function showModalWindow(sender){
 				.insert({bottom: new Element('select',{name:'gravity'})
 					.insert({bottom: new Element('option',{value:'2.78'}).update("Mercurio (2.78)")})
 					.insert({bottom: new Element('option',{value:'8.87'}).update("Venus (8.87)")})
-					.insert({bottom: new Element('option',{value:'9.32',selected:'selected'}).update("Tierra (9.78)")})
+					.insert({bottom: new Element('option',{value:'9.81',selected:'selected'}).update("Tierra (9.81)")})
 					.insert({bottom: new Element('option',{value:'1.62'}).update("Luna (1.62)")})
 					.insert({bottom: new Element('option',{value:'3.72'}).update("Marte (3.72)")})
 					.insert({bottom: new Element('option',{value:'22.88'}).update("Jupiter (22.88)")})
