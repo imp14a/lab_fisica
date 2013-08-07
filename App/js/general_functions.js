@@ -44,8 +44,9 @@ var canvasProperties = {
 };
 var bodies = new Array();
 var ground = {
-	showed:false,
-	elementInfo:{name:'ground', position:{x:0,y:1.2},size:{width:3,height:0.5},elasticity:0.5,density:1,friction:0.5, isStatic:true, elementType:'Polygon'},
+	showed:false,//TODO hacer que el width varie de acuerdo a lo encontrado
+	elementInfo:{name:'ground', position:{x:0,y:-1},size:{width:20,height:1},image:{resource:'ground'},
+				 elasticity:0.5,density:1,friction:0.5, isStatic:true, isDrawable:true,elementType:'Polygon',},
 	body:null
 };
 
@@ -56,6 +57,7 @@ var worldProperties = {
 	showAxes:false
 };
 
+var zoomSlider;
 
 
 window.onload = function() {
@@ -69,8 +71,9 @@ window.onload = function() {
 		left: $('canvas').viewportOffset().left
 	});*/
 
+	
 	$('zoom_input').value = zoom*2;
-	new Control.Slider('handle1' , 'track1',
+	zoomSlider = new Control.Slider('handle1' , 'track1',
 	{
 		range: $R(-100,-1),
 		axis:'vertical',
@@ -86,6 +89,14 @@ window.onload = function() {
 			performZoom();
 		}
 	});
+	$('zoom_input').observe('keypress', function(event){
+		if(event.keyCode == Event.KEY_RETURN){
+			var num = Number($('zoom_input').value)/-2;
+			if(num){
+				zoomSlider.setValue(num);
+			}
+		}
+	});
 	init();
 }
 
@@ -96,9 +107,6 @@ function init() {
 		if(elements[i].isDrawable){
 			createWorldElement(elements[i]);
 		}
-	}
-	if(worldProperties.showGround){
-
 	}
 	//Se agrega la densidad del medio
 	setMediaDensity();
@@ -135,13 +143,14 @@ function setMediaDensity(){
     listenForContact(); //funcion necesaria para la densidad del medio
 }
 
-//TODO documentar el formato del el elementInfo
+
 function createWorldElement(elementInfo){
+
 	var fixDef = new b2FixtureDef;
 
-	fixDef.density = elementInfo.density; // 1.0
-	fixDef.friction = elementInfo.friction; // 0.5
-	fixDef.restitution = elementInfo.elasticity; //0.4
+	fixDef.density = elementInfo.density; 
+	fixDef.friction = elementInfo.friction;
+	fixDef.restitution = elementInfo.elasticity;
 	fixDef.isSensor = elementInfo.isSensor;
 
 	var bodyDef = new b2BodyDef;
@@ -157,6 +166,10 @@ function createWorldElement(elementInfo){
 		var data = { 
 			resource: elementInfo.image.resource,
 			bodysize: zoom
+		}
+		if(elementInfo.elementType == 'Polygon'){
+			data.width = elementInfo.size.width;
+			data.height = elementInfo.size.height;
 		}
 		bodyDef.userData = data;
 	}
@@ -180,15 +193,12 @@ function createWorldElement(elementInfo){
 		body.SetMassData(massData);
 		fixDef.shape = new b2CircleShape(elementInfo.radio);
 	}
-	if(elementInfo.name=="ground"){
-		console.log('pisito!!');
-		fd = new b2FilterData;
-		//fixDef.filter = 
-	}
 
 	var fixture = body.CreateFixture(fixDef);
 	var bodyStructyure = {name:elementInfo.name,body:body,fixture:fixture};
+
 	bodies.push(bodyStructyure);
+	
 	return body;
 }
 
@@ -207,9 +217,13 @@ function getElementByName(name){
 }
 
 
-function update() {	
+function update() {
 	context.clearRect ( 0 , 0 , canvasProperties.realSize.width , canvasProperties.realSize.height );
 	world.Step(1 / 60 , 10 , 10 );
+
+	
+	showGround(worldProperties.showGround);
+
 	debugDraw.SetSprite(context);
 
 	world.SetGravity(new b2Vec2(0,worldProperties.gravity));
@@ -222,7 +236,7 @@ function update() {
 		drawAxis(context);
 	}
 	drawTextures();
-	console.log(canvasProperties);
+	
 }
 
 function listenForContact(){
@@ -243,7 +257,6 @@ function listenForContact(){
 		var fixtureB = contact.GetFixtureB();
 		if(fixtureA.IsSensor()){
 			var bodyB = fixtureB.GetBody();
-			console.log(bodyB);
 			if(bodyB.GetControllerList()) buoyancyController.RemoveBody(bodyB);
 		}else if(fixtureB.IsSensor()){
 			var bodyA = fixtureA.GetBody();
@@ -270,7 +283,7 @@ function setupDebugDraw(){
 	debugDraw.SetDrawScale(zoom);
 	debugDraw.SetFillAlpha(0.5);
 	debugDraw.SetLineThickness(0);
-	debugDraw.SetFlags( b2DebugDraw.e_jointBit );//| b2DebugDraw.e_shapeBit );
+	debugDraw.SetFlags( b2DebugDraw.e_jointBit);// | b2DebugDraw.e_shapeBit );
 	world.SetDebugDraw(debugDraw);
 	update();
 }
@@ -344,7 +357,6 @@ function stopSimulation(){
 function useNewProperties(){
 	bodies = new Array();
 	init();
-	createInteractiveWorld();
 	update();
 	elementsChanged =  false;
 }
@@ -359,7 +371,8 @@ function performZoom(){
 	var cs = $('canvas').getHeight();
 	var previo = new Array();
 	for(i=0;i<bodies.length;i++){
-		previo.push({x:bodies[i].body.GetWorldCenter().x - canvasProperties.center.x,y: bodies[i].body.GetWorldCenter().y - canvasProperties.center.y});
+		previo.push({x:bodies[i].body.GetWorldCenter().x - canvasProperties.center.x,
+			y: bodies[i].body.GetWorldCenter().y - canvasProperties.center.y});
 	}
 	generateCanvasUnits(cs);
 	for(i=0;i<bodies.length;i++){
@@ -367,6 +380,7 @@ function performZoom(){
 		y = canvasProperties.center.y + (previo[i].y);
 		bodies[i].body.SetPosition(new b2Vec2(x,y));
 	}
+
 	world.DrawDebugData();
 	if(worldProperties.showAxes){
 		drawAxis(context);
@@ -376,15 +390,19 @@ function performZoom(){
 
 function drawTextures(){
 	for(i=0;i<bodies.length;i++){
-
 		if (bodies[i].body.m_userData && bodies[i].body.m_userData.resource) {
 			// This "image" body destroys polygons that it contacts
 			// Draw the image on the object
 			var shape = bodies[i].body.GetFixtureList().GetShape();
 			//comprobamos si es circulo
-			if(shape.m_type==0){
-				s = (shape.m_radius*2)*zoom;
-				size = {width:s,height:s};
+			switch(shape.m_type){
+				case 0:
+					s = (shape.m_radius*2)*zoom;
+					size = {width:s,height:s};
+				break;
+				case 1:
+					size = {width:bodies[i].body.m_userData.width * zoom,height:bodies[i].body.m_userData.height * zoom};
+				break;
 			}
 			//TODO restringimos a solo buscar dentro de el elemento Resources
 			var imgObj = document.getElementById(bodies[i].body.m_userData.resource);
@@ -444,7 +462,7 @@ function drawAxis(context){
 		context.moveTo(midlew-4,j);
 		context.lineTo(midlew+4,j);
 
-		context.fillText(label+"",i-2,midleh+12);
+		context.fillText(label+"",i-2,midleh-8);
 		context.fillText("-"+label,midlew+8,j+4);
 
 		j+=pixUnit;
@@ -461,7 +479,7 @@ function drawAxis(context){
 		context.moveTo(midlew-4,j);
 		context.lineTo(midlew+4,j);
 
-		context.fillText("-"+label,i-4,midleh+12);
+		context.fillText("-"+label,i-4,midleh-8);
 		context.fillText(label+"",midlew-14,j+4);
 		j-=pixUnit;
 	}
@@ -470,10 +488,19 @@ function drawAxis(context){
 
 }
 
-function showGround(){
-	
+function showGround(needed){
+	if(needed && ground.body==null){
+		ground.elementInfo.size.width = canvasProperties.size.width;
+		ground.body = createWorldElement(ground.elementInfo);
+	}else if(!needed && ground.body!=null){
+		removeGround();
+	}
 }
 
 function removeGround(){
-
+	var removableGround = getBodyByName('ground');
+	var groundIndex = bodies.indexOf(removableGround);
+	world.DestroyBody(removableGround);
+	bodies.splice(groundIndex,1);
+	ground.body=null;
 }
