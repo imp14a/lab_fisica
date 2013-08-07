@@ -259,22 +259,61 @@ function xmlUploaded(name){
     if (frame) {
         ret = frame.document.getElementsByTagName("body")[0].innerHTML;
         if (ret.length) {
-        	//TODO validacion si el documento regreso mal
-            var jsonResponse = eval("("+ret+")");
-            // asignamos valores recividos
-            worldProperties = jsonResponse.WorldProperties
-            //TODO realizar todo lo de 
-            console.log(jsonResponse);
+        	try{
+        		var jsonResponse = eval("("+ret+")");
+        	}catch(error){
+        		alert('Error al cargar el archivo.');
+        		return;
+        	}
+            if(typeof jsonResponse == 'undefined'){
+                alert('Error al cargar el archivo.');
+                return;
+            }
             if(typeof jsonResponse.error != 'undefined'){
                 alert(jsonResponse.error);
             }else{
+            	worldProperties = jsonResponse.WorldProperties 
+            	//Elements properties
+            	for(i=0;i<jsonResponse.WorldElements.length;i++){
+            		for(key in jsonResponse.WorldElements[i]){
+            			setValuesForElement(jsonResponse.WorldElements[i].name,key,jsonResponse.WorldElements[i][key]);
+            		}
+            	}
 
+            	//TODO realizar todo lo de poner las demas valores obtenidos
+            	//Activity Info
+
+            	intro = jsonResponse.ActivityInfo.Description;
+            	proc = jsonResponse.ActivityInfo.Process;
+            	conclusion = jsonResponse.ActivityInfo.Observations;
+
+            	switch($('title').innerHTML){
+            		case "INTRODUCCIÓN":
+            			$('info').update(intro);
+            		break;
+            		case "PROCEDIMIENTO":
+            			$('info').update(proc);
+            		break;
+            		case "OBSERVACIONES":
+            			$('info').update(conclusion);
+            		break;
+            	}	
+
+            	elementsChanged = true;
+            	if(!isPlayed){
+            		useNewProperties();
+            	}
+            	
             }
         }
     }
     this.propertiesChange = true;
     modal.hideModal();
 }
+
+/*
+	Auxiliar function 
+*/
 function getFrameByName(name) {
     for (var i = 0; i < frames.length; i++)
         if (frames[i].name == name)
@@ -286,6 +325,8 @@ function getFrameByName(name) {
 	Guarda el archivo XML editado
 */
 function saveXMLDocument(){
+
+	console.log(xmlCodeMirror.getValue());
 	var form = new Element('form',{method:'post','action':"http://wowinteractive.com.mx/lab_fisica/Service/pages/core/simulator.php?controller=File&action=downloadXMLFile"});
 	form.insert({bottom:new Element('input',{id:'xml',name:'xml','type':'hidden',value:xmlCodeMirror.getValue()})});
 	form.submit();

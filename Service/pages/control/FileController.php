@@ -23,11 +23,11 @@ class FileController {
         }else{
             try{
                 $this->xml->load($_FILES["file"]["tmp_name"]);
-                if($this->xml->schemaValidate('../../resources/LaboratorioFisica.xsd')){
+                //if($this->xml->schemaValidate('../../resources/LaboratorioFisica.xsd')){
                      $worldProp = $this->xml->getElementsByTagName('WorldProperties')->item(0)->getElementsByTagName('Property');
                      $res =  array();
                      for($i=0;$i<$worldProp->length;$i++){
-                        $value = FileControLLer::getRealValue($worldProp->item($i)->getAttribute('value'));
+                        $value = FileControLLer::getRealValue($worldProp->item($i)->nodeValue);
                         $res['WorldProperties'][$worldProp->item($i)->getAttribute('name')] = $value;
                      }
                      $worldElements = $this->xml->getElementsByTagName('WorldElements')->item(0)->getElementsByTagName('WorldElement');
@@ -36,7 +36,7 @@ class FileController {
                         $res['WorldElements'][$i]['name'] = $worldElements->item($i)->getAttribute('name');
                         $propertiesElement = $worldElements->item($i)->getElementsByTagName('Property');
                         for($j=0;$j<$propertiesElement->length;$j++){
-                            $value = FileControLLer::getRealValue($propertiesElement->item($j)->getAttribute('value'));
+                            $value = FileControLLer::getRealValue($propertiesElement->item($j)->nodeValue);
                             $res['WorldElements'][$i][$propertiesElement->item($j)->getAttribute('name')] = $value;
                         }
                      }
@@ -45,11 +45,10 @@ class FileController {
                         $value = $activityInfo->item($i)->getElementsByTagName('Content')->item(0)->nodeValue;
                         $res['ActivityInfo'][$activityInfo->item($i)->getAttribute('name')] = $value;
                      }
-
                      echo json_encode($res); 
-                }else{
-                    echo json_encode(array('error'=>'El archivo XML ingresado es incorrecto.'));
-                }
+                /*}else{
+                   echo json_encode(array('error'=>'El archivo XML ingresado es incorrecto.'));
+                }*/
             }catch(Exception $e){
                 print_r($e);
                 //echo json_encode(array('error'=>$e->message));
@@ -59,7 +58,7 @@ class FileController {
 
     public static function getRealValue($string_object){
         if(strstr($string_object, '{')){
-            $obj = json_decode($string_object);
+            $obj = json_decode(trim(utf8_decode($string_object)));
             if(empty($obj)){
                 throw new Exception("El objeto $string_object no tiene el formato correcto.");
             }
@@ -71,11 +70,19 @@ class FileController {
         if(is_bool($string_object)){
             return (bool)$string_object;
         }
+        if($string_object=="false"){
+            return false;
+        }
+        if($string_object=="true"){
+            return true;
+        }
         return $string_object;
     }
 
     function downloadXMLFile(){
         if(isset($_POST['xml'])){
+            //formateamos XML
+            $xml = str_replace('\"','"',$_POST['xml']); 
             $activity = new Activity();
             $activity->relationshipLevel = 0;
             $data = $activity->loadFromDatabase("Activity.activity_id='".$_SESSION['activity']."'");
@@ -85,7 +92,7 @@ class FileController {
             header("Content-Disposition: attachment; filename=$xmlName.xml");
             header('Content-type: text/xml');
 
-            echo $_POST['xml'];
+            echo utf8_encode($xml);
         }
     }
 
@@ -147,9 +154,8 @@ class FileController {
     }
 
     private function createPropertie($propertie){
-        $prop = $this->xml->createElement('Property');
+        $prop = $this->xml->createElement('Property',$propertie['Propertie']['value']);
         $prop->setAttribute('name',$propertie['Propertie']['name']);
-        $prop->setAttribute('value',$propertie['Propertie']['value']);
         $prop->setAttribute('description',utf8_encode($propertie['Propertie']['description']));
         return $prop;
     }

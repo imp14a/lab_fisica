@@ -19,14 +19,6 @@
 										</xs:restriction>
 									</xs:simpleType>
 								</xs:attribute>
-								<xs:attribute name="value" use="required">
-									<xs:simpleType>
-										<xs:restriction base="xs:string">
-											<xs:minLength value="1"/>
-											<xs:whiteSpace value="collapse"/>
-										</xs:restriction>
-									</xs:simpleType>
-								</xs:attribute>
 								<xs:attribute name="description" use="required">
 									<xs:simpleType>
 										<xs:restriction base="xs:string">
@@ -49,14 +41,6 @@
 									<xs:element name="Property" minOccurs="0" maxOccurs="unbounded" >
 										<xs:complexType>
 											<xs:attribute name="name" use="required">
-												<xs:simpleType>
-													<xs:restriction base="xs:string">
-														<xs:minLength value="1"/>
-														<xs:whiteSpace value="collapse"/>
-													</xs:restriction>
-												</xs:simpleType>
-											</xs:attribute>
-											<xs:attribute name="value" use="required">
 												<xs:simpleType>
 													<xs:restriction base="xs:string">
 														<xs:minLength value="1"/>

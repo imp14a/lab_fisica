@@ -152,7 +152,7 @@ function createWorldElement(elementInfo){
 		bodyDef.type = b2Body.b2_dynamicBody;
 
 	bodyDef.position.x = canvasProperties.center.x + (elementInfo.position.x * canvasProperties.unitiValue);
-	bodyDef.position.y = canvasProperties.center.y + (elementInfo.position.y * canvasProperties.unitiValue);
+	bodyDef.position.y = canvasProperties.center.y + ((-1)*elementInfo.position.y * canvasProperties.unitiValue);
 	if(typeof elementInfo.image != 'undefined'){
 		var data = { 
 			resource: elementInfo.image.resource,
@@ -222,6 +222,7 @@ function update() {
 		drawAxis(context);
 	}
 	drawTextures();
+	console.log(canvasProperties);
 }
 
 function listenForContact(){
@@ -416,11 +417,55 @@ function drawAxis(context){
 	context.beginPath();
 	prevStyle = context.strokeStyle;
 	context.strokeStyle="#999999";
-	context.lineWidth=2;
-	context.moveTo(canvasProperties.realSize.width/2,0);
-	context.lineTo(canvasProperties.realSize.width/2,canvasProperties.realSize.height);
-	context.moveTo(0,canvasProperties.realSize.height/2);
-	context.lineTo(canvasProperties.realSize.width,canvasProperties.realSize.height/2);
+	context.lineWidth=1;
+
+	var midlew = canvasProperties.realSize.width/2;
+	var midleh = canvasProperties.realSize.height/2;
+
+	context.moveTo(midlew,0);
+	context.lineTo(midlew,canvasProperties.realSize.height);
+	context.moveTo(0,midleh);
+	context.lineTo(canvasProperties.realSize.width,midleh);
+	
+	// dibujamos la numeracion
+
+	var shiftFactor = Math.round(100/zoom);
+	var pixUnit = (zoom/2)*shiftFactor;
+	var label = 0;
+	// label en 100 a 1 a 1, 50 a 2 en 2, a  a 25 4 en 4
+	var j = midleh+pixUnit;
+	context.font="10px Arial";
+	for(i=midlew+pixUnit;i<canvasProperties.realSize.width;i=i+pixUnit){
+		
+		label += shiftFactor;
+
+		context.moveTo(i,midleh-4);
+		context.lineTo(i,midleh+4);
+		context.moveTo(midlew-4,j);
+		context.lineTo(midlew+4,j);
+
+		context.fillText(label+"",i-2,midleh+12);
+		context.fillText("-"+label,midlew+8,j+4);
+
+		j+=pixUnit;
+	}
+
+	label = 0;
+	j = midleh-pixUnit;
+	for(i=midlew-pixUnit;i>0;i=i-pixUnit){
+		
+		label += shiftFactor;
+		context.moveTo(i,midleh-4);
+		context.lineTo(i,midleh+4);
+		// Print label only if text
+		context.moveTo(midlew-4,j);
+		context.lineTo(midlew+4,j);
+
+		context.fillText("-"+label,i-4,midleh+12);
+		context.fillText(label+"",midlew-14,j+4);
+		j-=pixUnit;
+	}
+
 	context.stroke();
 
 }
