@@ -10,7 +10,6 @@ class SimulatorController {
 	}
 
 	function simulator() {
-
 		$this->activity->loadFromDatabase($_SESSION['activity']);
 
 		if( file_exists( '../view/SimulatorView.php' ) ) {
@@ -19,15 +18,10 @@ class SimulatorController {
 			throw new Exception("No se encontro la vista solicitada"); 
 		} 
 	}
-
-    function newScript(){
-
-    }
-
-    function getViewScript(){
-
-    }
-
+    /**
+     * [getScript Peticion para obtener el escript de funcionamiento para esta practica]
+     * Escribe el script para que sea usado en formato Javascript
+     */
 	function getScript(){
         $activity = new Activity();
         $data = $activity->loadFromDatabase("Activity.activity_id='".$_SESSION['activity']."'");

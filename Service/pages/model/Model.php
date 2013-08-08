@@ -3,20 +3,40 @@
 include('../core/Database.php');
 
 class Model {
-	
+	/**
+	 * [$conection Conexxion a la base de datos]
+	 * @var Database 
+	 */
 	protected $conection;
+	/**
+	 * [$data Array de datos obtenidos mediante una consulta]
+	 * @var array 
+	 */
 	protected $data;
+	/**
+	 * [$relationship Array requerido para realizar la conexion y relacion entre los objetos ]
+	 * @var array
+	 */
 	protected $relationship;
+	/**
+	 * [$relationshipLevel Indica el nivel para la creacion de las relaciones]
+	 * @var integer
+	 */
 	public $relationshipLevel = 2;
 
+	/**
+	 * [__construct Contructor de el modelo]
+	 */
 	function __construct() {
 		$this->conection = new Database();
 		$this->data = array();
 	}
 
-	/*
-		Load firs row from database
-	*/
+	/**
+	 * [loadFromDatabase Obtiene solo el primer elemento del modelo almacenado en la base de datos]
+	 * @param  string $where_conditions  (opcional) Condiciones para la busqueda  
+	 * @return array respuesta de datos
+	 */
 	function loadFromDatabase($where_conditions=''){
 
 		if($where_conditions!=''){
@@ -38,10 +58,11 @@ class Model {
 		return $this->data;
 	}
 
-	/*
-		Load multiple data from database
-	*/
-
+	/**
+	 * [loadAllFromDatabase Obtiene todos los elementos almacenados en la base de datos para este modelo]
+	 * @param  string $where_conditions (opcional) Condiciones para la busqueda
+	 * @return array Array con el resultado
+	 */
 	function loadAllFromDatabase($where_conditions=''){
 
 		if($where_conditions!=''){
@@ -63,6 +84,9 @@ class Model {
 		return $this->data;
 	}
 
+	/**
+	 * [createRelationship Crea las relaciones de objetos segun se indican en el modelo en la variable $this->relationship]
+	 */
 	function createRelationship(){
 		if(!isset($this->relationship)){
 			return;
@@ -86,6 +110,11 @@ class Model {
 		}
 	}
 
+	/**
+	 * [getModel Carga y regresa el controlador para dicho nombre]
+	 * @param  string $name Nombre del controlador a cargar
+	 * @return Object Controlador cargado
+	 */
 	public static function getModel($name){
 		$model_path = dirname(__FILE__);
 		$controlelr_location = $model_path.'/'.$name.'.php';
@@ -103,6 +132,11 @@ class Model {
 		return $cont;
 	}
 
+	/**
+	 * [tableize Formatea el texto para relacionar el controlador con los nombres de la base de datos]
+	 * @param  String $word
+	 * @return string Formato de base de datos 
+	 */
 	public static function tableize($word) {
 		return strtolower(preg_replace('~(?<=\\w)([A-Z])~', '_$1', $word));
 	}

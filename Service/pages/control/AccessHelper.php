@@ -21,7 +21,11 @@ class AccessHelper {
 		if($params['time']!=date('Y-m-d')) return false;
 		return $params['activity'];
 	}
-
+	/**
+	 * [getParameters Obtiene los parametros obtenidos en el URL del data que se ingresa]
+	 * @param  [String] $data Datos url codificados
+	 * @return [Array] Array de parametros de informacion extraidos
+	 */
 	function getParameters($data=null){
 
 		if(!$data) return false;
@@ -49,7 +53,12 @@ class AccessHelper {
 			return false;
 		}
 	}
-
+	/**
+	 * [generateData Genera un URL valido para porder acceder a la aplicacion, valido solo por un dia y una actividad]
+	 * @param  string  $host Host para el cual se dara el acceso
+	 * @param  integer $activity Id de la actividad a la que se dara acceso
+	 * @return [String] URL para acceder a la aplicacion
+	 */
 	function generateData($host='localhost',$activity=1){
 
 
