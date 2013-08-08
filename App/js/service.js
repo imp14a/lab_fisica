@@ -54,6 +54,7 @@ function getActivityService(){
 	});
 }
 
+
 /*	
 	Función que establece el texto que se muestra en el área de información.
 */
