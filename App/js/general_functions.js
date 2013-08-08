@@ -1,8 +1,9 @@
 
 
 /*
-	Incluibles para funcione Box2DWeb
-*/
+ *	Incluibles para funcione Box2DWeb
+ *
+ */
 
 var b2Vec2 = Box2D.Common.Math.b2Vec2
     ,    b2FixtureDef = Box2D.Dynamics.b2FixtureDef
@@ -19,37 +20,93 @@ var b2Vec2 = Box2D.Common.Math.b2Vec2
     ,	b2RevoluteJointDef = Box2D.Dynamics.Joints.b2RevoluteJointDef
     ,	b2BuoyancyController = Box2D.Dynamics.Controllers.b2BuoyancyController;
 
-/*
-	Atributos Generales
-*/
-
-var world;
+/**
+ * [world Contiene el mundo utilizado por la libreria Box2DWeb para realizar las fucniones]
+ * @type {Object}
+ */
+var world = null;
+/**
+ * [context Contexto donde se dibujaran todos los elementos del simulador]
+ * @type {Object}
+ */
 var context = document.getElementById("canvas").getContext("2d");
-// la proporcion es 4:3, con esto se genera un mundo inicial que dependera del zoom y la proporcion
-// el eje cordenado va de -10 a 10 en el eje "x" y el eje "y"
+/**
+ * [proportion Indica la proporcion de pantalla que se usara para dimencionar el canvas, default: 1.33 (4:3) ]
+ * @type {Number}
+ */
 var proportion = 1.33;
+/**
+ * [zoom Indica el zoom con que inician los cuerpos del mundo, ya que es posible hacerlo al 200% se inicia con la mitad
+ * y se multiplica por 2 para ser mostrado ]
+ * @type {Number}
+ */
 var zoom = 50;
+/**
+ * [prevZoom Utilizado para realizar los cambios entre zoom,]
+ * @type {Number}
+ */
 var prevZoom = zoom;
-var debugDraw;
-var gridSize=113; // 113 pixeles son 4 centimetros 
-var interval_id;
+/**
+ * [debugDraw Utilizado por Box2DWeb para poder dibujar sobre un canvas los elementos del mundo]
+ * @type {Object}
+ */
+var debugDraw = null;
+/**
+ * [interval_id Indica el id del timear que se esta ejecutando en la simulacion]
+ * @type {Number}
+ */
+var interval_id = null;
+/**
+ * [timeUnit Inidca el valor del tiempo que lleva la simualcion]
+ * @type {Number}
+ */
+var timeUnit = 0;
+/**
+ * [isPlayed Inidica si actualmente esta en proceso la simulacion]
+ * @type {Boolean}
+ */
 var isPlayed = false;
+/**
+ * [buoyancyController Utilizado para indicar la densidad del ambiente]
+ * @type {b2BuoyancyController}
+ */
 var buoyancyController = new b2BuoyancyController();
-// Los valores de las unidades estan dados por unidades usadas por el motor, a excepcion de los amrcados con real
+/**
+ * [canvasProperties Propiedades del canvas obtenidas despues de una redimencion o zoom, 
+ * los valores de las unidades estan dados por unidades usadas por el motor, a excepcion de los amrcados con real]
+ * @type {Object}
+ */
 var canvasProperties = {
 	realSize:{width:0, height:0 },
 	size:{ width:0, height:0 },
 	center:{ x:0, y:0 },
 	unitiValue:0 
 };
+/**
+ * [bodies Almacena los cuerpos que se estan mostrando en el simualdor, para poder ser eliminados posteriormente con mayor facilidad]
+ * @type {Array}
+ */
 var bodies = new Array();
+/**
+ * [joints Almacena todas las articulaciones utilizadas en el simualdor, para poder ser eliminados posteriormente con mayor facilidad]
+ * @type {Array}
+ */
+var joints = new Array();
+/**
+ * [ground Contiene la informacion para dibujar el sualo en caso de ser necesario]
+ * @type {Object}
+ */
 var ground = {
-	showed:false,//TODO hacer que el width varie de acuerdo a lo encontrado
+	showed:false,
 	elementInfo:{name:'ground', position:{x:0,y:-1},size:{width:20,height:1},image:{resource:'ground'},
 				 elasticity:0.5,density:1,friction:0.5, isStatic:true, isDrawable:true,elementType:'Polygon',},
 	body:null
 };
 
+/**
+ * [worldProperties contiene la informacion del mundo, mismas que pueden ser editadas]
+ * @type {Object}
+ */
 var worldProperties = {
 	gravity:9.32,
 	density:0.00,
@@ -57,20 +114,21 @@ var worldProperties = {
 	showAxes:false
 };
 
-var zoomSlider;
+/**
+ * [zoomSlider Controlador para manejar el slider]
+ * @type {Object}
+ */
+var zoomSlider = null;
 
-
+/**
+ * [Inidica que inicia la funcionalidad cuando se carga la pagina]
+ * @return {function}
+ */
 window.onload = function() {
 	var cs = $('simulator').getHeight();
 	generateCanvasUnits(cs-100);
 	$('canvas').writeAttribute('width',canvasProperties.realSize.width);
 	$('canvas').writeAttribute('height',canvasProperties.realSize.height);
-
-	/*$('slider_div').setStyle({
-		top: $('canvas').viewportOffset().top,
-		left: $('canvas').viewportOffset().left
-	});*/
-
 	
 	$('zoom_input').value = zoom*2;
 	zoomSlider = new Control.Slider('handle1' , 'track1',
@@ -100,6 +158,9 @@ window.onload = function() {
 	init();
 }
 
+/**
+ * [init Inicializa todo el ambiente del simulador, creando el mundo y agregando todos los elementos ]
+ */
 function init() {
 	world = new b2World( new b2Vec2(0,worldProperties.gravity), true);
 
@@ -108,13 +169,13 @@ function init() {
 			createWorldElement(elements[i]);
 		}
 	}
-	//Se agrega la densidad del medio
 	setMediaDensity();
-
 	createInteractiveWorld();
 	setupDebugDraw();
 }
-
+/**
+ * [setMediaDensity Pone la Densidad del medio, utilizando Un b2BuoyancyController ]
+ */
 function setMediaDensity(){
 	buoyancyController = new b2BuoyancyController();
 	buoyancyController.normal.Set(0, -1);
@@ -143,7 +204,43 @@ function setMediaDensity(){
     listenForContact(); //funcion necesaria para la densidad del medio
 }
 
+/**
+ * [getBodyByName Regresa algun cuerpo que este almacenado en el array bodies]
+ * @param  {String} name Nombre del cuerpo a buscar
+ * @return {Object} cuerpo encontrado, si no existe regresa null
+ */
+function getBodyByName(name){
+	for(i=0;i<bodies.length;i++){
+		if(bodies[i].name==name)return bodies[i].body;
+	}
+	return null;
+}
 
+/**
+ * [getElementByName Regresa el elemento en elements que contiene la informacion para crear un cuerpo del mundo]
+ * @param  {String} name Nombre del Elemento a buscar
+ * @return {Object} El elemento encontrado, o null si no existe 
+ */
+function getElementByName(name){
+	for(i=0;i<elements.length;i++){
+		if(elements[i].name == name)return elements[i];
+	}
+	return null;
+}
+
+/**
+ * [setWoldProperties Pone las propiedades al mundo, esto hace que cambien el ambiente]
+ * @param {Object} properties Propiedades a poner, gravedad, densidad, mostrar ejes y mostrar suelo
+ */
+function setWoldProperties(properties){
+	worldProperties = properties;
+}
+
+/**
+ * [createWorldElement Crea un cuerpo del mundo a base de un elemento dado ]
+ * @param  {[type]} elementInfo Informacion del cuerpo a crear
+ * @return {[type]} El cuerpo creado y agregado al mundo
+ */
 function createWorldElement(elementInfo){
 
 	var fixDef = new b2FixtureDef;
@@ -177,9 +274,7 @@ function createWorldElement(elementInfo){
 	{
 		bodyDef.angle = elementInfo.angle;
 	}
-
 	var body = world.CreateBody(bodyDef);
-
 	if(elementInfo.elementType == 'Polygon'){
 		fixDef.shape = new b2PolygonShape;
 		fixDef.shape.SetAsBox(
@@ -188,47 +283,26 @@ function createWorldElement(elementInfo){
 			);
 	} else {
 		var massData = new b2MassData;
-		//massData.center = body.GetWorldCenter(); 
 		massData.mass = elementInfo.mass;
 		body.SetMassData(massData);
 		fixDef.shape = new b2CircleShape(elementInfo.radio);
 	}
-
 	var fixture = body.CreateFixture(fixDef);
 	var bodyStructyure = {name:elementInfo.name,body:body,fixture:fixture};
-
 	bodies.push(bodyStructyure);
-	
 	return body;
 }
 
-function getBodyByName(name){
-	for(i=0;i<bodies.length;i++){
-		if(bodies[i].name==name)return bodies[i].body;
-	}
-	return null;
-}
-
-function getElementByName(name){
-	for(i=0;i<elements.length;i++){
-		if(elements[i].name == name)return elements[i];
-	}
-	return null;
-}
-
-
+/**
+ * [update Utilizado por Box2DWeb para actualizar un frame de la simulacion]
+ */
 function update() {
 	context.clearRect ( 0 , 0 , canvasProperties.realSize.width , canvasProperties.realSize.height );
 	world.Step(1 / 60 , 10 , 10 );
-
-	
 	showGround(worldProperties.showGround);
-
 	debugDraw.SetSprite(context);
-
 	world.SetGravity(new b2Vec2(0,worldProperties.gravity));
 	buoyancyController.density = worldProperties.density;
-	
 	context.lineWidth = 2;
 	world.DrawDebugData();
 	world.ClearForces();
@@ -238,7 +312,9 @@ function update() {
 	drawTextures();
 	
 }
-
+/**
+ * [listenForContact Utilizado por el BouyanceController para manipular la densidad del medio]
+ */
 function listenForContact(){
 	var listener = new Box2D.Dynamics.b2ContactListener;
 	listener.BeginContact = function(contact){
@@ -265,9 +341,11 @@ function listenForContact(){
 	}
 	world.SetContactListener(listener);
 }
-
+/**
+ * [generateCanvasUnits Genera la informacion del canvas y lo pone en canvasProperties, de acuerdo a el tamaño dado ]
+ * @param  {[type]} canvasSize Tamaño inicial del canvas 
+ */
 function generateCanvasUnits(canvasSize){
-	
 	canvasProperties.realSize.height = canvasSize;
 	canvasProperties.realSize.width = canvasProperties.realSize.height * proportion;
 	canvasProperties.unitiValue = zoom/100 ;
@@ -276,7 +354,9 @@ function generateCanvasUnits(canvasSize){
 	canvasProperties.center.x = (canvasProperties.size.width / 2);
 	canvasProperties.center.y = (canvasProperties.size.height / 2);
 }
-
+/**
+ * [setupDebugDraw Inicia la funcionalidad sobre el canvas ]
+ */
 function setupDebugDraw(){
 	debugDraw = new b2DebugDraw();
 	debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
@@ -288,6 +368,9 @@ function setupDebugDraw(){
 	update();
 }
 
+/**
+ * [startSimulation Funcion para iniciar la simulacion]
+ */
 function startSimulation(){
 	if(elementsChanged){
 		useNewProperties();
@@ -296,11 +379,66 @@ function startSimulation(){
 		interval_id = window.setInterval(update, 1000 / 60);
 		isPlayed = true;
 		interval = setInterval(function(){
-			unit++;
-			$('time').value = ("0" + parseInt(unit/360000)).slice(-2) + ":" + ("0" + parseInt(unit/6000)%60).slice(-2) + ":" + ("0" + parseInt(unit/100)%60).slice(-2) + ":" + ("0" + unit%100).slice(-2);
+			timeUnit++;
+			$('time').value = ("0" + parseInt(timeUnit/360000)).slice(-2) + ":" + ("0" + parseInt(timeUnit/6000)%60).slice(-2) 
+				+ ":" + ("0" + parseInt(timeUnit/100)%60).slice(-2) + ":" + ("0" + timeUnit%100).slice(-2);
 		},10);
 		setWatchInterval();
 	}
+}
+/**
+ * [stopSimulation Funcion para detener la simualcion]
+ */
+function stopSimulation(){
+	if (interval){
+		window.clearInterval(interval);
+		window.clearInterval(interval_id);
+		if(typeof watch_interval!='undefined'){
+			window.clearInterval(watch_interval);
+		}
+		if(typeof graph_interval!='undefined'){
+			window.clearInterval(graph_interval);
+		}
+		isPlayed = false;
+	}
+}
+
+/**
+ * [restartSimulation Funcion para reiniciar la simulacion]
+ * @return {[type]}
+ */
+function restartSimulation(){
+	
+	stopSimulation();
+	rebuildWorld();
+	timeUnit = 0;
+	//startSimulation();
+}
+/**
+ * [rebuildWorld Recontruye el mundo a su estado inicial, o el estado con nuevas propiedades]
+ */
+function rebuildWorld(){
+	for(i=0;i<joints.length;i++){
+		world.DestroyJoint(joints[i]);
+	}
+	joints = new Array();
+	for(i=0;i<bodies.length;i++){
+		world.DestroyBody(bodies[i].body);
+	}
+	ground.body = null;
+	bodies = new Array();
+	world.DestroyController(buoyancyController);
+	buoyancyController = new b2BuoyancyController();
+	init();
+}
+/**
+ * [useNewProperties Funcion para indicar que se deben usar las nuevas propiedades]
+ */
+function useNewProperties(){
+	bodies = new Array();
+	init();
+	update();
+	elementsChanged =  false;
 }
 
 function setWatchInterval(){
@@ -308,7 +446,8 @@ function setWatchInterval(){
 		if(isPlayed){
 			watch_interval = setInterval(function(){				
 				if(watch_variable.isVector){
-					$('watch').value = watch_variable.tag + ' X: ' + eval(watch_variable.function).x.toFixed(4) + ' Y: ' + eval(watch_variable.function).y.toFixed(4);
+					$('watch').value = watch_variable.tag + ' X: ' + eval(watch_variable.function).x.toFixed(4) + ' Y: ' 
+						+ eval(watch_variable.function).y.toFixed(4);
 				}else{
 					$('watch').value = watch_variable.tag + ': ' + eval(watch_variable.function).toFixed(4);
 				}
@@ -336,7 +475,8 @@ function setWatchInterval(){
 			},500);
 		}else{
 			if(watch_variable.isVector){
-				$('watch').value = watch_variable.tag + ' X: ' + eval(watch_variable.function).x.toFixed(4) + ' Y: ' + eval(watch_variable.function).y.toFixed(4);
+				$('watch').value = watch_variable.tag + ' X: ' + eval(watch_variable.function).x.toFixed(4) + ' Y: ' 
+					+ eval(watch_variable.function).y.toFixed(4);
 			}else{
 				$('watch').value = watch_variable.tag + ': ' + eval(watch_variable.function).toFixed(4);
 			}
@@ -344,28 +484,9 @@ function setWatchInterval(){
 	}
 }
 
-function stopSimulation(){
-	if (interval){
-		window.clearInterval(interval);
-		window.clearInterval(interval_id);
-		window.clearInterval(watch_interval);
-		window.clearInterval(graph_interval);
-		isPlayed = false;
-	}
-}
-
-function useNewProperties(){
-	bodies = new Array();
-	init();
-	update();
-	elementsChanged =  false;
-}
-
-function restartSimulation(){
-	stopSimulation();
-	startSimulation();
-}
-
+/**
+ * [performZoom Realiza la funcion del Zoom de acuerdo al cambio que se tenga en el slider]
+ */
 function performZoom(){
 	debugDraw.SetDrawScale(zoom);
 	var cs = $('canvas').getHeight();
@@ -387,7 +508,9 @@ function performZoom(){
 	}
 	drawTextures();
 }
-
+/**
+ * [drawTextures Dibija las texturas de los elementos]
+ */
 function drawTextures(){
 	for(i=0;i<bodies.length;i++){
 		if (bodies[i].body.m_userData && bodies[i].body.m_userData.resource) {
@@ -420,17 +543,10 @@ function drawTextures(){
 		}
 	}
 }
-
 /**
-	El formato de las world properties es el formato como se muestra arriba
-*/
-function setWoldProperties(properties){
-	worldProperties = properties;
-	if(worldProperties.showGround){
-
-	}
-}
-
+ * [drawAxis Dibija los ejes cordenados numerados sobre el canvas]
+ * @param  {[type]} context Contexto sobre el que se dibujaran los ejes
+ */
 function drawAxis(context){
 	context.beginPath();
 	prevStyle = context.strokeStyle;
@@ -450,7 +566,6 @@ function drawAxis(context){
 	var shiftFactor = Math.round(100/zoom);
 	var pixUnit = (zoom/2)*shiftFactor;
 	var label = 0;
-	// label en 100 a 1 a 1, 50 a 2 en 2, a  a 25 4 en 4
 	var j = midleh+pixUnit;
 	context.font="10px Arial";
 	for(i=midlew+pixUnit;i<canvasProperties.realSize.width;i=i+pixUnit){
@@ -487,7 +602,10 @@ function drawAxis(context){
 	context.stroke();
 
 }
-
+/**
+ * [showGround Funcion que dibuja el suelo sobre el simulador, este queda en Todo x, 0]
+ * @param  {[type]} Inidica si es necesario dibujar el suelo
+ */
 function showGround(needed){
 	if(needed && ground.body==null){
 		ground.elementInfo.size.width = canvasProperties.size.width;
@@ -496,11 +614,12 @@ function showGround(needed){
 		removeGround();
 	}
 }
-
+/** [removeGround Remueve el suelo del simulador]
+ */
 function removeGround(){
 	var removableGround = getBodyByName('ground');
 	var groundIndex = bodies.indexOf(removableGround);
 	world.DestroyBody(removableGround);
 	bodies.splice(groundIndex,1);
-	ground.body=null;
+	ground.body = null;
 }

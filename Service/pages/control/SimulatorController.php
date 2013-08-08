@@ -61,6 +61,7 @@ class SimulatorController {
             sphere.GetWorldCenter());
         joint = world.CreateJoint(defJoint);
 
+        joints.push(joint);
 
      }
 
