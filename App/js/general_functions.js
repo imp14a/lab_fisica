@@ -169,7 +169,7 @@ function init() {
 			createWorldElement(elements[i]);
 		}
 	}
-	setMediaDensity();
+	//setMediaDensity();
 	createInteractiveWorld();
 	setupDebugDraw();
 }
@@ -302,7 +302,7 @@ function update() {
 	showGround(worldProperties.showGround);
 	debugDraw.SetSprite(context);
 	world.SetGravity(new b2Vec2(0,worldProperties.gravity));
-	buoyancyController.density = worldProperties.density;
+	//buoyancyController.density = worldProperties.density;
 	context.lineWidth = 2;
 	world.DrawDebugData();
 	world.ClearForces();

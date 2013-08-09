@@ -79,7 +79,8 @@ function setDescriptionElement(sender){
 function setEventsElements(){
 	$('intro').observe('click', setDescriptionElement);
 	$('proc').observe('click', setDescriptionElement);
-	$('conclusion').observe('click', setDescriptionElement);	    	
+	$('conclusion').observe('click', setDescriptionElement);
+	$('print').observe('click', printActivity);
 	//TODO: Incluir todos los eventos para cada elemento.
 	$('open').observe('click',showModalWindow);
 	$('properties').observe('click', showModalWindow);
@@ -129,7 +130,7 @@ function showModalWindow(sender){
 		.insert({
 			bottom: new Element('div',{class:'input'})
 				.insert({bottom: new Element('label').update("Fuerza de gravedad:")})
-				.insert({bottom: new Element('select',{name:'gravity'})
+				.insert({bottom: new Element('select',{name:'gravity',class:'property'})
 					.insert({bottom: new Element('option',{value:'2.78'}).update("Mercurio (2.78)")})
 					.insert({bottom: new Element('option',{value:'8.87'}).update("Venus (8.87)")})
 					.insert({bottom: new Element('option',{value:'9.81',selected:'selected'}).update("Tierra (9.81)")})
@@ -327,7 +328,6 @@ function getFrameByName(name) {
 */
 function saveXMLDocument(){
 
-	console.log(xmlCodeMirror.getValue());
 	var form = new Element('form',{method:'post','action':"http://wowinteractive.com.mx/lab_fisica/Service/pages/core/simulator.php?controller=File&action=downloadXMLFile"});
 	form.insert({bottom:new Element('input',{id:'xml',name:'xml','type':'hidden',value:xmlCodeMirror.getValue()})});
 	form.submit();
@@ -369,7 +369,7 @@ function monitorChange(){
 function worldChange(){
 
 	worldProperties = modal.getPropertiesValues();
-	update();
+	rebuildWorld();
 	modal.hideModal();
 }
 
@@ -429,3 +429,12 @@ function setTooltipsElements(){
 	});
 }
 
+function printActivity(){
+	var form = new Element('form',{method:'post',
+		'action':"http://wowinteractive.com.mx/lab_fisica/Service/pages/core/simulator.php?controller=Activity&action=printActivity"});
+	form.insert({bottom:new Element('input',{id:'description',name:'description','type':'hidden',value:intro})});
+	form.insert({bottom:new Element('input',{id:'process',name:'process','type':'hidden',value:proc})});
+	form.insert({bottom:new Element('input',{id:'observations',name:'observations','type':'hidden',value:conclusion})});
+	form.insert({bottom:new Element('input',{id:'image_data',name:'image_data','type':'hidden',value:$('canvas').toDataURL()})});
+	form.submit();
+}
