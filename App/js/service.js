@@ -130,7 +130,7 @@ function showModalWindow(sender){
 		.insert({
 			bottom: new Element('div',{class:'input'})
 				.insert({bottom: new Element('label').update("Fuerza de gravedad:")})
-				.insert({bottom: new Element('select',{name:'gravity',class:'property'})
+				.insert({bottom: new Element('select',{name:'gravity',id:'gravity', class:'property'})
 					.insert({bottom: new Element('option',{value:'2.78'}).update("Mercurio (2.78)")})
 					.insert({bottom: new Element('option',{value:'8.87'}).update("Venus (8.87)")})
 					.insert({bottom: new Element('option',{value:'9.81',selected:'selected'}).update("Tierra (9.81)")})
@@ -146,16 +146,16 @@ function showModalWindow(sender){
 		}).insert({
 			bottom: new Element('div',{class:'input'})
 				.insert({bottom: new Element('label').update("Densidad del medio:")})
-				.insert({bottom: new Element('input',{name:'density',type:'text',class:'property',placeholder:"0.00"})})
+				.insert({bottom: new Element('input',{name:'density',id:'density', type:'text',class:'property',placeholder:"0.00"})})
 				.insert({bottom: new Element('label').update("(kg/m²)")})
 		}).insert({
 			bottom: new Element('div',{class:'input'})
 				.insert({bottom: new Element('label').update("Mostrar ejes")})
-				.insert({bottom: new Element('input',{name:'showAxes',type:'checkbox',class:'property'})})
+				.insert({bottom: new Element('input',{name:'showAxes',id:'showAxes',type:'checkbox',class:'property'})})
 		}).insert({
 			bottom: new Element('div',{class:'input'})
 				.insert({bottom: new Element('label').update("Mostrar suelo")})
-				.insert({bottom: new Element('input',{name:'showGround',type:'checkbox',class:'property'})})
+				.insert({bottom: new Element('input',{name:'showGround',id:'showGround',type:'checkbox',class:'property'})})
 		})
 		modal.setProperties('Mundo', container, worldChange);
 		modal.setPropertiesValues(worldProperties);
@@ -367,8 +367,13 @@ function monitorChange(){
 	Realiza los cambios de propiedades en el mundo.
 */
 function worldChange(){
-
-	worldProperties = modal.getPropertiesValues();
+	//Se hace mientras a lo macho
+	//TODO: verificar como obtener las propiedades del modal y su cast
+	//worldProperties = modal.getPropertiesValues();
+	worldProperties.gravity = parseFloat($('gravity').value, 10);
+	worldProperties.density = parseFloat($('density').value, 10);
+	worldProperties.showGround = $('showGround').getValue();
+	worldProperties.showAxes = $('showAxes').getValue();
 	rebuildWorld();
 	modal.hideModal();
 }

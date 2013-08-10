@@ -169,7 +169,7 @@ function init() {
 			createWorldElement(elements[i]);
 		}
 	}
-	//setMediaDensity();
+	setMediaDensity();
 	createInteractiveWorld();
 	setupDebugDraw();
 }
@@ -184,6 +184,7 @@ function setMediaDensity(){
 	buoyancyController.density = worldProperties.density;
 	buoyancyController.linearDrag= 5;
     buoyancyController.angularDrag= 2;
+
     world.AddController(buoyancyController);
 
 	var bodyDef = new b2BodyDef();
@@ -302,7 +303,6 @@ function update() {
 	showGround(worldProperties.showGround);
 	debugDraw.SetSprite(context);
 	world.SetGravity(new b2Vec2(0,worldProperties.gravity));
-	//buoyancyController.density = worldProperties.density;
 	context.lineWidth = 2;
 	world.DrawDebugData();
 	world.ClearForces();
@@ -310,13 +310,12 @@ function update() {
 		drawAxis(context);
 	}
 	drawTextures();
-	
 }
 /**
  * [listenForContact Utilizado por el BouyanceController para manipular la densidad del medio]
  */
 function listenForContact(){
-	var listener = new Box2D.Dynamics.b2ContactListener;
+	var listener = new Box2D.Dynamics.b2ContactListener();
 	listener.BeginContact = function(contact){
 		var fixtureA = contact.GetFixtureA();
 		var fixtureB = contact.GetFixtureB();
