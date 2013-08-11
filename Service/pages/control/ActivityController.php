@@ -53,17 +53,42 @@ class ActivityController {
 		$style = "<style>
 						@page { 
 							margin:0;
+							padding:35px;
 						}
 						body{
-							font-family:Arial;
+							color:#666;
+							font-family:Arial, Helvetica, sans-serif;
+							padding:80px;
+							padding-top:140px;
 						}
 						.background{
-							position: fixed; bottom: 0px; right: 0px; width: 600px; height: 800px; z-index:-100;
+							position: fixed; bottom: 0px; right: 0px; width: 815px; height: 1056px; z-index:-100;
 							
 						}
 						.content{
 							z-index:10;
 							
+						}
+						.activityImage{
+							margin-top:20px;
+							border: 1px solid black;
+							
+						}
+						.icon{
+							height: 32px;
+							padding-left: 38px;
+							padding-top: 5px;
+							background-repeat:no-repeat;
+							margin-top: 40px;
+						}
+						.intro{
+							background-image: url('../../resources/pdf/theory.png');
+						}
+						.proc{
+							background-image: url('../../resources/pdf/proc.png');
+						}
+						.conclusion{
+							background-image: url('../../resources/pdf/conclusion.png');
 						}
 				</style>";
 
@@ -79,10 +104,10 @@ class ActivityController {
 						".$head_code."
 						<div class='content'>
 							<h2> Practica: ".$activityName."</h2>
-							<div><img src='".$_POST['image_data']."'></div>
-							<p><h3>".utf8_decode('Introducción')."</h3>".str_replace("\n", '<br />', $_POST['description'])."</p>
-							<p><h3>Procedimiento</h3>".str_replace("\n", '<br />', $_POST['process'])."</p>
-							<p><h3>Concluciones</h3>".str_replace("\n", '<br />', $_POST['observations'])."</p>
+							<p><h3 class='icon intro'>".utf8_decode('Introducción')."</h3>".str_replace("\n", '<br />', $_POST['description'])."</p>
+							<div style='text-align:center;'><img class='activityImage' width='360' src='".$_POST['image_data']."'></div>
+							<p><h3 class='icon proc'>Procedimiento</h3>".str_replace("\n", '<br />', $_POST['process'])."</p><br />
+							<p><h3 class='icon conclusion'>Concluciones</h3>".str_replace("\n", '<br />', $_POST['observations'])."</p>
 						</div>
 					</body>
 				</html>";
@@ -90,7 +115,7 @@ class ActivityController {
 		//die();
 		$this->pdf->load_html($html);
 		$this->pdf->render();
-		$this->pdf->stream("Preview.pdf");
+		$this->pdf->stream("Practica_".$activity['Activity']['activity_prefix'].".pdf");
 	}
 
 }
