@@ -1,12 +1,21 @@
 
+
+/**
+ * [smallWindowActive Indica si se ha activado la pantalla pequeña para ser considerado al mostrar mensajes]
+ * @type {Boolean}
+ */
+var smallWindowActive = false;
+
 Event.observe(window, 'resize', adjustWindow);
 
 /*
-	Redimensiona los elementos de acuerdo al tamaño del viewport.
-*/
+ *	Redimensiona los elementos de acuerdo al tamaño del viewport.
+ */
 function adjustWindow(){
 	
-	var viewport = document.viewport.getDimensions(); // Gets the viewport as an object literal
+	var viewport = document.viewport.getDimensions();
+
+	$('navigation_dialog').hide();
 
 	if(viewport.width<1024){
 		$('navigation').hide();
@@ -30,6 +39,7 @@ function adjustWindow(){
 				'margin-right': 0
 			});
 		});
+		smallWindowActive = true;
 	}else{
 		$('navigation').show();
 		$('simulator').setStyle({
@@ -53,5 +63,6 @@ function adjustWindow(){
 				'margin-right':"5%"
 			});
 		});
+		smallWindowActive = false;
 	}
 }

@@ -25,9 +25,9 @@
     
     <script type="text/javascript" src="js/grafico.base.js" charset="UTF-8"></script>                  
     <script type="text/javascript" src="js/grafico.line.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="js/validations.js" charset="UTF-8"></script>
     <script src="vendors/codemirror/lib/codemirror.js"></script>
     <script src="vendors/codemirror/mode/xml/xml.js"></script>
-    
   </head>
   <body>
     <div id="validate_acces" style="dislpay:none;"></div>
@@ -96,9 +96,13 @@
     <div id="content">
       <div id="navigation">
         <div><div></div><div></div></div>
-        <p id="title">INTRODUCCI&Oacute;N</p>
-        <textarea id="info" readonly=true class="text_navigation">Marco te&oacute;rico de la pr&aacute;ctica</textarea>
-      </div>    
+        <p class="title">INTRODUCCI&Oacute;N</p>
+        <textarea id="info" readonly="true" class="text_navigation">Marco te&oacute;rico de la pr&aacute;ctica</textarea>
+      </div>
+      <div id="navigation_dialog">
+         <p class="title">INTRODUCCI&Oacute;N</p>
+        <textarea id="info" readonly="true" class="text_navigation">Marco te&oacute;rico de la pr&aacute;ctica</textarea>
+      </div> 
       <div id="simulator">
         <center><canvas width="800" height="600" id="canvas"  ></canvas></center>
         <div class="slider" id="slider_div">

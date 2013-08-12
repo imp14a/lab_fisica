@@ -38,8 +38,12 @@ function getActivityService(){
 		    	proc = json.steps;
 		    	conclusion = json.observations;
 
-		    	$('title').update("INTRODUCCIÓN"); 
-		    	$('info').update(intro);
+		    	$$('.title').each(function(element){
+		    		element.update("INTRODUCCIÓN");
+		    	}); 
+		    	$$('.text_navigation').each(function(element){
+		    		element.update(intro);
+		    	});
 		    	//Agregamos los eventos	
 		       	setEventsElements();	
 		    	//Asignamos los tooltips	    			    	
@@ -55,21 +59,44 @@ function getActivityService(){
 }
 
 
+var oldSender = null;
+
 /*	
-	Función que establece el texto que se muestra en el área de información.
-*/
+ *	Función que establece el texto que se muestra en el área de información.
+ */
 function setDescriptionElement(sender){	
+	if(smallWindowActive){
+		$('navigation_dialog').show();
+		if(sender.srcElement.className==oldSender){
+			$('navigation_dialog').hide();
+			oldSender = null;
+		}else{
+			oldSender = sender.srcElement.className;
+		}
+	}
 	if (sender.srcElement.className == "intro"){
-		$('title').update("INTRODUCCIÓN");
-		$('info').update(intro);		
+		$$('.title').each(function(element){
+    		element.update("INTRODUCCIÓN");
+    	}); 
+    	$$('.text_navigation').each(function(element){
+    		element.update(intro);
+    	});
 	}
 	else if (sender.srcElement.className == "proc"){
-		$('title').update("PROCEDIMIENTO");
-		$('info').update(proc);			
+		$$('.title').each(function(element){
+    		element.update("PROCEDIMIENTO");
+    	}); 
+    	$$('.text_navigation').each(function(element){
+    		element.update(proc);
+    	});
 	}
 	else if (sender.srcElement.className == "conclusion"){
-		$('title').update("OBSERVACIONES");
-		$('info').update(conclusion);		
+		$$('.title').each(function(element){
+    		element.update("OBSERVACIONES");
+    	}); 
+    	$$('.text_navigation').each(function(element){
+    		element.update(conclusion);
+    	});
 	}
 }
 
@@ -117,7 +144,7 @@ function showModalWindow(sender){
 			for(j=0;j<prop.length;j++){
 				container.insert({bottom: new Element('div',{class:'input'})
 					.insert({bottom: new Element('label').update(prop[j].displayName)})
-					.insert({bottom: new Element('input',{name:editables[i].name+'.'+prop[j].name,type:'text',class:'property',value:prop[j].value,placeholder:"0.00"})})
+					.insert({bottom: new Element('input',{name:editables[i].name+'.'+prop[j].name,type:'text',class:'property number',value:prop[j].value,placeholder:"0.00"})})
 					.insert({bottom: new Element('label').update(prop[j].unity)})});
 			}
 		}
@@ -146,7 +173,7 @@ function showModalWindow(sender){
 		}).insert({
 			bottom: new Element('div',{class:'input'})
 				.insert({bottom: new Element('label').update("Densidad del medio:")})
-				.insert({bottom: new Element('input',{name:'density',id:'density', type:'text',class:'property',placeholder:"0.00"})})
+				.insert({bottom: new Element('input',{name:'density',id:'density', type:'text',class:'property number',placeholder:"0.00"})})
 				.insert({bottom: new Element('label').update("(kg/m²)")})
 		}).insert({
 			bottom: new Element('div',{class:'input'})
@@ -249,6 +276,7 @@ function showModalWindow(sender){
 
 		modal.setProperties('Abrir practica',container,sendForm);	
 	}
+	bindInputs(modal.container);
 	modal.showModal();
 }
 
