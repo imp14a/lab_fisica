@@ -63,11 +63,9 @@ class ActivityController {
 						}
 						.background{
 							position: fixed; bottom: 0px; right: 0px; width: 815px; height: 1056px; z-index:-100;
-							
 						}
 						.content{
 							z-index:10;
-							
 						}
 						.activityImage{
 							margin-top:20px;
@@ -91,11 +89,9 @@ class ActivityController {
 							background-image: url('../../resources/pdf/conclusion.png');
 						}
 				</style>";
-
 		$head_code = "<div class='background'>
 							<img src='../../resources/pdf/background.png'  width='100%' height='100%'/>
 					 </div>";
-
 		$html = "<html>
 					<head>
 					".$style."
@@ -104,15 +100,16 @@ class ActivityController {
 						".$head_code."
 						<div class='content'>
 							<h2> Practica: ".$activityName."</h2>
-							<p><h3 class='icon intro'>".utf8_decode('Introducción')."</h3>".str_replace("\n", '<br />', $_POST['description'])."</p>
+							<h3 class='icon intro'>".utf8_decode('Introducción')."</h3>
+							<p>".str_replace("\n", '<br />', $_POST['description'])."</p>
+							<h3 class='icon proc'>Procedimiento</h3>
+							<p>".str_replace("\n", '<br />', $_POST['process'])."</p>
+							<h3 class='icon conclusion'>Concluciones</h3>
+							<p>".str_replace("\n", '<br />', $_POST['observations'])."</p>
 							<div style='text-align:center;'><img class='activityImage' width='360' src='".$_POST['image_data']."'></div>
-							<p><h3 class='icon proc'>Procedimiento</h3>".str_replace("\n", '<br />', $_POST['process'])."</p><br />
-							<p><h3 class='icon conclusion'>Concluciones</h3>".str_replace("\n", '<br />', $_POST['observations'])."</p>
 						</div>
 					</body>
 				</html>";
-		//print_r($html);
-		//die();
 		$this->pdf->load_html($html);
 		$this->pdf->render();
 		$this->pdf->stream("Practica_".$activity['Activity']['activity_prefix'].".pdf");
