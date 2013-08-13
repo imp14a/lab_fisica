@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 13-08-2013 a las 11:59:21
+-- Tiempo de generación: 13-08-2013 a las 12:07:10
 -- Versión del servidor: 5.1.37
 -- Versión de PHP: 5.3.0
 
@@ -19,6 +19,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Estructura de tabla para la tabla `activity`
 --
 
+DROP TABLE IF EXISTS `activity`;
 CREATE TABLE IF NOT EXISTS `activity` (
   `activity_id` int(11) NOT NULL AUTO_INCREMENT,
   `activity_prefix` varchar(20) DEFAULT NULL,
@@ -69,6 +70,7 @@ INSERT INTO `activity` (`activity_id`, `activity_prefix`, `title`, `description`
 -- Estructura de tabla para la tabla `propertie`
 --
 
+DROP TABLE IF EXISTS `propertie`;
 CREATE TABLE IF NOT EXISTS `propertie` (
   `propertie_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
@@ -109,6 +111,7 @@ INSERT INTO `propertie` (`propertie_id`, `name`, `value`, `description`, `type`,
 -- Estructura de tabla para la tabla `world`
 --
 
+DROP TABLE IF EXISTS `world`;
 CREATE TABLE IF NOT EXISTS `world` (
   `world_id` int(11) NOT NULL AUTO_INCREMENT,
   `activity_id` int(11) DEFAULT NULL,
@@ -130,6 +133,7 @@ INSERT INTO `world` (`world_id`, `activity_id`, `creation_script`) VALUES
 -- Estructura de tabla para la tabla `worldelement`
 --
 
+DROP TABLE IF EXISTS `worldelement`;
 CREATE TABLE IF NOT EXISTS `worldelement` (
   `world_element_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
