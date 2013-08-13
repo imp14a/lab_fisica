@@ -23,7 +23,12 @@ class Router {
                 $_SESSION['activity']=$activity;
                 echo json_encode(array('access'=>true));
             }else {
-                $ac->generateData();
+                echo '<h2>Liks de Acceso al Laboratorio</h2>';
+                for($i=1;$i<=26;$i++){
+                    echo "<h3>".$i."</h3>";
+                    $ac->generateData('localhost',$i);
+
+                }
                 echo json_encode(array('access'=>false));
             }
         }elseif(isset($_SESSION['activity'])){
