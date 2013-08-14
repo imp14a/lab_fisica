@@ -169,7 +169,9 @@ function init() {
 			createWorldElement(elements[i]);
 		}
 	}
-	setMediaDensity();
+	if(worldProperties.density>0){
+		setMediaDensity();
+	}
 	createInteractiveWorld();
 	setupDebugDraw();
 }
@@ -509,7 +511,7 @@ function performZoom(){
 		joints = new Array();
 		createInteractiveWorld();
 	}
-	
+
 	world.DrawDebugData();
 	if(worldProperties.showAxes){
 		drawAxis(context);
