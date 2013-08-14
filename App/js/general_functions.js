@@ -501,6 +501,15 @@ function performZoom(){
 		bodies[i].body.SetPosition(new b2Vec2(x,y));
 	}
 
+	if( typeof hasPullyJoints!='undefined' ){
+		for(i=0;i<joints.length;i++){
+			console.log(joints[i]);
+			world.DestroyJoint(joints[i]);
+		}
+		joints = new Array();
+		createInteractiveWorld();
+	}
+	
 	world.DrawDebugData();
 	if(worldProperties.showAxes){
 		drawAxis(context);
