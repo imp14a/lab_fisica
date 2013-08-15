@@ -65,6 +65,9 @@ body{
 	position: relative;
 	min-height: 400px;
 	float: left;
+	background-image: url(img/simulator_background.png);
+	background-repeat: no-repeat;
+	background-position: center;
 }
 #simulator #activity_title{
 	font-size: 24px;
