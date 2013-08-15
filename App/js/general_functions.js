@@ -505,10 +505,17 @@ function setWatchInterval(){
 }
 
 function drawGraph(){
+	$('graph_container').setStyle({
+		'text-align': 'center'
+	});
+	$('graph_title').setStyle({
+		'font-weight': 'bold'	
+	});
 	$('graph_view').update();
 	$('graph_view').setStyle({
-		  'height': '300px',
-		  'width': '300px'
+		  'height': '425px',
+		  'width': '425px',
+		  'text-align': 'center'
 	});
 	var linegraph = new Grafico.LineGraph($('graph_view'), {
 	  		a: watch_variable.data,
