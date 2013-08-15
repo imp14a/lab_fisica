@@ -379,11 +379,37 @@ function startSimulation(){
 	if(!isPlayed){
 		interval_id = window.setInterval(update, 1000 / 60);
 		isPlayed = true;
-		interval = setInterval(function(){
+		var mins = 0;
+		var secs = 0;
+		var cents = 0;
+		/*interval = setInterval(function(){
 			timeUnit++;
-			$('time').value = ("0" + parseInt(timeUnit/360000)).slice(-2) + ":" + ("0" + parseInt(timeUnit/6000)%60).slice(-2) 
-				+ ":" + ("0" + parseInt(timeUnit/100)%60).slice(-2) + ":" + ("0" + timeUnit%100).slice(-2);
-		},10);
+			$('time').value = //("0" + parseInt(timeUnit/360000)).slice(-2) + ":" + 
+				//("0" + parseInt(timeUnit/6000)%60).slice(-2) + ":" + 
+				("0" + parseInt(timeUnit/100)%60).slice(-2) + ":" + 
+				("0" + timeUnit%100).slice(-2);
+		},10);*/
+		interval_cents = setInterval(function(){
+			cents++;
+			$('time').value = 
+				("0" + mins%60).slice(-2) + ":" + 
+				("0" + secs%60).slice(-2) + ":" + 
+				("0" + cents%100).slice(-2);
+		}, 10);
+		interval_secs = setInterval(function(){
+			secs++;
+			$('time').value = 
+				("0" + mins%60).slice(-2) + ":" + 
+				("0" + secs%60).slice(-2) + ":" + 
+				("0" + cents%100).slice(-2);
+		}, 1000);
+		interval_mins = setInterval(function(){
+			 mins++;
+			$('time').value = 
+				("0" + mins%60).slice(-2) + ":" + 
+				("0" + secs%60).slice(-2) + ":" + 
+				("0" + cents%100).slice(-2);
+		}, 60000);
 		setWatchInterval();
 	}
 }
@@ -391,8 +417,11 @@ function startSimulation(){
  * [stopSimulation Funcion para detener la simualcion]
  */
 function stopSimulation(){
-	if (interval){
-		window.clearInterval(interval);
+	if (interval_id){
+		//window.clearInterval(interval);
+		window.clearInterval(interval_mins);
+		window.clearInterval(interval_secs);
+		window.clearInterval(interval_cents);
 		window.clearInterval(interval_id);
 		if(typeof watch_interval!='undefined'){
 			window.clearInterval(watch_interval);
@@ -458,22 +487,12 @@ function setWatchInterval(){
 				if(watch_variable.isVector){
 					watch_variable.data.push(Number((eval(watch_variable.function).x * 10).toFixed(2)));
 					watch_variable.y_data.push(Number((eval(watch_variable.function).y * 10).toFixed(2)));
-					var linegraph = new Grafico.LineGraph($('graph_view'), {
-							  		a: watch_variable.data,
-							  		b: watch_variable.y_data
-								},{
-							  		stroke_width: 3,
-							  		colors : {a: '#0000FF', b: '#FF0000'}
-							});
+					drawGraph();					
 				}else{
 					watch_variable.data.push(Number((eval(watch_variable.function) * 10).toFixed(2)));
-					var linegraph = new Grafico.LineGraph($('graph_view'), {
-							  a: watch_variable.data}, {
-							  stroke_width: 3,
-							  colors : {a: '#0000FF'}
-							});
+					drawGraph();
 				}				
-			},500);
+			},1000);
 		}else{
 			if(watch_variable.isVector){
 				$('watch').value = watch_variable.tag + ' X: ' + eval(watch_variable.function).x.toFixed(4) + ' Y: ' 
@@ -483,6 +502,21 @@ function setWatchInterval(){
 			}
 		}
 	}
+}
+
+function drawGraph(){
+	$('graph_view').update();
+	$('graph_view').setStyle({
+		  'height': '300px',
+		  'width': '300px'
+	});
+	var linegraph = new Grafico.LineGraph($('graph_view'), {
+	  		a: watch_variable.data,
+	  		b: watch_variable.y_data
+		},{
+	  		stroke_width: 3,
+	  		colors : {a: '#0000FF', b: '#FF0000'}
+	});		
 }
 
 /**

@@ -210,8 +210,8 @@ function showModalWindow(sender){
 		if(watch_variable){
 			var graph_view = new Element('div', {'id': 'graph_container'})
 				.insert({bottom: new Element('label', {'class': 'graph_title'}).update(watch_variable.tag)})
-				.insert({bottom: new Element('div', {'id': 'graph_view'})})	
-			modal.setProperties('Gráfica', graph_view);			
+				.insert({bottom: new Element('div', {'id': 'graph_view', 'class':'graph_view_class'})});	
+			modal.setProperties('Gráfica', graph_view, null);			
 		}else{
 			var graph_view = new Element('div', {'class': 'container'});			
 			graph_view.insert({bottom: new Element('label').update("No se tiene asignada una variable para graficar.")});
