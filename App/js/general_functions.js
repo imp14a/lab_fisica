@@ -98,7 +98,7 @@ var joints = new Array();
  */
 var ground = {
 	showed:false,
-	elementInfo:{name:'ground', position:{x:0,y:-1},size:{width:20,height:1},image:{resource:'ground'},
+	elementInfo:{name:'ground', position:{x:0,y:-1},size:{width:30,height:1},image:{resource:'ground'},
 				 elasticity:0.5,density:1,friction:0.5, isStatic:true, isDrawable:true,elementType:'Polygon',},
 	body:null
 };
@@ -618,7 +618,7 @@ function drawAxis(context){
  */
 function showGround(needed){
 	if(needed && ground.body==null){
-		ground.elementInfo.size.width = canvasProperties.size.width;
+		//ground.elementInfo.size.width = canvasProperties.size.width;
 		ground.body = createWorldElement(ground.elementInfo);
 	}else if(!needed && ground.body!=null){
 		removeGround();
