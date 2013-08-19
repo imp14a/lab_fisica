@@ -209,13 +209,15 @@ function showModalWindow(sender){
 	else if (sender.srcElement.className == "graph"){
 		if(watch_variable){
 			var graph_view = new Element('div', {'id': 'graph_container'})
-				.insert({bottom: new Element('label', {'class': 'graph_title'}).update(watch_variable.tag)})
-				.insert({bottom: new Element('div', {'id': 'graph_view'})})	
+				.insert({bottom: new Element('label', {'id': 'graph_title'}).update(watch_variable.tag)})
+				.insert({bottom: new Element('div', {'id': 'graph_view'})});
+			modal.setBounds('500px','500px','5%','35%');
 			modal.setProperties('Gráfica', graph_view);			
 		}else{
 			var graph_view = new Element('div', {'class': 'container'});			
 			graph_view.insert({bottom: new Element('label').update("No se tiene asignada una variable para graficar.")});
 		}
+		modal.setBounds('500px','500px','5%','35%');
 		modal.setProperties('Gráfica', graph_view);	
 	}
 	else if (sender.srcElement.className == "script"){

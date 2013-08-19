@@ -65,6 +65,9 @@ body{
 	position: relative;
 	min-height: 400px;
 	float: left;
+	background-image: url(img/simulator_background.png);
+	background-repeat: no-repeat;
+	background-position: center;
 }
 #simulator #activity_title{
 	font-size: 24px;
@@ -343,12 +346,4 @@ textarea.text_navigation{
 @font-face {
 	font-family: DigitalFont;
 	src: url("fonts/DS-DIGIT.TTF"); /* TTF file for CSS3 browsers */
-}
-
-.graph_title{
-	font-weight: bold;
-}
-#graph_view{
-	height: 300px;
-	width: 300px;
 }
