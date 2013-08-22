@@ -301,17 +301,18 @@ function createWorldElement(elementInfo){
  */
 function update() {
 	context.clearRect ( 0 , 0 , canvasProperties.realSize.width , canvasProperties.realSize.height );
-	world.Step(1 / 60 , 10 , 10 );
-	showGround(worldProperties.showGround);
-	debugDraw.SetSprite(context);
-	world.SetGravity(new b2Vec2(0,worldProperties.gravity));
-	context.lineWidth = 2;
-	world.DrawDebugData();
-	world.ClearForces();
-	if(worldProperties.showAxes){
-		drawAxis(context);
-	}
-	drawTextures();
+	 world.Step(1 / 60 , 10 , 10 );
+	 showGround(worldProperties.showGround);
+	 debugDraw.SetSprite(context);
+	 world.SetGravity(new b2Vec2(0,worldProperties.gravity));
+	 context.lineWidth = 2;
+	 world.DrawDebugData();
+	 world.ClearForces();
+	 if(worldProperties.showAxes){
+	  	drawAxis(context);
+	 }  
+	 drawTextures();
+	 drawAdditionalData(context);
 }
 /**
  * [listenForContact Utilizado por el BouyanceController para manipular la densidad del medio]
