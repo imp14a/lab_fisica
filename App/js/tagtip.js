@@ -69,7 +69,7 @@ var Tagtip = Class.create({
   		content = new Element('div', { 'class': 'content' });
   		
   		if (this.title) {
-  			title = new Element('div', { 'class': 'title' });
+  			title = new Element('div', { 'class': 'title_tagtip' });
   			title.update(this.title);
   			container.insert(title);
   		}

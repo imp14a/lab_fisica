@@ -64,25 +64,27 @@ var oldSender = null;
 /*	
  *	Función que establece el texto que se muestra en el área de información.
  */
-function setDescriptionElement(sender){	
+function setDescriptionElement(event){	
+	var element = Event.element(event);
 	if(smallWindowActive){
 		$('navigation_dialog').show();
-		if(sender.srcElement.className==oldSender){
+		if(element.hasClassName(oldSender)){
 			$('navigation_dialog').hide();
 			oldSender = null;
 		}else{
-			oldSender = sender.srcElement.className;
+			oldSender = element.className;
 		}
 	}
-	if (sender.srcElement.className == "intro"){
+	if (element.hasClassName("intro")){
 		$$('.title').each(function(element){
+			console.log(element);
     		element.update("INTRODUCCIÓN");
     	}); 
     	$$('.text_navigation').each(function(element){
     		element.update(intro);
     	});
 	}
-	else if (sender.srcElement.className == "proc"){
+	else if (element.hasClassName("proc")){
 		$$('.title').each(function(element){
     		element.update("PROCEDIMIENTO");
     	}); 
@@ -90,7 +92,7 @@ function setDescriptionElement(sender){
     		element.update(proc);
     	});
 	}
-	else if (sender.srcElement.className == "conclusion"){
+	else if (element.hasClassName("conclusion")){
 		$$('.title').each(function(element){
     		element.update("OBSERVACIONES");
     	}); 
