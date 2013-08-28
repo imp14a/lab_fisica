@@ -99,12 +99,12 @@ class ActivityController {
 					<body>
 						".$head_code."
 						<div class='content'>
-							<h2> Practica: ".$activityName."</h2>
+							<h2> ".utf8_decode('Práctica: ').$activityName."</h2>
 							<h3 class='icon intro'>".utf8_decode('Introducción')."</h3>
 							<p>".str_replace("\n", '<br />', $_POST['description'])."</p>
 							<h3 class='icon proc'>Procedimiento</h3>
 							<p>".str_replace("\n", '<br />', $_POST['process'])."</p>
-							<h3 class='icon conclusion'>Concluciones</h3>
+							<h3 class='icon conclusion'>Conclusiones</h3>
 							<p>".str_replace("\n", '<br />', $_POST['observations'])."</p>
 							<div style='text-align:center;'><img class='activityImage' width='360' src='".$_POST['image_data']."'></div>
 						</div>

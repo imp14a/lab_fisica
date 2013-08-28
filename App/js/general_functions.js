@@ -98,7 +98,7 @@ var joints = new Array();
  */
 var ground = {
 	showed:false,
-	elementInfo:{name:'ground', position:{x:0,y:-1},size:{width:20,height:1},image:{resource:'ground'},
+	elementInfo:{name:'ground', position:{x:0,y:-1},size:{width:30,height:1},image:{resource:'ground'},
 				 elasticity:0.5,density:1,friction:0.5, isStatic:true, isDrawable:true,elementType:'Polygon',},
 	body:null
 };
@@ -301,17 +301,18 @@ function createWorldElement(elementInfo){
  */
 function update() {
 	context.clearRect ( 0 , 0 , canvasProperties.realSize.width , canvasProperties.realSize.height );
-	world.Step(1 / 60 , 10 , 10 );
-	showGround(worldProperties.showGround);
-	debugDraw.SetSprite(context);
-	world.SetGravity(new b2Vec2(0,worldProperties.gravity));
-	context.lineWidth = 2;
-	world.DrawDebugData();
-	world.ClearForces();
-	if(worldProperties.showAxes){
-		drawAxis(context);
-	}
-	drawTextures();
+	 world.Step(1 / 60 , 10 , 10 );
+	 showGround(worldProperties.showGround);
+	 debugDraw.SetSprite(context);
+	 world.SetGravity(new b2Vec2(0,worldProperties.gravity));
+	 context.lineWidth = 2;
+	 world.DrawDebugData();
+	 world.ClearForces();
+	 if(worldProperties.showAxes){
+	  	drawAxis(context);
+	 }  
+	 drawTextures();
+	 drawAdditionalData(context);
 }
 /**
  * [listenForContact Utilizado por el BouyanceController para manipular la densidad del medio]
@@ -659,7 +660,7 @@ function drawAxis(context){
  */
 function showGround(needed){
 	if(needed && ground.body==null){
-		ground.elementInfo.size.width = canvasProperties.size.width;
+		//ground.elementInfo.size.width = canvasProperties.size.width;
 		ground.body = createWorldElement(ground.elementInfo);
 	}else if(!needed && ground.body!=null){
 		removeGround();
