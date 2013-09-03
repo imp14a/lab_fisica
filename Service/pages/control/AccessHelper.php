@@ -79,6 +79,7 @@ class AccessHelper {
 
 		$ciphertext_base64 = base64_encode($ciphertext);
 		$data = urlencode($ciphertext_base64);
+		echo phpinfo();
 		echo '<a href="http://wowinteractive.com.mx/lab_fisica/App/access.html#data='.$data.'" >http://wowinteractive.com.mx/lab_fisica/App/access.html#data='.$data.'</a> <br />';
 	}
 	

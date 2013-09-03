@@ -102,6 +102,8 @@ class ActivityController {
 							<h2> ".utf8_decode('Práctica: ').$activityName."</h2>
 							<h3 class='icon intro'>".utf8_decode('Introducción')."</h3>
 							<p>".str_replace("\n", '<br />', $_POST['description'])."</p>
+							<h3 class='icon proc'>Objectivo</h3>
+							<p>".str_replace("\n", '<br />', $_POST['objective'])."</p>
 							<h3 class='icon proc'>Procedimiento</h3>
 							<p>".str_replace("\n", '<br />', $_POST['process'])."</p>
 							<h3 class='icon conclusion'>Conclusiones</h3>
@@ -112,6 +114,19 @@ class ActivityController {
 				</html>";
 		$this->pdf->load_html($html);
 		$this->pdf->render();
+
+		if (!headers_sent($filename, $linenum)) {
+			echo "no se ha enviado header()";
+			//header('Location: http://www.example.com/');
+			exit;
+			// Lo más probable es generar un error aquí.
+		} else {
+			echo "Headers already sent in $filename on line $linenum\n" .
+			"Cannot redirect, for now please click this <a ";.
+			//"href=\"http://www.example.com\">link</a> instead\n";
+			exit;
+}
+
 		$this->pdf->stream("Practica_".$activity['Activity']['activity_prefix'].".pdf");
 	}
 

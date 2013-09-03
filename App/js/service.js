@@ -14,6 +14,8 @@ var interval = null;
 var watch_variable = null;
 
 var xmlCodeMirror = null;
+
+var urlBase = 'http://wowinteractive.com.mx/lab_fisica/';
 /*
 	getActivityService()
 
@@ -24,7 +26,7 @@ Event.observe(window, 'load', getActivityService);
 
 function getActivityService(){
 	adjustWindow();
-	new Ajax.Request('http://wowinteractive.com.mx/lab_fisica/Service/pages/core/simulator.php', {
+	new Ajax.Request(urlBase + 'Service/pages/core/simulator.php', {
 		method: 'get',
   		parameters: {controller: 'Activity', action: 'getActivity'},
   		onSuccess: function(transport) {		
@@ -35,6 +37,7 @@ function getActivityService(){
 
 		    	practice = json.title;
 		    	intro = json.description;
+		    	objective = json.objective;
 		    	proc = json.steps;
 		    	conclusion = json.observations;
 
@@ -221,7 +224,7 @@ function showModalWindow(sender){
 		modal.setProperties('Gráfica', graph_view);	
 	}
 	else if (sender.srcElement.className == "script"){
-		new Ajax.Request('http://wowinteractive.com.mx/lab_fisica/Service/pages/core/simulator.php', {
+		new Ajax.Request(urlBase + 'Service/pages/core/simulator.php', {
 			method: 'get',
 			parameters: {controller: 'File', action: 'createXMLDocument'},
 			onSuccess: function(transport) {
@@ -260,7 +263,7 @@ function showModalWindow(sender){
 
 		container.insert({bottom: new Element('label',{'class':'elementName'})}).update("Abrir archivo de practica.");
 		form = new Element('form',{id:'uploadFileForm',target:'fileiFrame',method:'post',
-				action:"http://wowinteractive.com.mx/lab_fisica/Service/pages/core/simulator.php?controller=File&action=uploadFile",
+				action: urlBase + "Service/pages/core/simulator.php?controller=File&action=uploadFile",
 				enctype:"multipart/form-data"});
 		form.insert({
 			bottom: new Element('input',{type:'file',id:'file',name:'file'})
@@ -358,7 +361,7 @@ function getFrameByName(name) {
 */
 function saveXMLDocument(){
 
-	var form = new Element('form',{method:'post','action':"http://wowinteractive.com.mx/lab_fisica/Service/pages/core/simulator.php?controller=File&action=downloadXMLFile"});
+	var form = new Element('form',{method:'post','action': urlBase+"Service/pages/core/simulator.php?controller=File&action=downloadXMLFile"});
 	form.insert({bottom:new Element('input',{id:'xml',name:'xml','type':'hidden',value:xmlCodeMirror.getValue()})});
 	form.submit();
 }
@@ -466,8 +469,9 @@ function setTooltipsElements(){
 
 function printActivity(){
 	var form = new Element('form',{method:'post',
-		'action':"http://wowinteractive.com.mx/lab_fisica/Service/pages/core/simulator.php?controller=Activity&action=printActivity"});
+		'action': urlBase + "Service/pages/core/simulator.php?controller=Activity&action=printActivity"});
 	form.insert({bottom:new Element('input',{id:'description',name:'description','type':'hidden',value:intro})});
+	form.insert({bottom:new Element('input',{id:'objective',name:'objective','type':'hidden',value:objective})});
 	form.insert({bottom:new Element('input',{id:'process',name:'process','type':'hidden',value:proc})});
 	form.insert({bottom:new Element('input',{id:'observations',name:'observations','type':'hidden',value:conclusion})});
 	form.insert({bottom:new Element('input',{id:'image_data',name:'image_data','type':'hidden',value:$('canvas').toDataURL()})});
