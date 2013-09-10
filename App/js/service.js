@@ -470,12 +470,32 @@ function setTooltipsElements(){
 }
 
 function printActivity(){
-	var form = new Element('form',{method:'post',
-		'action': urlBase + "Service/pages/core/simulator.php?controller=Activity&action=printActivity",target:"_blank"});
+	
+	var form = new Element('form',{method:'post', id:'pdfForm',
+		'action': urlBase + "Service/pages/core/simulator.php?controller=Activity&action=printActivity",
+		'accept-charset':"UTF-8",target:'_blank'});
+
 	form.insert({bottom:new Element('input',{id:'description',name:'description','type':'hidden',value:intro})});
 	form.insert({bottom:new Element('input',{id:'objetive',name:'objetive','type':'hidden',value:objetive})});
 	form.insert({bottom:new Element('input',{id:'process',name:'process','type':'hidden',value:proc})});
 	form.insert({bottom:new Element('input',{id:'observations',name:'observations','type':'hidden',value:conclusion})});
 	form.insert({bottom:new Element('input',{id:'image_data',name:'image_data','type':'hidden',value:$('canvas').toDataURL()})});
-	form.submit();
+	
+	$(document.body).insert({bottom:form});
+	document.forms["pdfForm"].submit();
+	
+}
+
+function fireEvent(element,event){
+    if (document.createEventObject){
+        // dispatch for IE
+        var evt = document.createEventObject();
+        return element.fireEvent('on'+event,evt)
+    }
+    else{
+        // dispatch for firefox + others
+        var evt = document.createEvent("HTMLEvents");
+        evt.initEvent(event, true, true ); // event type,bubbling,cancelable
+        return !element.dispatchEvent(evt);
+    }
 }

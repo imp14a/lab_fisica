@@ -104,30 +104,19 @@ class ActivityController {
 						<div class='content'>
 							<h2> ".utf8_decode('Práctica: ').$activityName."</h2>
 							<h3 class='icon intro'>".utf8_decode('Introducción')."</h3>
-							<p>".str_replace("\n", '<br />', $_POST['description'])."</p>
+							<p>".str_replace("\n", '<br />', utf8_decode($_POST['description']))."</p>
 							<h3 class='icon obj'>Objetivo</h3>
-							<p>".str_replace("\n", '<br />', $_POST['objetive'])."</p>
+							<p>".str_replace("\n", '<br />', utf8_decode($_POST['objetive']))."</p>
 							<h3 class='icon proc'>Procedimiento</h3>
-							<p>".str_replace("\n", '<br />', $_POST['process'])."</p>
+							<p>".str_replace("\n", '<br />', utf8_decode($_POST['process']))."</p>
 							<h3 class='icon conclusion'>Conclusiones</h3>
-							<p>".str_replace("\n", '<br />', $_POST['observations'])."</p>
+							<p>".str_replace("\n", '<br />', utf8_decode($_POST['observations']))."</p>
 							<div style='text-align:center;'><img class='activityImage' width='360' src='".$_POST['image_data']."'></div>
 						</div>
 					</body>
 				</html>";
 		$this->pdf->load_html($html);
 		$this->pdf->render();
-
-		/*if (!headers_sent($filename, $linenum)) {
-			echo "no se ha enviado header()";
-			//header('Location: http://www.example.com/');
-			exit;
-			// Lo más probable es generar un error aquí.
-		} else {
-			echo "Headers already sent in $filename on line $linenum\n Cannot redirect, for now please click this <a ";
-			//"href=\"http://www.example.com\">link</a> instead\n";
-			exit;
-		}*/
 
 		$this->pdf->stream("Practica_".$activity['Activity']['activity_prefix'].".pdf");
 	}
