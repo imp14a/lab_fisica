@@ -1,6 +1,7 @@
 
 var practice = "";
 var intro = "";
+var objetive = "";
 var proc = "";
 var conclusion = "";
 var modal = null;
@@ -34,10 +35,9 @@ function getActivityService(){
 		    if(json.error){		    			    			    			    			    	
 		    	alert('Ocurrió un error mientras se cargaba la información de la práctica. Intente de nuevo.'); 
 		    }else{
-
 		    	practice = json.title;
 		    	intro = json.description;
-		    	objective = json.objective;
+		    	objetive = json.objetive;
 		    	proc = json.steps;
 		    	conclusion = json.observations;
 
@@ -471,9 +471,9 @@ function setTooltipsElements(){
 
 function printActivity(){
 	var form = new Element('form',{method:'post',
-		'action': urlBase + "Service/pages/core/simulator.php?controller=Activity&action=printActivity"});
+		'action': urlBase + "Service/pages/core/simulator.php?controller=Activity&action=printActivity",target:"_blank"});
 	form.insert({bottom:new Element('input',{id:'description',name:'description','type':'hidden',value:intro})});
-	form.insert({bottom:new Element('input',{id:'objective',name:'objective','type':'hidden',value:objective})});
+	form.insert({bottom:new Element('input',{id:'objetive',name:'objetive','type':'hidden',value:objetive})});
 	form.insert({bottom:new Element('input',{id:'process',name:'process','type':'hidden',value:proc})});
 	form.insert({bottom:new Element('input',{id:'observations',name:'observations','type':'hidden',value:conclusion})});
 	form.insert({bottom:new Element('input',{id:'image_data',name:'image_data','type':'hidden',value:$('canvas').toDataURL()})});

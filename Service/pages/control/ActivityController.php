@@ -34,6 +34,7 @@ class ActivityController {
 		$res = array(
 			"title"=>utf8_encode($activity['Activity']['title']),
 			"description"=>utf8_encode($activity['Activity']['description']),
+			"objetive"=>utf8_encode($activity['Activity']['objetive']),
 			"steps"=>utf8_encode($activity['Activity']['steps']),
 			"observations"=>utf8_encode($activity['Activity']['observations']),
 			"error"=>false
@@ -82,6 +83,9 @@ class ActivityController {
 						.intro{
 							background-image: url('../../resources/pdf/theory.png');
 						}
+						.obj{
+							background-image: url('../../resources/pdf/obj.png');
+						}
 						.proc{
 							background-image: url('../../resources/pdf/proc.png');
 						}
@@ -89,21 +93,20 @@ class ActivityController {
 							background-image: url('../../resources/pdf/conclusion.png');
 						}
 				</style>";
-		$head_code = "<div class='background'>
-							<img src='../../resources/pdf/background.png'  width='100%' height='100%'/>
-					 </div>";
 		$html = "<html>
 					<head>
 					".$style."
 					</head>
 					<body>
-						".$head_code."
+						<div class='background'>
+							<img src='../../resources/pdf/background_light.png'  width='100%' height='100%'/>
+					 	</div>
 						<div class='content'>
 							<h2> ".utf8_decode('Práctica: ').$activityName."</h2>
 							<h3 class='icon intro'>".utf8_decode('Introducción')."</h3>
 							<p>".str_replace("\n", '<br />', $_POST['description'])."</p>
-							<h3 class='icon proc'>Objectivo</h3>
-							<p>".str_replace("\n", '<br />', $_POST['objective'])."</p>
+							<h3 class='icon obj'>Objetivo</h3>
+							<p>".str_replace("\n", '<br />', $_POST['objetive'])."</p>
 							<h3 class='icon proc'>Procedimiento</h3>
 							<p>".str_replace("\n", '<br />', $_POST['process'])."</p>
 							<h3 class='icon conclusion'>Conclusiones</h3>
@@ -115,17 +118,16 @@ class ActivityController {
 		$this->pdf->load_html($html);
 		$this->pdf->render();
 
-		if (!headers_sent($filename, $linenum)) {
+		/*if (!headers_sent($filename, $linenum)) {
 			echo "no se ha enviado header()";
 			//header('Location: http://www.example.com/');
 			exit;
 			// Lo más probable es generar un error aquí.
 		} else {
-			echo "Headers already sent in $filename on line $linenum\n" .
-			"Cannot redirect, for now please click this <a ";.
+			echo "Headers already sent in $filename on line $linenum\n Cannot redirect, for now please click this <a ";
 			//"href=\"http://www.example.com\">link</a> instead\n";
 			exit;
-}
+		}*/
 
 		$this->pdf->stream("Practica_".$activity['Activity']['activity_prefix'].".pdf");
 	}
