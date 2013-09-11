@@ -18,7 +18,8 @@ var b2Vec2 = Box2D.Common.Math.b2Vec2
     ,   b2DebugDraw = Box2D.Dynamics.b2DebugDraw
     ,   b2DistanceJointDef = Box2D.Dynamics.Joints.b2DistanceJointDef
     ,	b2RevoluteJointDef = Box2D.Dynamics.Joints.b2RevoluteJointDef
-    ,	b2BuoyancyController = Box2D.Dynamics.Controllers.b2BuoyancyController;
+    ,	b2BuoyancyController = Box2D.Dynamics.Controllers.b2BuoyancyController
+    ,	b2WeldJointDef = Box2D.Dynamics.Joints.b2WeldJointDef;
 
 /**
  * [world Contiene el mundo utilizado por la libreria Box2DWeb para realizar las fucniones]
