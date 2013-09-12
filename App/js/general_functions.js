@@ -19,7 +19,8 @@ var b2Vec2 = Box2D.Common.Math.b2Vec2
     ,   b2DistanceJointDef = Box2D.Dynamics.Joints.b2DistanceJointDef
     ,	b2RevoluteJointDef = Box2D.Dynamics.Joints.b2RevoluteJointDef
     ,	b2BuoyancyController = Box2D.Dynamics.Controllers.b2BuoyancyController
-    ,	b2WeldJointDef = Box2D.Dynamics.Joints.b2WeldJointDef;
+    ,	b2WeldJointDef = Box2D.Dynamics.Joints.b2WeldJointDef
+	,	b2PulleyJointDef = Box2D.Dynamics.Joints.b2PulleyJointDef;
 
 /**
  * [world Contiene el mundo utilizado por la libreria Box2DWeb para realizar las fucniones]
@@ -366,7 +367,7 @@ function setupDebugDraw(){
 	debugDraw.SetDrawScale(zoom);
 	debugDraw.SetFillAlpha(0.5);
 	debugDraw.SetLineThickness(0);
-	debugDraw.SetFlags( b2DebugDraw.e_jointBit);// | b2DebugDraw.e_shapeBit );
+	debugDraw.SetFlags( b2DebugDraw.e_jointBit | b2DebugDraw.e_shapeBit);
 	world.SetDebugDraw(debugDraw);
 	update();
 }
