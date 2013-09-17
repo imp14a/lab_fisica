@@ -47,6 +47,11 @@ function getActivityService(){
 		    	$$('.text_navigation').each(function(element){
 		    		element.update(intro);
 		    	});
+		    	function desapear(element){
+	    			$(element).hide();
+	    		}
+	    		$$('.title.subtitle').each(desapear);
+	    		$$('.text_navigation.objetive_text').each(desapear);
 		    	//Agregamos los eventos	
 		       	setEventsElements();	
 		    	//Asignamos los tooltips	    			    	
@@ -71,16 +76,21 @@ function setDescriptionElement(event){
 	var element = Event.element(event);
 	if(smallWindowActive){
 		$('navigation_dialog').show();
-		if(element.hasClassName(oldSender)){
+		if(element==oldSender){
 			$('navigation_dialog').hide();
 			oldSender = null;
 		}else{
-			oldSender = element.className;
+			oldSender = element;
 		}
 	}
+	function desapear(element){
+		$(element).hide();
+	}
+	$$('.title.subtitle').each(desapear);
+	$$('.text_navigation.objetive_text').each(desapear);
+
 	if (element.hasClassName("intro")){
 		$$('.title').each(function(element){
-			console.log(element);
     		element.update("INTRODUCCIÓN");
     	}); 
     	$$('.text_navigation').each(function(element){
@@ -88,12 +98,23 @@ function setDescriptionElement(event){
     	});
 	}
 	else if (element.hasClassName("proc")){
+		function showObjetive(element){
+			$(element).show();
+			if($(element).hasClassName('subtitle')){
+				$(element).update("OBJETIVO");
+			}
+			if($(element).hasClassName('objetive_text')){
+				$(element).update(objetive);
+			}
+		}
 		$$('.title').each(function(element){
     		element.update("PROCEDIMIENTO");
     	}); 
     	$$('.text_navigation').each(function(element){
     		element.update(proc);
     	});
+    	$$('.title.subtitle').each(showObjetive);
+    	$$('.text_navigation.objetive_text').each(showObjetive);
 	}
 	else if (element.hasClassName("conclusion")){
 		$$('.title').each(function(element){
@@ -133,7 +154,10 @@ function setEventsElements(){
 function showModalWindow(sender){
 	//TODO: Obtener variables editables	
 	//TOOD agregar validaciones a los input
-	if (sender.srcElement.className == "properties"){
+	//////
+	var element = Event.element(sender);
+	
+	if (element.hasClassName("properties")){
 
 		var container = new Element('div',{'class':'container'});
 		if(isPlayed)
@@ -156,7 +180,7 @@ function showModalWindow(sender){
 
 		modal.setProperties('Propiedades', container,propertiesChange);		
 	}
-	else if (sender.srcElement.className == "world"){
+	else if (element.hasClassName("world")){
 		//var input 
 		var container = new Element('div', {'class': 'container'})
 		.insert({
@@ -192,7 +216,7 @@ function showModalWindow(sender){
 		modal.setProperties('Mundo', container, worldChange);
 		modal.setPropertiesValues(worldProperties);
 	}
-	else if (sender.srcElement.className == "monitor"){ 
+	else if (element.hasClassName("monitor")){ 
 		var container = new Element('div',{'class':'container'});
 		var watchables = getWatchVariables();
 		var i=0;
@@ -211,7 +235,7 @@ function showModalWindow(sender){
 		}
 		modal.setProperties('Monitor', container, monitorChange);		
 	}
-	else if (sender.srcElement.className == "graph"){
+	else if (element.hasClassName("graph")){
 		if(watch_variable){
 			var graph_view = new Element('div', {'id': 'graph_container'})
 				.insert({bottom: new Element('label', {'id': 'graph_title'}).update(watch_variable.tag)})
@@ -225,7 +249,7 @@ function showModalWindow(sender){
 		modal.setBounds('500px','500px','5%','35%');
 		modal.setProperties('Gráfica', graph_view);	
 	}
-	else if (sender.srcElement.className == "script"){
+	else if (element.hasClassName("script")){
 		new Ajax.Request(urlBase + 'Service/pages/core/simulator.php', {
 			method: 'get',
 			parameters: {controller: 'File', action: 'createXMLDocument'},
@@ -256,7 +280,7 @@ function showModalWindow(sender){
 				xmlCodeMirror.refresh();
 			}
 		});		
-	}else if(sender.srcElement.className == "open"){
+	}else if(element.hasClassName("open")){
 		var container = new Element('div',{'class':'container'});
 		if(isPlayed){
 			container.insert({bottom: new Element('div',{'class':'warningModal'}).
