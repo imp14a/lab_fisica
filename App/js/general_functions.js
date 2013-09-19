@@ -689,7 +689,7 @@ function setValuesForElement(name,property,value){
 	if(element!=null){
 		el = property.split('.');
 		if(el.length>1)
-			element[el[0]][el[1]] = value;
-		else element[property] = value;
+			element[el[0]][el[1]] = isNaN(Number(value))?0:Number(value);
+		else element[property] = isNaN(Number(value))?0:Number(value);
 	}
 }
