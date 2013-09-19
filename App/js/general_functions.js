@@ -549,9 +549,7 @@ function performZoom(){
 	}
 
 	if( typeof hasPullyJoints!='undefined' ){
-		console.log("segun esto tiene");
 		for(i=0;i<joints.length;i++){
-			console.log(joints[i]);
 			world.DestroyJoint(joints[i]);
 		}
 		joints = new Array();
@@ -587,24 +585,10 @@ function drawTextures(){
 					
 				break;
 			}
-			//TODO restringimos a solo buscar dentro de el elemento Resources
-			
-			// Translate to the center of the object, then flip and scale appropriately
-			// calculamos la posicion real
 			posx = position.x * (zoom)- size.width/2;
 			posy = (position.y * (zoom)- size.height/2);
-
-			
 			if (shape.m_type == 1){
-				//x = posx * Math.cos(angle) - posy * Math.sin(angle);
-				//y = posx * Math.sin(angle) + posx * Math.cos(angle);
-				posx = position.x * (zoom)- size.width/2;
-				posy = (position.y * (zoom)- size.height/2);
-				x = (posx)*Math.sin(90) ;
-				x = (posx)*Math.sin(90) ;
-				console.log(shape);
-				console.log()
-				context.rotate(bodies[i].body.GetAngle());
+				//context.rotate(bodies[i].body.GetAngle());
 			}
 			context.translate(posx,posy);
 			context.drawImage(imgObj,0,0,size.width,size.height);
@@ -683,7 +667,8 @@ function showGround(needed){
 		removeGround();
 	}
 }
-/** [removeGround Remueve el suelo del simulador]
+/*
+ * [removeGround Remueve el suelo del simulador]
  */
 function removeGround(){
 	var removableGround = getBodyByName('ground');
@@ -691,4 +676,20 @@ function removeGround(){
 	world.DestroyBody(removableGround);
 	bodies.splice(groundIndex,1);
 	ground.body = null;
+}
+
+/**
+ * setValuesForElement Pone el nuevo valor del elmento despues de pasar por la ventana modal 
+ * @param {Srtring} name     Nombre del elemento al que se pondra el nuevo valor
+ * @param {String} property  Nombre de la propiedad que se ambiara por el nuevo valor
+ * @param {Any} value    	 Nuevo valor que se asiganara
+ */
+function setValuesForElement(name,property,value){ 
+	var element = getElementByName(name);
+	if(element!=null){
+		el = property.split('.');
+		if(el.length>1)
+			element[el[0]][el[1]] = value;
+		else element[property] = value;
+	}
 }

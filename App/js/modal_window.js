@@ -5,51 +5,37 @@
  */
  
 var Modal = Class.create({
-	initialize: function() {						
-		this.container = null;	
-		this.overlay = null;						
-		this.btn_ok = null;
-		this.btn_cancel = null;
-		this.title = null;
-		this.content = null;
-    this.toolbar = null
-
+  container : null,
+  btn_ok : null,
+  btn_cancel : null,
+  title : null,
+  content : null,
+  toolbar : null,
+	initialize: function() {
 		this.buildModal();
 		this.addObservers();
-
   },
   buildModal: function() {
-    overlay = new Element('div', { 'class': 'full_screen'});
-		container = new Element('div', { 'class': 'w_modal' });
-		content = new Element('div', { 'class': 'modal_body' });  			  		  	
-		title = new Element('div', { 'class': 'modal_title' });	
-		toolbar = new Element('ul', { 'class': 'modal_toolbar' });		
+    
+		this.container = new Element('div', { 'class': 'w_modal' });
+		this.content = new Element('div', { 'class': 'modal_body' });  			  		  	
+		this.title = new Element('div', { 'class': 'modal_title' });	
+		this.toolbar = new Element('ul', { 'class': 'modal_toolbar' });		
 
-		btn_ok = new Element('a', { 'class': 'btn_ok', 'id': 'btn_ok'});
-		separator = new Element('a', { 'class': 'separator' });
-		btn_cancel = new Element('a', { 'class': 'btn_cancel', 'id': 'btn_cancel'});
+		this.btn_ok = new Element('a', { 'class': 'btn_ok', 'id': 'btn_ok'});
+		this.separator = new Element('a', { 'class': 'separator' });
+		this.btn_cancel = new Element('a', { 'class': 'btn_cancel', 'id': 'btn_cancel'});
 
-		document.body.insert(overlay);
+		this.container.insert(this.title);		
+		this.toolbar.insert(this.btn_ok);
+		this.toolbar.insert(this.separator);
+		this.toolbar.insert(this.btn_cancel);	  		
+		this.container.insert(this.toolbar);  	
+		this.container.insert(this.content);  	  		
 
-		container.insert(title);		
-		toolbar.insert(btn_ok);
-		toolbar.insert(separator);
-		toolbar.insert(btn_cancel);	  		
-		container.insert(toolbar);  	
-		container.insert(content);  	  		
-
-		document.body.insert(container);
-
-		this.overlay = overlay;
-		this.container = container;
-    this.toolbar = toolbar;
-		this.content = content;
-		this.title = title;
-		this.btn_ok = btn_ok;
-	  this.btn_cancel = btn_cancel;
-		
+		document.body.insert(this.container);
 		this.container.setStyle({display: 'none'});
-		this.overlay.setStyle({display: 'none'});
+    new Draggable(this.container);
   },
   setBounds:function(w,h,t,l){
     container.setStyle({
@@ -86,12 +72,7 @@ var Modal = Class.create({
       this.btn_cancel.observe('click',cancel_event);
 	},
 
-  	showModal: function(type) {    		
-  		//ShowDialog()
-		this.overlay.setStyle({
-			position: "absolute",
-		   	display: 'block'
-		}); 
+  	showModal: function(type) {
 		this.container.setStyle({
 			position: "absolute",
 		   	display: 'block'
@@ -99,13 +80,9 @@ var Modal = Class.create({
       return false;
   	},
   	
-  	hideModal: function(event) {  	
-  		this.overlay.setStyle({
-			position: "absolute",
-		   	display: 'none'
-		}); 
-		this.container.setStyle({
-			position: "absolute",
+  	hideModal: function(event) {
+     this.container.setStyle({
+      position: "absolute",
 		   	display: 'none'
 		}); 		
 		return false;
