@@ -307,7 +307,8 @@ function update() {
 	 showGround(worldProperties.showGround);
 	 debugDraw.SetSprite(context);
 	 world.SetGravity(new b2Vec2(0,worldProperties.gravity));
-	 context.lineWidth = 2;
+	 context.lineWidth = 3;
+	 context.strokeStyle = "#000000";
 	 world.DrawDebugData();
 	 world.ClearForces();
 	 if(worldProperties.showAxes){
@@ -548,6 +549,7 @@ function performZoom(){
 	}
 
 	if( typeof hasPullyJoints!='undefined' ){
+		console.log("segun esto tiene");
 		for(i=0;i<joints.length;i++){
 			console.log(joints[i]);
 			world.DestroyJoint(joints[i]);
@@ -572,6 +574,9 @@ function drawTextures(){
 			// Draw the image on the object
 			var shape = bodies[i].body.GetFixtureList().GetShape();
 			//comprobamos si es circulo
+			var imgObj = document.getElementById(bodies[i].body.m_userData.resource);
+			context.save();
+			position = bodies[i].body.GetWorldCenter();
 			switch(shape.m_type){
 				case 0:
 					s = (shape.m_radius*2)*zoom;
@@ -579,20 +584,30 @@ function drawTextures(){
 				break;
 				case 1:
 					size = {width:bodies[i].body.m_userData.width * zoom,height:bodies[i].body.m_userData.height * zoom};
+					
 				break;
 			}
 			//TODO restringimos a solo buscar dentro de el elemento Resources
-			var imgObj = document.getElementById(bodies[i].body.m_userData.resource);
-			context.save();
-			position = bodies[i].body.GetWorldCenter();
+			
 			// Translate to the center of the object, then flip and scale appropriately
 			// calculamos la posicion real
 			posx = position.x * (zoom)- size.width/2;
-			posy = position.y * (zoom)- size.height/2;
-			context.translate(posx,posy); 
-			context.rotate(bodies[i].body.GetAngle());
+			posy = (position.y * (zoom)- size.height/2);
+
+			
+			if (shape.m_type == 1){
+				//x = posx * Math.cos(angle) - posy * Math.sin(angle);
+				//y = posx * Math.sin(angle) + posx * Math.cos(angle);
+				posx = position.x * (zoom)- size.width/2;
+				posy = (position.y * (zoom)- size.height/2);
+				x = (posx)*Math.sin(90) ;
+				x = (posx)*Math.sin(90) ;
+				console.log(shape);
+				console.log()
+				context.rotate(bodies[i].body.GetAngle());
+			}
+			context.translate(posx,posy);
 			context.drawImage(imgObj,0,0,size.width,size.height);
-			//drawAdditionalData(context);
 			context.restore();
 		}
 	}
