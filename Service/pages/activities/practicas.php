@@ -14,6 +14,11 @@ echo "<a href='http://wowinteractive.com.mx/lab_fisica/App/access.html#data=".$l
 echo "<br /><br />";
 echo "<a href='http://wowinteractive.com.mx/lab_fisica/App/access.html#data=".$link -> generateData('localhost',15)."'> Practica 15 (Friccion 1) </a>";
 echo "<br /><br />";
-echo "<a href='http://wowinteractive.com.mx/lab_fisica/App/access.html#data=".$link -> generateData('localhost',16)."'> Practica 16 (Friccion 2) </a>"
-
+echo "<a href='http://wowinteractive.com.mx/lab_fisica/App/access.html#data=".$link -> generateData('localhost',16)."'> Practica 16 (Friccion 2) </a>";
+echo "<br /><br />";
+echo "<a href='http://wowinteractive.com.mx/lab_fisica/App/access.html#data=".$link -> generateData('localhost',17)."'> Practica 17 (Fuerzas 1) </a>";
+echo "<br /><br />";
+echo "<a href='http://wowinteractive.com.mx/lab_fisica/App/access.html#data=".$link -> generateData('localhost',18)."'> Practica 18 (Fuerzas 2) </a>";
+echo "<br /><br />";
+echo "<a href='http://wowinteractive.com.mx/lab_fisica/App/access.html#data=".$link -> generateData('localhost',19)."'> Practica 19 (Fuerzas 3) </a>";
 ?>
