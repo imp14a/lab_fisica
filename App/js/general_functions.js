@@ -446,6 +446,7 @@ function restartSimulation(){
 	stopSimulation();
 	rebuildWorld();
 	timeUnit = 0;
+	watch_variable = null;
 	//startSimulation();
 }
 /**
@@ -489,11 +490,11 @@ function setWatchInterval(){
 			//Agregar datos para grafica (cada segundo)
 			graph_interval = setInterval(function(){
 				if(watch_variable.isVector){
-					watch_variable.data.push(Number((eval(watch_variable.function).x * 10).toFixed(2)));
-					watch_variable.y_data.push(Number((eval(watch_variable.function).y * 10).toFixed(2)));
+					watch_variable.data.push(Math.abs(Number((eval(watch_variable.function).x) ).toFixed(2)));
+					watch_variable.y_data.push(Math.abs(Number((eval(watch_variable.function).y) ).toFixed(2)));
 					drawGraph();					
 				}else{
-					watch_variable.data.push(Number((eval(watch_variable.function) * 10).toFixed(2)));
+					watch_variable.data.push(Math.abs(Number((eval(watch_variable.function)) ).toFixed(2)));
 					drawGraph();
 				}				
 			},1000);
@@ -507,7 +508,7 @@ function setWatchInterval(){
 		}
 	}
 }
-
+var grafica;
 function drawGraph(){
 	$('graph_container').setStyle({
 		'text-align': 'center'
@@ -516,18 +517,8 @@ function drawGraph(){
 		'font-weight': 'bold'	
 	});
 	$('graph_view').update();
-	$('graph_view').setStyle({
-		  'height': '425px',
-		  'width': '425px',
-		  'text-align': 'center'
-	});
-	var linegraph = new Grafico.LineGraph($('graph_view'), {
-	  		a: watch_variable.data,
-	  		b: watch_variable.y_data
-		},{
-	  		stroke_width: 3,
-	  		colors : {a: '#0000FF', b: '#FF0000'}
-	});		
+	grafica = new WowGraph($('graph_view'));
+	grafica.drawGraph(watch_variable.data,watch_variable.y_data);	
 }
 
 /**
@@ -561,6 +552,9 @@ function performZoom(){
 		drawAxis(context);
 	}
 	drawTextures();
+	if( typeof hasPullyJoints!='undefined' ){
+		drawAdditionalData(context)
+	}
 }
 /**
  * [drawTextures Dibija las texturas de los elementos]

@@ -38,7 +38,7 @@ var Modal = Class.create({
     new Draggable(this.container);
   },
   setBounds:function(w,h,t,l){
-    container.setStyle({
+    this.container.setStyle({
       width:w,
       height:h,
       top:t,

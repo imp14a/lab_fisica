@@ -178,7 +178,8 @@ function showModalWindow(sender){
 			}
 		}
 
-		modal.setProperties('Propiedades', container,propertiesChange);		
+		modal.setProperties('Propiedades', container,propertiesChange);
+		modal.setBounds('300px','auto','30%','40%');
 	}
 	else if (element.hasClassName("world")){
 		//var input 
@@ -212,7 +213,8 @@ function showModalWindow(sender){
 			bottom: new Element('div',{class:'input'})
 				.insert({bottom: new Element('label').update("Mostrar suelo")})
 				.insert({bottom: new Element('input',{name:'showGround',id:'showGround',type:'checkbox',class:'property'})})
-		})
+		});
+		modal.setBounds('300px','auto','30%','40%');
 		modal.setProperties('Mundo', container, worldChange);
 		modal.setPropertiesValues(worldProperties);
 	}
@@ -233,6 +235,7 @@ function showModalWindow(sender){
 					.insert({bottom: new Element('label').update(prop[j].displayName)})});
 			}
 		}
+		modal.setBounds('300px','auto','30%','40%');
 		modal.setProperties('Monitor', container, monitorChange);		
 	}
 	else if (element.hasClassName("graph")){
@@ -240,13 +243,11 @@ function showModalWindow(sender){
 			var graph_view = new Element('div', {'id': 'graph_container'})
 				.insert({bottom: new Element('label', {'id': 'graph_title'}).update(watch_variable.tag)})
 				.insert({bottom: new Element('div', {'id': 'graph_view'})});
-			modal.setBounds('500px','500px','5%','35%');
-			modal.setProperties('Gráfica', graph_view);			
 		}else{
 			var graph_view = new Element('div', {'class': 'container'});			
 			graph_view.insert({bottom: new Element('label').update("No se tiene asignada una variable para graficar.")});
 		}
-		modal.setBounds('500px','500px','5%','35%');
+		modal.setBounds('800px','550px','5%','35%');
 		modal.setProperties('Gráfica', graph_view);	
 	}
 	else if (element.hasClassName("script")){
