@@ -35,7 +35,7 @@ var Modal = Class.create({
 
 		document.body.insert(this.container);
 		this.container.setStyle({display: 'none'});
-    new Draggable(this.container);
+    new Draggable(this.container,{handle:this.title});
   },
   setBounds:function(w,h,t,l){
     this.container.setStyle({

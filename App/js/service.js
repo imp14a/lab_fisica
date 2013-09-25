@@ -152,9 +152,7 @@ function setEventsElements(){
 */
 
 function showModalWindow(sender){
-	//TODO: Obtener variables editables	
-	//TOOD agregar validaciones a los input
-	//////
+	
 	var element = Event.element(sender);
 	
 	if (element.hasClassName("properties")){
