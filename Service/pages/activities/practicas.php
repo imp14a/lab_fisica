@@ -8,6 +8,8 @@ $link = new AccessHelper();
 
 /*$router = new Router();
 $router -> route();*/
+echo "<a href='http://wowinteractive.com.mx/lab_fisica/App/access.html#data=".$link -> generateData('localhost',1)."'> Practica 1 </a>";
+echo "<br /><br />";
 echo "<a href='http://wowinteractive.com.mx/lab_fisica/App/access.html#data=".$link -> generateData('localhost',13)."'> Practica 13 </a>";
 echo "<br /><br />";
 echo "<a href='http://wowinteractive.com.mx/lab_fisica/App/access.html#data=".$link -> generateData('localhost',9)."'> Practica 9 (Plano inclinado) </a>";
