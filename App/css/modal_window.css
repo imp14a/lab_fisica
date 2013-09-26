@@ -26,7 +26,6 @@
 	color: #333;
 	z-index: 1002;
 	overflow: auto;
-	cursor: move;
 }
 
 .modal_title{		
@@ -35,6 +34,7 @@
 	-webkit-border-radius:10px; /* Safari y Chrome */ 		
 	background-color: #eeeeee;
 	text-align: center;
+	cursor: move;
 }
 
 ul.modal_toolbar{	

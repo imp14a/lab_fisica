@@ -36,7 +36,7 @@ var context = document.getElementById("canvas").getContext("2d");
  * [proportion Indica la proporcion de pantalla que se usara para dimencionar el canvas, default: 1.33 (4:3) ]
  * @type {Number}
  */
-var proportion = 1.33;
+var proportion = 1.5;
 /**
  * [zoom Indica el zoom con que inician los cuerpos del mundo, ya que es posible hacerlo al 200% se inicia con la mitad
  * y se multiplica por 2 para ser mostrado ]
@@ -195,6 +195,7 @@ function setMediaDensity(){
     bodyDef.type = b2Body.b2_staticBody;
     bodyDef.position.x = 0;
     bodyDef.position.y = 0;
+    bodyDef.userData = {isBuoyancy:true};
     
     var fixtureDef = new b2FixtureDef();
 	fixtureDef.isSensor = true;
