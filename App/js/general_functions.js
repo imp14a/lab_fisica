@@ -244,8 +244,8 @@ function setWoldProperties(properties){
 
 /**
  * [createWorldElement Crea un cuerpo del mundo a base de un elemento dado ]
- * @param  {[type]} elementInfo Informacion del cuerpo a crear
- * @return {[type]} El cuerpo creado y agregado al mundo
+ * @param  {Objetc} elementInfo Informacion del cuerpo a crear
+ * @return {Object} El cuerpo creado y agregado al mundo
  */
 function createWorldElement(elementInfo){
 
@@ -263,8 +263,9 @@ function createWorldElement(elementInfo){
 	else
 		bodyDef.type = b2Body.b2_dynamicBody;
 
-	bodyDef.position.x = canvasProperties.center.x + (elementInfo.position.x * canvasProperties.unitiValue);
-	bodyDef.position.y = canvasProperties.center.y + ((-1)*elementInfo.position.y * canvasProperties.unitiValue);
+	bodyDef.position.x = canvasProperties.center.x + (elementInfo.position.x/2);// * canvasProperties.unitiValue);
+	bodyDef.position.y = canvasProperties.center.y + ((-1)*elementInfo.position.y/2);// * canvasProperties.unitiValue);
+
 	if(typeof elementInfo.image != 'undefined'){
 		var data = { 
 			resource: elementInfo.image.resource,
@@ -291,7 +292,7 @@ function createWorldElement(elementInfo){
 		var massData = new b2MassData;
 		massData.mass = elementInfo.mass;
 		body.SetMassData(massData);
-		fixDef.shape = new b2CircleShape(elementInfo.radio);
+		fixDef.shape = new b2CircleShape(elementInfo.radio/2);
 	}
 	var fixture = body.CreateFixture(fixDef);
 	var bodyStructyure = {name:elementInfo.name,body:body,fixture:fixture};
@@ -616,6 +617,7 @@ function drawAxis(context){
 	var label = 0;
 	var j = midleh+pixUnit;
 	context.font="10px Arial";
+	context.fillStyle = "red";
 	for(i=midlew+pixUnit;i<canvasProperties.realSize.width;i=i+pixUnit){
 		
 		label += shiftFactor;

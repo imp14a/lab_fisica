@@ -425,15 +425,13 @@ function monitorChange(){
 	Realiza los cambios de propiedades en el mundo.
 */
 function worldChange(){
-	//Se hace mientras a lo macho
-	//TODO: verificar como obtener las propiedades del modal y su cast
-	//worldProperties = modal.getPropertiesValues();
-	worldProperties.gravity = parseFloat($('gravity').value, 10);
-	worldProperties.density = parseFloat($('density').value, 10);
-	worldProperties.showGround = $('showGround').getValue();
-	worldProperties.showAxes = $('showAxes').getValue();
-	rebuildWorld();
+	wp = modal.getPropertiesValues();
+	worldProperties.gravity = parseFloat(wp.gravity, 10);
+	worldProperties.density = parseFloat(wp.density, 10);
+	worldProperties.showGround = wp.showGround!=null;
+	worldProperties.showAxes = wp.showAxes !=null;
 	modal.hideModal();
+	rebuildWorld();
 }
 
 /*

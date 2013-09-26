@@ -26,7 +26,8 @@ function validOnlyNumberFormat(event){
 		keynum = event.which;
 	}
 	if( ( keynum > 47 && keynum < 58 ) || ( keynum > 36 && keynum < 41 )  
-		|| keynum == 8 || keynum == 0 || keynum == 95  || keynum ==46 || keynum ==9
+		|| keynum == 8 || keynum == 0 || keynum == 95  || keynum == 46 || keynum == 9 
+		|| keynum == 109 || keynum == 189
 		|| keynum == 190 || keynum == 110 ||  ( keynum > 95 && keynum < 106 )){
 
 		return true;

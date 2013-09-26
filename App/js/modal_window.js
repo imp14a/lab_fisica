@@ -63,13 +63,19 @@ var Modal = Class.create({
 		this.content.update(content);
 		this.btn_ok = $('btn_ok');	
     //Cerrar modal en caso de que accept_event sea null	
-    if(accept_event)
-		  this.btn_ok.observe('click', accept_event);		
-    else
+    if(accept_event){
+      this.btn_ok.stopObserving('click');
+		  this.btn_ok.observe('click', accept_event);
+    }
+    else{
+      this.btn_ok.stopObserving('click');
       this.btn_ok.observe('click', this.hideModal.bindAsEventListener(this));
+    }
 
-    if(cancel_event)
+    if(cancel_event){
+      this.btn_cancel.stopObserving('click');
       this.btn_cancel.observe('click',cancel_event);
+    }
 	},
 
   	showModal: function(type) {
