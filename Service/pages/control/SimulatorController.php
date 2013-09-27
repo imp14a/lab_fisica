@@ -38,6 +38,18 @@ class SimulatorController {
             $elementsString .= "},";
         }
         $elementsString .= "];";
+        
+        if(count($data['World']['Properties'])>0){
+            $worldProperties = "var worldProperties = {";
+            foreach($data['World']['Properties'] as $property){
+                $nameProp = $property['Propertie']['name'];
+                $value = $property['Propertie']['value'];
+                $worldProperties .= $nameProp.":".$value.",";
+            }
+            $worldProperties .='}; ';
+            //$worldProperties = "var worldProperties = {" 
+            echo utf8_encode($worldProperties);
+        }
         echo utf8_encode($elementsString);
         echo utf8_encode($data['World']['World']['creation_script']);
 	}
