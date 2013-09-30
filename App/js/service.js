@@ -41,6 +41,8 @@ function getActivityService(){
 		    	proc = json.steps;
 		    	conclusion = json.observations;
 
+		    	$('activityTitle').update(practice);
+
 		    	$$('.title').each(function(element){
 		    		element.update("INTRODUCCIÓN");
 		    	}); 

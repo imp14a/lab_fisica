@@ -174,6 +174,7 @@ function init() {
 	if(worldProperties.density>0){
 		setMediaDensity();
 	}
+	ground.body = null;
 	createInteractiveWorld();
 	setupDebugDraw();
 }
@@ -305,19 +306,19 @@ function createWorldElement(elementInfo){
  */
 function update() {
 	context.clearRect ( 0 , 0 , canvasProperties.realSize.width , canvasProperties.realSize.height );
-	 world.Step(1 / 60 , 10 , 10 );
-	 showGround(worldProperties.showGround);
-	 debugDraw.SetSprite(context);
-	 world.SetGravity(new b2Vec2(0,worldProperties.gravity));
-	 context.lineWidth = 3;
-	 context.strokeStyle = "#000000";
-	 world.DrawDebugData();
-	 world.ClearForces();
-	 if(worldProperties.showAxes){
-	  	drawAxis(context);
-	 }  
-	 drawTextures();
-	 drawAdditionalData(context);
+	world.Step(1 / 60 , 10 , 10 );
+	showGround(worldProperties.showGround);
+	debugDraw.SetSprite(context);
+	world.SetGravity(new b2Vec2(0,worldProperties.gravity));
+	context.lineWidth = 3;
+	context.strokeStyle = "#000000";
+	world.DrawDebugData();
+	world.ClearForces();
+	if(worldProperties.showAxes){
+	 	drawAxis(context);
+	}  
+	drawTextures();
+	drawAdditionalData(context);
 }
 /**
  * [listenForContact Utilizado por el BouyanceController para manipular la densidad del medio]
@@ -462,7 +463,6 @@ function rebuildWorld(){
 	for(i=0;i<bodies.length;i++){
 		world.DestroyBody(bodies[i].body);
 	}
-	ground.body = null;
 	bodies = new Array();
 	world.DestroyController(buoyancyController);
 	buoyancyController = new b2BuoyancyController();
@@ -657,7 +657,7 @@ function drawAxis(context){
  * @param  {[type]} Inidica si es necesario dibujar el suelo
  */
 function showGround(needed){
-	if(needed && ground.body==null){
+	if(needed && ground.body == null){
 		//ground.elementInfo.size.width = canvasProperties.size.width;
 		ground.body = createWorldElement(ground.elementInfo);
 	}else if(!needed && ground.body!=null){

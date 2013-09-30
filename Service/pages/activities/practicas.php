@@ -14,9 +14,15 @@ echo "<a href='http://wowinteractive.com.mx/lab_fisica/App/access.html#data=".$l
 echo "<br /><br />";
 echo "<a href='http://wowinteractive.com.mx/lab_fisica/App/access.html#data=".$link -> generateData('localhost',9)."'> Practica 9 (Plano inclinado) </a>";
 echo "<br /><br />";
+<<<<<<< HEAD
 echo "<a href='http://wowinteractive.com.mx/lab_fisica/App/access.html#data=".$link -> generateData('localhost',10)."'> Practica 10 (Plano inclinado 2) </a>";
 echo "<br /><br />";
 echo "<a href='http://wowinteractive.com.mx/lab_fisica/App/access.html#data=".$link -> generateData('localhost',11)."'> Practica 11 (Plano inclinado 3) </a>";
+=======
+echo "<a href='http://wowinteractive.com.mx/lab_fisica/App/access.html#data=".$link -> generateData('localhost',10)."'> Practica 10 (Plano inclinado) </a>";
+echo "<br /><br />";
+echo "<a href='http://wowinteractive.com.mx/lab_fisica/App/access.html#data=".$link -> generateData('localhost',11)."'> Practica 11 (Plano inclinado) </a>";
+>>>>>>> 436e84d2f6fe49897ae6239d18676f8eb4c12a92
 echo "<br /><br />";
 echo "<a href='http://wowinteractive.com.mx/lab_fisica/App/access.html#data=".$link -> generateData('localhost',15)."'> Practica 15 (Friccion 1) </a>";
 echo "<br /><br />";
