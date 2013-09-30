@@ -100,7 +100,7 @@ var joints = new Array();
  */
 var ground = {
 	showed:false,
-	elementInfo:{name:'ground', position:{x:0,y:-1},size:{width:15,height:0.5},//image:{resource:'ground'},
+	elementInfo:{name:'ground', position:{x:0,y:-1},size:{width:15,height:0.5},image:{resource:'ground'},
 				 elasticity:0.5,density:1,friction:0, isStatic:true, isDrawable:true,elementType:'Polygon',},
 	body:null
 };
@@ -591,12 +591,14 @@ function drawTextures(){
 					
 				break;
 			}
+			if(bodies[i].name == "ground"){
+				size = {width:bodies[i].body.m_userData.width * zoom * 2,height:bodies[i].body.m_userData.height * zoom*2};
+				
+			}
 			posx = position.x * (zoom)- size.width/2;
 			posy = (position.y * (zoom)- size.height/2);
 
-			if(bodies[i].name == "ground"){
 
-			}
 			if (shape.m_type == 1){
 				//context.rotate(bodies[i].body.GetAngle());
 			}
