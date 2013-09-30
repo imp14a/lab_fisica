@@ -100,8 +100,8 @@ var joints = new Array();
  */
 var ground = {
 	showed:false,
-	elementInfo:{name:'ground', position:{x:0,y:-1},size:{width:30,height:1},image:{resource:'ground'},
-				 elasticity:0.5,density:1,friction:0.5, isStatic:true, isDrawable:true,elementType:'Polygon',},
+	elementInfo:{name:'ground', position:{x:0,y:-1},size:{width:15,height:0.5},//image:{resource:'ground'},
+				 elasticity:0.5,density:1,friction:0, isStatic:true, isDrawable:true,elementType:'Polygon',},
 	body:null
 };
 
@@ -196,7 +196,7 @@ function setMediaDensity(){
     bodyDef.type = b2Body.b2_staticBody;
     bodyDef.position.x = 0;
     bodyDef.position.y = 0;
-    bodyDef.userData = {isBuoyancy:true};
+    bodyDef.userData = {nativeDraw:true};
     
     var fixtureDef = new b2FixtureDef();
 	fixtureDef.isSensor = true;
@@ -282,13 +282,23 @@ function createWorldElement(elementInfo){
 	{
 		bodyDef.angle = elementInfo.angle;
 	}
+	/*if(elementInfo.name="ground"){
+		bodyDef.userData = data.nativeDraw = true;
+	}*/
 	var body = world.CreateBody(bodyDef);
 	if(elementInfo.elementType == 'Polygon'){
 		fixDef.shape = new b2PolygonShape;
-		fixDef.shape.SetAsBox(
-			canvasProperties.unitiValue * elementInfo.size.width,
-			canvasProperties.unitiValue * elementInfo.size.height
+		if(elementInfo.name="ground"){
+			fixDef.shape.SetAsBox(
+				elementInfo.size.width,
+				elementInfo.size.height
 			);
+		}else{
+			fixDef.shape.SetAsBox(
+				canvasProperties.unitiValue * elementInfo.size.width,
+				canvasProperties.unitiValue * elementInfo.size.height
+			);
+		}
 	} else {
 		var massData = new b2MassData;
 		massData.mass = elementInfo.mass;
@@ -583,6 +593,10 @@ function drawTextures(){
 			}
 			posx = position.x * (zoom)- size.width/2;
 			posy = (position.y * (zoom)- size.height/2);
+
+			if(bodies[i].name == "ground"){
+
+			}
 			if (shape.m_type == 1){
 				//context.rotate(bodies[i].body.GetAngle());
 			}
@@ -658,7 +672,8 @@ function drawAxis(context){
  */
 function showGround(needed){
 	if(needed && ground.body == null){
-		//ground.elementInfo.size.width = canvasProperties.size.width;
+
+		//ground.elementInfo.size.width = $('simulator').getHeight()*(zoom/100);
 		ground.body = createWorldElement(ground.elementInfo);
 	}else if(!needed && ground.body!=null){
 		removeGround();

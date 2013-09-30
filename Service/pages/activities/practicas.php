@@ -18,6 +18,8 @@ echo "<a href='http://wowinteractive.com.mx/lab_fisica/App/access.html#data=".$l
 echo "<br /><br />";
 echo "<a href='http://wowinteractive.com.mx/lab_fisica/App/access.html#data=".$link -> generateData('localhost',11)."'> Practica 11 (Plano inclinado 3) </a>";
 echo "<br /><br />";
+echo "<a href='http://wowinteractive.com.mx/lab_fisica/App/access.html#data=".$link -> generateData('localhost',14)."'> Practica 14 (Fuerzas concurrentes) </a>";
+echo "<br /><br />";
 echo "<a href='http://wowinteractive.com.mx/lab_fisica/App/access.html#data=".$link -> generateData('localhost',15)."'> Practica 15 (Friccion 1) </a>";
 echo "<br /><br />";
 echo "<a href='http://wowinteractive.com.mx/lab_fisica/App/access.html#data=".$link -> generateData('localhost',16)."'> Practica 16 (Friccion 2) </a>";
