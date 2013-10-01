@@ -123,6 +123,23 @@ var worldProperties = {
 var zoomSlider = null;
 
 /**
+ * [mins Variable para el control de minutos]
+ * @type {Number}
+ */
+var mins = 0;
+/**
+ * [secs Variable para el control de segundos]
+ * @type {Number}
+ */
+var secs = 0;
+
+/**
+ * [cents Variable para el control de centesimas]
+ * @type {Number}
+ */
+var cents = 0;
+
+/**
  * [Inidica que inicia la funcionalidad cuando se carga la pagina]
  * @return {function}
  */
@@ -396,16 +413,6 @@ function startSimulation(){
 	if(!isPlayed){
 		interval_id = window.setInterval(update, 1000 / 60);
 		isPlayed = true;
-		var mins = 0;
-		var secs = 0;
-		var cents = 0;
-		/*interval = setInterval(function(){
-			timeUnit++;
-			$('time').value = //("0" + parseInt(timeUnit/360000)).slice(-2) + ":" + 
-				//("0" + parseInt(timeUnit/6000)%60).slice(-2) + ":" + 
-				("0" + parseInt(timeUnit/100)%60).slice(-2) + ":" + 
-				("0" + timeUnit%100).slice(-2);
-		},10);*/
 		interval_cents = setInterval(function(){
 			cents++;
 			$('time').value = 
@@ -454,9 +461,12 @@ function stopSimulation(){
  * [restartSimulation Funcion para reiniciar la simulacion]
  * @return {[type]}
  */
-function restartSimulation(){
-	
+function restartSimulation(){	
 	stopSimulation();
+	mins = 0;
+	secs = 0;
+	cents = 0;
+	$('time').value = "00:00:00";
 	rebuildWorld();
 	timeUnit = 0;
 	watch_variable = null;
