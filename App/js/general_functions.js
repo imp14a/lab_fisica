@@ -305,7 +305,7 @@ function createWorldElement(elementInfo){
 	var body = world.CreateBody(bodyDef);
 	if(elementInfo.elementType == 'Polygon'){
 		fixDef.shape = new b2PolygonShape;
-		if(elementInfo.name="ground"){
+		if(elementInfo.name=="ground"){
 			fixDef.shape.SetAsBox(
 				elementInfo.size.width,
 				elementInfo.size.height
@@ -314,6 +314,10 @@ function createWorldElement(elementInfo){
 			fixDef.shape.SetAsBox(
 				canvasProperties.unitiValue * elementInfo.size.width,
 				canvasProperties.unitiValue * elementInfo.size.height
+			);
+			fixDef.shape.SetAsBox(
+				elementInfo.size.width,
+				elementInfo.size.height
 			);
 		}
 	} else {
@@ -532,15 +536,17 @@ function setWatchInterval(){
 }
 var grafica;
 function drawGraph(){
-	$('graph_container').setStyle({
-		'text-align': 'center'
-	});
-	$('graph_title').setStyle({
-		'font-weight': 'bold'	
-	});
-	$('graph_view').update();
-	grafica = new WowGraph($('graph_view'));
-	grafica.drawGraph(watch_variable.data,watch_variable.y_data);	
+	if($('graph_container')!=null){
+		$('graph_container').setStyle({
+			'text-align': 'center'
+		});
+		$('graph_title').setStyle({
+			'font-weight': 'bold'	
+		});
+		$('graph_view').update();
+		grafica = new WowGraph($('graph_view'));
+		grafica.drawGraph(watch_variable.data,watch_variable.y_data);
+	}	
 }
 
 /**
