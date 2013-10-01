@@ -603,8 +603,11 @@ function drawTextures(){
 					size = {width:s,height:s};
 				break;
 				case 1:
-					size = {width:bodies[i].body.m_userData.width * zoom,height:bodies[i].body.m_userData.height * zoom};
-					
+					if (bodies[i].name == 'box' || bodies[i].name == 'floor'){
+						size = {width:bodies[i].body.m_userData.width * zoom*2,height:bodies[i].body.m_userData.height * zoom*2};
+					}else{
+						size = {width:bodies[i].body.m_userData.width * zoom,height:bodies[i].body.m_userData.height * zoom};
+					}
 				break;
 			}
 			if(bodies[i].name == "ground"){
