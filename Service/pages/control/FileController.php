@@ -65,7 +65,9 @@ class FileController {
      */
     public static function getRealValue($string_object){
         if(strstr($string_object, '{')){
-            $obj = json_decode(trim(utf8_decode($string_object)));
+            $string_object = str_replace("'", '"', $string_object);
+            //print_r($string_object);
+            $obj = json_decode($string_object);
             if(empty($obj)){
                 throw new Exception("El objeto $string_object no tiene el formato correcto.");
             }
@@ -92,7 +94,8 @@ class FileController {
     function downloadXMLFile(){
         if(isset($_POST['xml'])){
             //formateamos XML
-            $xml = str_replace('\"','"',$_POST['xml']); 
+            $xml = str_replace('\"','"',$_POST['xml']);
+            $xml = str_replace("\'","'",$xml); 
             $activity = new Activity();
             $activity->relationshipLevel = 0;
             $data = $activity->loadFromDatabase("Activity.activity_id='".$_SESSION['activity']."'");
@@ -102,7 +105,7 @@ class FileController {
             header("Content-Disposition: attachment; filename=$xmlName.xml");
             header('Content-type: text/xml');
 
-            echo utf8_encode($xml);
+            echo ($xml);
         }
     }
 
@@ -151,6 +154,10 @@ class FileController {
         $steps = $this->xml->createElement('Field');
         $steps->setAttribute('name',utf8_encode("Process"));
         $csteps = $this->xml->createElement('Content',utf8_encode($data['Activity']['steps']));
+        $steps->appendChild($csteps);
+        $steps = $this->xml->createElement('Field');
+        $steps->setAttribute('name',utf8_encode("Objetive"));
+        $csteps = $this->xml->createElement('Content',utf8_encode($data['Activity']['objetive']));
         $steps->appendChild($csteps);
         $obser = $this->xml->createElement('Field');
         $obser->setAttribute('name',utf8_encode("Observations"));

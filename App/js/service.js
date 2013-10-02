@@ -303,7 +303,8 @@ function showModalWindow(sender){
 		});
 
 		function sendForm(){
-			form.submit();
+			document.forms["uploadFileForm"].submit();
+			//form.submit();
 		}
 
 		modal.setProperties('Abrir practica',container,sendForm);	
@@ -312,17 +313,20 @@ function showModalWindow(sender){
 	modal.showModal();
 }
 
+name="adasda";
+
 /*
 	Carga la informacion generada al subir el archivo
 */
 function xmlUploaded(name){
-	
 	var frame = getFrameByName(name);
     if (frame) {
         ret = frame.document.getElementsByTagName("body")[0].innerHTML;
         if (ret.length) {
+        	
         	try{
         		var jsonResponse = eval("("+ret+")");
+
         	}catch(error){
         		alert('Error al cargar el archivo.');
         		return;
@@ -334,43 +338,30 @@ function xmlUploaded(name){
             if(typeof jsonResponse.error != 'undefined'){
                 alert(jsonResponse.error);
             }else{
-            	worldProperties = jsonResponse.WorldProperties 
+            	worldProperties = jsonResponse.WorldProperties
             	//Elements properties
-            	for(i=0;i<jsonResponse.WorldElements.length;i++){
-            		for(key in jsonResponse.WorldElements[i]){
-            			setValuesForElement(jsonResponse.WorldElements[i].name,key,jsonResponse.WorldElements[i][key]);
-            		}
-            	}
+            	$(jsonResponse.WorldElements).each(function(element){
+            		$(Object.keys(element)).each(function(key){
 
-            	//TODO realizar todo lo de poner las demas valores obtenidos
-            	//Activity Info
+            			if(key!='name')
+            				setValuesForElement(element.name,key,element[key]);
+            		});
+            	});
 
             	intro = jsonResponse.ActivityInfo.Description;
             	proc = jsonResponse.ActivityInfo.Process;
             	conclusion = jsonResponse.ActivityInfo.Observations;
-
-            	switch($('title').innerHTML){
-            		case "INTRODUCCIÓN":
-            			$('info').update(intro);
-            		break;
-            		case "PROCEDIMIENTO":
-            			$('info').update(proc);
-            		break;
-            		case "OBSERVACIONES":
-            			$('info').update(conclusion);
-            		break;
-            	}	
+            	objetive = jsonResponse.ActivityInfo.Objetive;
 
             	elementsChanged = true;
             	if(!isPlayed){
             		useNewProperties();
             	}
-            	
+            	$('intro').click();
+            	modal.hideModal();
             }
         }
     }
-    this.propertiesChange = true;
-    modal.hideModal();
 }
 
 /*
