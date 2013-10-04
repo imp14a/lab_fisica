@@ -128,12 +128,30 @@ class FileController {
         $laboratorioFisica->appendChild($worldElements);
         $laboratorioFisica->appendChild($activityInfo);
 
+        if(count($data['World']['Properties'])<=0){
+
+            $data['World']['Properties'] = array(
+                array('Propertie' => 
+                    array('name'=>'gravity','value'=>9.82,'editable'=>1,'description'=>"Gravedad del ambiente")
+                ),
+                array('Propertie' => 
+                    array('name'=>'density','value'=>0,'editable'=>1,'description'=>"Densidad del ambiente")
+                ),
+                array('Propertie' => 
+                    array('name'=>'showAxes','value'=>'false','editable'=>1,'description'=>"Inidica si se mostraran los ejes")
+                ),
+                array('Propertie' => 
+                    array('name'=>'showGround','value'=>'false','editable'=>1,'description'=>"Inidica si se mostrara el suelo")
+                ),
+            );
+        }
         foreach($data['World']['Properties'] as $propertie){
             if($propertie['Propertie']['editable']){
                 $prop = $this->createPropertie($propertie);
                 $worldProperties->appendChild($prop);
             }
         }
+        
 
         foreach($data['World']['WorldElements'] as $worldElement){
             $we = $this->xml->createElement("WorldElement");
