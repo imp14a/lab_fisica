@@ -13,7 +13,6 @@ class AccessHelper {
 		En caso de no pasar la validacion regresa false, en otro caso regresa la actividad a cargar; 
 	*/
 	function validateAcces($data=null){
-		return 17;
 		if(!$data) return false;
 		//TODO hacer el registro con todos los hosts disponibles
 		$params = $this->getParameters($data);
