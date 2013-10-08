@@ -227,7 +227,7 @@ function showModalWindow(sender){
 			container.insert({bottom:new Element('label',{'class':'elementName'}).update(watchables[i].displayName)});
 			for(j=0;j<prop.length;j++){
 				container.insert({bottom: new Element('div',{class:'input'})
-					.insert({bottom: new Element('input',{name:watchables[i].name,
+					.insert({bottom: new Element('input',{name:"watchables",
 												value:prop[j].function,
 												type:'radio',class:'property',
 												tag:prop[j].displayName,

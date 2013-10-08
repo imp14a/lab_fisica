@@ -123,6 +123,11 @@ var worldProperties = {
 var zoomSlider = null;
 
 /**
+ * [bodyDensity Cuerpor que retendra la densidad]
+ * @type {[type]}
+ */
+var bodyDensity = null;
+/**
  * [mins Variable para el control de minutos]
  * @type {Number}
  */
@@ -199,6 +204,9 @@ function init() {
  * [setMediaDensity Pone la Densidad del medio, utilizando Un b2BuoyancyController ]
  */
 function setMediaDensity(){
+	
+
+
 	buoyancyController = new b2BuoyancyController();
 	buoyancyController.normal.Set(0, -1);
 	buoyancyController.offset = 0; //No hay desplazamiento debido a que abarca todo el mundo (size)
@@ -222,7 +230,8 @@ function setMediaDensity(){
     fixtureDef.restitution = 0.3;
 	
     fixtureDef.shape = new b2PolygonShape();
-    fixtureDef.shape.SetAsBox(canvasProperties.size.width, canvasProperties.size.height);
+    console.log(canvasProperties.realSize);
+    fixtureDef.shape.SetAsBox(canvasProperties.realSize.width, canvasProperties.realSize.height);
     var body = world.CreateBody(bodyDef);
     var fixture = body.CreateFixture(fixtureDef);
     listenForContact(); //funcion necesaria para la densidad del medio
@@ -516,11 +525,14 @@ function setWatchInterval(){
 			//Agregar datos para grafica (cada segundo)
 			graph_interval = setInterval(function(){
 				if(watch_variable.isVector){
-					watch_variable.data.push(Math.abs(Number((eval(watch_variable.function).x) ).toFixed(2)));
-					watch_variable.y_data.push(Math.abs(Number((eval(watch_variable.function).y) ).toFixed(2)));
+					var valx = Number(eval(watch_variable.function).x).toFixed(2) ;
+					var valy = Number(eval(watch_variable.function).y).toFixed(2) ;
+
+					watch_variable.data.push(valx);
+					watch_variable.y_data.push(valy);
 					drawGraph();					
 				}else{
-					watch_variable.data.push(Math.abs(Number((eval(watch_variable.function)) ).toFixed(2)));
+					watch_variable.data.push((Number((eval(watch_variable.function))).toFixed(2)));
 					drawGraph();
 				}				
 			},1000);
@@ -544,7 +556,7 @@ function drawGraph(){
 			'font-weight': 'bold'	
 		});
 		$('graph_view').update();
-		grafica = new WowGraph($('graph_view'));
+		grafica = new WowGraph($('graph_view'),canvasProperties.center);
 		grafica.drawGraph(watch_variable.data,watch_variable.y_data);
 	}	
 }

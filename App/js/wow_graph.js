@@ -17,8 +17,11 @@ WowGraph.prototype = {
     txt2 : null,
     X : 0,
     max : 0,
+    min : 0,
     Y : 0,
-    initialize:function(element){
+    worldCenter:null,
+    initialize:function(element,center){
+        this.worldCenter = center;
         this.colorhue = .6 || Math.random();
         this.color = "hsl(" + [this.colorhue, .5, .5] + ")";
         this.color2 = "rgb(220,15,15)";
@@ -31,10 +34,18 @@ WowGraph.prototype = {
     drawGraph:function(data,data2, dataname1,dataname2){
         //this.r.clear();
         this.X = (this.width - this.leftgutter) / data.length;
-        this.max = Math.max.apply(Math, data);
-        this.Y = (this.height - this.bottomgutter - this.topgutter) / this.max;
+        m1 = Math.max.apply(Math, data);
+        m2 = Math.max.apply(Math, data2);
+        this.max = m1>m2?m1:m2;
+        m1 = Math.min.apply(Math, data);
+        m2 = Math.min.apply(Math, data2);
+        this.min = m1<m2?m1:m2;
+        this.Y = (this.height - this.bottomgutter - this.topgutter) / (this.max + Math.abs(this.min));
 
         this.drawGrid(this.leftgutter + this.X * .5 + .5, this.topgutter + .5, this.width - this.leftgutter - this.X, this.height - this.topgutter - this.bottomgutter, "#000");
+
+        this.drawOrigen(this.leftgutter + this.X * .5 + .5, this.topgutter + .5, this.width - this.leftgutter - this.X, this.height - this.topgutter - this.bottomgutter, this.Y, this.min, this.max);
+        
         var path = this.r.path().attr({stroke: this.color, "stroke-this.width": 4, "stroke-linejoin": "round"}),
         
         path2 = this.r.path().attr({stroke: this.color2, "stroke-this.width": 4, "stroke-linejoin": "round"}),
@@ -49,14 +60,14 @@ WowGraph.prototype = {
         label.push(this.r.text(60, 27, "22 September 2008").attr(this.txt1).attr({fill: this.color}));
         label.hide();
         var frame = this.r.popup(100, 100, label, "right").attr({fill: "#000", stroke: "#666", "stroke-this.width": 2, "fill-opacity": .7}).hide();
-        t = this.r.text(this.X-20, this.height - 6, "T").attr(this.txt2).toBack();
+        //t = this.r.text(this.X-20, this.height - 6, "T").attr(this.txt2).toBack();
         var p,p2;
         for (var i = 0, ii = data.length; i < ii; i++) {
-            var y = Math.round(this.height - this.bottomgutter - this.Y * data[i]),
+            var y = Math.round(this.height - this.bottomgutter - this.Y * data[i]) + (this.min<0?(this.min*this.Y):0),
                 x = Math.round(this.leftgutter + this.X * (i + .5)),
                 t = this.r.text(x, this.height - 6, i).attr(this.txt2).toBack();
 
-                var y2 = Math.round(this.height - this.bottomgutter - this.Y * data2[i]);
+                var y2 = Math.round(this.height - this.bottomgutter - this.Y * data2[i]) + (this.min<0?(this.min*this.Y):0);
             
             if (!i) {
                 p = ["M", x, y, "L"];
@@ -100,7 +111,7 @@ WowGraph.prototype = {
                         is_label_visible = false;
                     }, 1);
                 });
-            })(x, y, data[i], i, dot,data2[i]);
+            })(x, y, data[i] + this.worldCenter.x , i, dot, this.worldCenter.y + data2[i]);
         }
         p = p.concat([x, y, x, y]);
         p2 = p2.concat([x, y2, x, y2]);
@@ -118,12 +129,24 @@ WowGraph.prototype = {
             "L", Math.round(x) + .5, Math.round(y + h) + .5];
         
         this.r.path(path.join(",")).attr({stroke: color});
+        t = this.r.text(x-25, y+h , "Tiempo").attr(this.txt2).toBack();
         var path = [
             "M", Math.round(x) + .5, Math.round(y + h) + .5, 
             "L", Math.round(x + w) + .5, Math.round(y+h) + .5
             ];
 
         return this.r.path(path.join(",")).attr({stroke: color});
+    },
+    drawOrigen:function (x, y, w, h,Y, min, max) {
+        if(min<0){
+            y += (h) + (min*Y);
+            t = this.r.text(x-25, y , "Origen").attr(this.txt2).toBack();
+            var path = [
+                "M", Math.round(x) + .5, Math.round(y) + .5, 
+                "L", Math.round(x + w) + .5, Math.round(y) + .5];
+            
+            return this.r.path(path.join(",")).attr({stroke: "red"});
+        }
     }
 }
 
