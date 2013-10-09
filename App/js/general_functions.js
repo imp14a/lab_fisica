@@ -230,7 +230,7 @@ function setMediaDensity(){
     fixtureDef.restitution = 0.3;
 	
     fixtureDef.shape = new b2PolygonShape();
-    console.log(canvasProperties.realSize);
+    
     fixtureDef.shape.SetAsBox(canvasProperties.realSize.width, canvasProperties.realSize.height);
     var body = world.CreateBody(bodyDef);
     var fixture = body.CreateFixture(fixtureDef);
@@ -527,6 +527,12 @@ function setWatchInterval(){
 				if(watch_variable.isVector){
 					var valx = Number(eval(watch_variable.function).x).toFixed(2) ;
 					var valy = Number(eval(watch_variable.function).y).toFixed(2) ;
+					isPosition = false;
+					if(watch_variable.function.indexOf('GetPosition')>0){
+						valx = (valx - canvasProperties.center.x).toFixed(2);
+						valy = (canvasProperties.center.y - valy).toFixed(2);
+						isPosition = true;
+					}
 
 					watch_variable.data.push(valx);
 					watch_variable.y_data.push(valy);
@@ -547,6 +553,7 @@ function setWatchInterval(){
 	}
 }
 var grafica;
+var isPosition = false;
 function drawGraph(){
 	if($('graph_container')!=null){
 		$('graph_container').setStyle({
@@ -557,7 +564,7 @@ function drawGraph(){
 		});
 		$('graph_view').update();
 		grafica = new WowGraph($('graph_view'),canvasProperties.center);
-		grafica.drawGraph(watch_variable.data,watch_variable.y_data);
+		grafica.drawGraph(watch_variable.data,watch_variable.y_data,isPosition);
 	}	
 }
 

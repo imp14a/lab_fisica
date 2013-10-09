@@ -111,7 +111,7 @@ WowGraph.prototype = {
                         is_label_visible = false;
                     }, 1);
                 });
-            })(x, y, data[i] + this.worldCenter.x , i, dot, this.worldCenter.y + data2[i]);
+            })(x, y, data[i] , i, dot, data2[i]);
         }
         p = p.concat([x, y, x, y]);
         p2 = p2.concat([x, y2, x, y2]);
